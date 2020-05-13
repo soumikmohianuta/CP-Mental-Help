@@ -16,7 +16,11 @@ export default function App() {
       <NavigationContainer>
         <Navigator>
           <Screen name="Home" component={HomeScreen} />
-          <Screen name="InitialQuestionnaireScreen" component={InitialQuestionnaireScreen} />
+          <Screen
+            options={{ title: 'Initial Questions' }}
+            name="InitialQuestionnaireScreen"
+            component={InitialQuestionnaireScreen}
+          />
         </Navigator>
       </NavigationContainer>
     </ThemeProvider>
