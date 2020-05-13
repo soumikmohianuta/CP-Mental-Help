@@ -15,7 +15,7 @@ export const HomeScreen = ({ navigation }) => {
       <Text>Hello, CP Mental Help!</Text>
       <Button
         title="Go to Q/A"
-        onPress={() => navigation.navigate('InitialQuestionnaireScreen')}
+        onPress={() => navigation.navigate('InitialQuestionnaire')}
       />
     </StyledView>
   );

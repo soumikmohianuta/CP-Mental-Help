@@ -18,7 +18,7 @@ export default function App() {
           <Screen name="Home" component={HomeScreen} />
           <Screen
             options={{ title: 'Initial Questions' }}
-            name="InitialQuestionnaireScreen"
+            name="InitialQuestionnaire"
             component={InitialQuestionnaireScreen}
           />
         </Navigator>

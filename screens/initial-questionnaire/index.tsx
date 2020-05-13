@@ -1,37 +1,70 @@
 import React, { useState } from 'react';
-import styled from 'styled-components/native';
 import { View } from 'react-native';
-import { Slider, Text } from 'react-native-elements';
+import { Button } from 'react-native-elements';
+import {
+  StyledView,
+  StyledText,
+  StyledAnswerText,
+  StyledSlider,
+  ActionsContainer,
+  TestView,
+} from './styled';
+import { questionnaires } from './contents';
 
-const StyledView = styled(View)`
-  padding: 24px;
-`;
+const NUMBER_OF_QUESTIONS = 5;
 
-const StyledText = styled(Text)`
-  margin-bottom: 24px;
-`;
+export const InitialQuestionnaireScreen = ({ navigation }) => {
+  const [answers, setAnswers] = useState([20, 20, 20, 20, 20]);
+  const [count, setCount] = useState(0);
 
-export const InitialQuestionnaireScreen = () => {
-  const [val, setVal] = useState(20);
+  const handleSlideComplete = (ans: any) => {
+    const newAnswers = [...answers];
+    newAnswers[count] = ans;
+    setAnswers(newAnswers);
+  }
+
+  const handleNext = () => {
+    if (count === NUMBER_OF_QUESTIONS - 1) {
+      navigation.navigate('Home');
+    } else {
+      setCount(count+1);
+    }
+  }
+  const handleBack = () => {
+    setCount(count - 1);
+  }
+
   return (
     <StyledView>
       <StyledText h4>
-        আমি অত্যাধিক চিন্তা/উদ্বেগ অনুভব করছি?
+        {questionnaires[count]}
       </StyledText>
       <StyledText>
         (যেখানে ০ মানে হল একেবারেই না আর ১০০ মানে হল সর্ব পরিমাণে)
       </StyledText>
-      <StyledText h4>
-            {val}
-      </StyledText>
-      <Slider
-        value={20}
+      <StyledAnswerText h4>
+          আমার বর্তমান অবস্থা {answers[count]}
+      </StyledAnswerText>
+      <StyledSlider
+        value={answers[count]}
         minimumValue={0}
         step={1}
         maximumValue={100}
-        onSlidingComplete={val => setVal(val)}
-        // onValueChange={val => setVal(val)}
+        onSlidingComplete={(val: any) => handleSlideComplete(val)}
       />
+      <ActionsContainer>
+        <Button
+          type="outline"
+          onPress={handleBack}
+          title="Back"
+          disabled={count === 0}
+        />
+        <Button
+          type={count === NUMBER_OF_QUESTIONS - 1 ? 'solid' : 'outline'}
+          onPress={handleNext}
+          title={count === NUMBER_OF_QUESTIONS - 1 ? 'Finish' : 'Next' }
+        />
+      </ActionsContainer>
     </StyledView>
   );
 }
