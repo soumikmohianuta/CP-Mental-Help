@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Button } from 'react-native-elements';
+import { ProgressTracker } from '../../components/progress-tracker';
 import {
   StyledView,
   StyledText,
   StyledAnswerText,
   StyledSlider,
   ActionsContainer,
-  TestView,
 } from './styled';
 import { questionnaires } from './contents';
 
@@ -36,6 +36,7 @@ export const InitialQuestionnaireScreen = ({ navigation }) => {
 
   return (
     <StyledView>
+      <ProgressTracker totalStep={NUMBER_OF_QUESTIONS} current={count} />
       <StyledText h4>
         {questionnaires[count]}
       </StyledText>

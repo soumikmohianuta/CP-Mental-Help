@@ -25,9 +25,3 @@ display: flex;
 flex-direction: row;
 justify-content: space-between;
 `;
-
-export const TestView = styled(View)`
-  height: 2px;
-  background-color: red;
-  width: 20%;
-`
