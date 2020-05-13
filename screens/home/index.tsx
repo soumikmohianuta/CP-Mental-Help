@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { Text, View, Button } from 'react-native';
+import { Text, View } from 'react-native';
+import { Button } from 'react-native-elements';
 
 const StyledView = styled(View)`
   flex: 1;
