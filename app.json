@@ -1,0 +1,17 @@
+{
+  "name": "cp-mental-help",
+  "displayName": "cp-mental-help",
+  "expo": {
+    "name": "cp-mental-help",
+    "slug": "cp-mental-help",
+    "version": "1.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
