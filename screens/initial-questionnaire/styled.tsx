@@ -1,23 +1,27 @@
 
 import styled from 'styled-components/native';
-import { View } from 'react-native';
-import { Slider, Text } from 'react-native-elements';
+import { View, Slider } from 'react-native';
+import { Text } from 'react-native-elements';
 
-export const StyledView = styled(View)`
-padding: 24px;
+export const Container = styled(View)`
+padding: 72px 24px;
 `;
 
-export const StyledText = styled(Text)`
-  margin-bottom: 24px;
+export const QuestionText = styled(Text)`
+  margin: 24px 0 12px;
 `;
 
-export const StyledAnswerText = styled(Text)`
+export const NoteText = styled(Text)`
+  margin: 0;
+`;
+
+export const AnswerText = styled(Text)`
   color: #2089dc;
-  margin-bottom: 24px;
+  margin-bottom: 36px;
 `;
 
-export const StyledSlider = styled(Slider)`
-margin-bottom: 24px;
+export const AnswerSlider = styled(Slider)`
+  margin: 36px 0 24px;
 `;
 
 export const ActionsContainer = styled(View)`

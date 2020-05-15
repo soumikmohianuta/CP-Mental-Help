@@ -6,6 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { HomeScreen } from './screens/home';
+import { LoginScreen } from './screens/login';
 import { InitialQuestionnaireScreen } from './screens/initial-questionnaire';
 
 const { Navigator, Screen } = createStackNavigator();
@@ -15,6 +16,7 @@ export default function App() {
     <ThemeProvider>
       <NavigationContainer>
         <Navigator>
+          <Screen name="Login" component={LoginScreen} />
           <Screen name="Home" component={HomeScreen} />
           <Screen
             options={{ title: 'Initial Questions' }}

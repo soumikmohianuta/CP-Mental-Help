@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
 import { Button } from 'react-native-elements';
 import { ProgressTracker } from '../../components/progress-tracker';
 import {
-  StyledView,
-  StyledText,
-  StyledAnswerText,
-  StyledSlider,
+  Container,
+  NoteText,
+  QuestionText,
+  AnswerText,
+  AnswerSlider,
   ActionsContainer,
 } from './styled';
 import { questionnaires } from './contents';
 
 const NUMBER_OF_QUESTIONS = 5;
 
-export const InitialQuestionnaireScreen = ({ navigation }) => {
+export const InitialQuestionnaireScreen = ({ navigation }: any) => {
   const [answers, setAnswers] = useState([20, 20, 20, 20, 20]);
   const [count, setCount] = useState(0);
 
@@ -35,24 +35,27 @@ export const InitialQuestionnaireScreen = ({ navigation }) => {
   }
 
   return (
-    <StyledView>
+    <Container>
       <ProgressTracker totalStep={NUMBER_OF_QUESTIONS} current={count} />
-      <StyledText h4>
+      <QuestionText h4>
         {questionnaires[count]}
-      </StyledText>
-      <StyledText>
+      </QuestionText>
+      <NoteText>
         (যেখানে ০ মানে হল একেবারেই না আর ১০০ মানে হল সর্ব পরিমাণে)
-      </StyledText>
-      <StyledAnswerText h4>
-          আমার বর্তমান অবস্থা {answers[count]}
-      </StyledAnswerText>
-      <StyledSlider
+      </NoteText>
+
+      <AnswerSlider
         value={answers[count]}
         minimumValue={0}
         step={1}
         maximumValue={100}
         onSlidingComplete={(val: any) => handleSlideComplete(val)}
       />
+      
+      <AnswerText h4>
+        আমার বর্তমান অবস্থা {answers[count]}
+      </AnswerText>
+
       <ActionsContainer>
         <Button
           type="outline"
@@ -66,6 +69,6 @@ export const InitialQuestionnaireScreen = ({ navigation }) => {
           title={count === NUMBER_OF_QUESTIONS - 1 ? 'Finish' : 'Next' }
         />
       </ActionsContainer>
-    </StyledView>
+    </Container>
   );
 }
