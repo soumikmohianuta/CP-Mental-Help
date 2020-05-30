@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
+import { Alert } from 'react-native';
 import { Button } from 'react-native-elements';
 import { ProgressTracker } from '../../components/progress-tracker';
+import CircleSlider from '../../components/circular-slider';
 import {
   Container,
   NoteText,
   QuestionText,
-  AnswerText,
-  AnswerSlider,
+  SliderContainer,
   ActionsContainer,
 } from './styled';
 import { questionnaires } from './contents';
 
 const NUMBER_OF_QUESTIONS = 5;
 
-export const InitialQuestionnaireScreen = ({ navigation }: any) => {
+export const CurrentStateScreen = ({ navigation }: any) => {
   const [answers, setAnswers] = useState([20, 20, 20, 20, 20]);
   const [count, setCount] = useState(0);
 
@@ -40,22 +41,23 @@ export const InitialQuestionnaireScreen = ({ navigation }: any) => {
       <QuestionText h4>
         {questionnaires[count]}
       </QuestionText>
+      <SliderContainer>
+        <CircleSlider
+          value={answers[count]}
+          min={0}
+          max={100}
+          btnRadius={25}
+          dialWidth={10}
+          strokeWidth={10}
+          textSize={16}
+          dialRadius={100}
+          // onValueChange={(val: any) => Alert.alert(val.toString())}
+        />
+      </SliderContainer>
       <NoteText>
         (যেখানে ০ মানে হল একেবারেই না আর ১০০ মানে হল সর্ব পরিমাণে)
       </NoteText>
-
-      <AnswerSlider
-        value={answers[count]}
-        minimumValue={0}
-        step={1}
-        maximumValue={100}
-        onSlidingComplete={(val: any) => handleSlideComplete(val)}
-      />
-      
-      <AnswerText h4>
-        আমার বর্তমান অবস্থা {answers[count]}
-      </AnswerText>
-
+  
       <ActionsContainer>
         <Button
           type="outline"

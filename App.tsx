@@ -7,7 +7,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { HomeScreen } from './screens/home';
 import { LoginScreen } from './screens/login';
-import { InitialQuestionnaireScreen } from './screens/initial-questionnaire';
+import { CurrentStateScreen } from './screens/current-state';
+import { MentalStateMeasureScreen } from './screens/mental-state-measure';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -19,9 +20,14 @@ export default function App() {
           <Screen name="Login" component={LoginScreen} />
           <Screen name="Home" component={HomeScreen} />
           <Screen
-            options={{ title: 'Initial Questions' }}
-            name="InitialQuestionnaire"
-            component={InitialQuestionnaireScreen}
+            options={{ title: 'আপনার বর্তমান অবস্থা' }}
+            name="CurrentState"
+            component={CurrentStateScreen}
+          />
+          <Screen
+            options={{ title: 'মানসিক অবস্থার পরিমাপ' }}
+            name="MentalStateMeasure"
+            component={MentalStateMeasureScreen}
           />
         </Navigator>
       </NavigationContainer>

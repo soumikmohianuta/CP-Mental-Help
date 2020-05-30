@@ -4,7 +4,7 @@ import { View, Slider } from 'react-native';
 import { Text } from 'react-native-elements';
 
 export const Container = styled(View)`
-padding: 72px 24px;
+  padding: 24px 24px 72px ;
 `;
 
 export const QuestionText = styled(Text)`
@@ -12,20 +12,19 @@ export const QuestionText = styled(Text)`
 `;
 
 export const NoteText = styled(Text)`
-  margin: 0;
+    margin-bottom: 24px;
 `;
 
-export const AnswerText = styled(Text)`
-  color: #2089dc;
-  margin-bottom: 36px;
-`;
-
-export const AnswerSlider = styled(Slider)`
-  margin: 36px 0 24px;
+export const SliderContainer = styled(View)`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const ActionsContainer = styled(View)`
-display: flex;
-flex-direction: row;
-justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 24px;
 `;

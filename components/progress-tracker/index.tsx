@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import { View } from 'react-native';
+import { Text } from 'react-native-elements';
 
 const Step = styled(View)`
   height: 5px;
@@ -17,21 +18,30 @@ const ProgressTrackerContainer = styled(View)`
   margin-bottom: 32px;
 `;
 
+const StepText = styled(Text)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const ProgressTracker = ({
   totalStep,
   current,
 }: any) => {
   return (
-    <ProgressTrackerContainer>
-      {
-        [...Array(totalStep).keys()].map((index) => (
-          <Step
-            key={index}
-            totalStep={totalStep}
-            visited={index <= current}  
-          />
-        ))
-      }
-    </ProgressTrackerContainer>
+    <>
+      <Text>Step {current} of {totalStep}</Text>
+      <ProgressTrackerContainer>
+        {
+          [...Array(totalStep).keys()].map((index) => (
+            <Step
+              key={index}
+              totalStep={totalStep}
+              visited={index <= current}  
+            />
+          ))
+        }
+      </ProgressTrackerContainer>
+    </>
   )
 }

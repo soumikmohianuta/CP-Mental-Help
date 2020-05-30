@@ -9,17 +9,10 @@ const Container = styled(View)`
   justify-content: center;
 `;
 
-export const HomeScreen = ({ navigation }) => {
+export const MentalStateMeasureScreen = ({ navigation }) => {
   return (
     <Container>
-      <Button
-        title="Go to Current State"
-        onPress={() => navigation.navigate('CurrentState')}
-      />
-      <Button
-        title="Go to Mental State Measurement"
-        onPress={() => navigation.navigate('MentalStateMeasure')}
-      />
+     <Text>Mental state</Text>
     </Container>
   );
 }

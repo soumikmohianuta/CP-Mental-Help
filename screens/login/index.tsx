@@ -20,7 +20,7 @@ export const LoginScreen = ({ navigation }: any) => {
   const onSubmit = (data: Record<string, any>) => {
     // TODO: Login API
     if (data.email == 'A' && data.password == '1') {
-      navigation.navigate('InitialQuestionnaire');
+      navigation.navigate('Home');
     } else {
       setLoginError('Incorrect email or password');
     }
