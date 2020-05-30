@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Alert } from 'react-native';
 import { Button } from 'react-native-elements';
 import { ProgressTracker } from '../../components/progress-tracker';
-import CircleSlider from '../../components/circular-slider';
+import { CircleSlider } from '../../components/circular-slider';
 import {
   Container,
   NoteText,
@@ -15,19 +14,21 @@ import { questionnaires } from './contents';
 const NUMBER_OF_QUESTIONS = 5;
 
 export const CurrentStateScreen = ({ navigation }: any) => {
-  const [answers, setAnswers] = useState([20, 20, 20, 20, 20]);
+  const [answers, setAnswers] = useState([20, 30, 40, 50, 20]);
+  const [currentAnswer, setCurrentAnswer] = useState(0);
   const [count, setCount] = useState(0);
 
   const handleSlideComplete = (ans: any) => {
-    const newAnswers = [...answers];
-    newAnswers[count] = ans;
-    setAnswers(newAnswers);
+    setCurrentAnswer(ans);
   }
 
   const handleNext = () => {
     if (count === NUMBER_OF_QUESTIONS - 1) {
       navigation.navigate('Home');
     } else {
+      const newAnswers = [...answers];
+      newAnswers[count] = currentAnswer;
+      setAnswers(newAnswers);
       setCount(count+1);
     }
   }
@@ -51,7 +52,7 @@ export const CurrentStateScreen = ({ navigation }: any) => {
           strokeWidth={10}
           textSize={16}
           dialRadius={100}
-          // onValueChange={(val: any) => Alert.alert(val.toString())}
+          onValueChange={handleSlideComplete}
         />
       </SliderContainer>
       <NoteText>
