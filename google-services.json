@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "642980716461",
+    "firebase_url": "https://monandbiggan.firebaseio.com",
+    "project_id": "monandbiggan",
+    "storage_bucket": "monandbiggan.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:642980716461:android:27c4d79151dfe0f32d8b24",
+        "android_client_info": {
+          "package_name": "com.cpmentalhelp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "642980716461-09qhvucr4tfebg6oaa7l27m6ciook6iq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cpmentalhelp",
+            "certificate_hash": "534c548ff7bff3eab79615149cbfecdc68e9716d"
+          }
+        },
+        {
+          "client_id": "642980716461-tvos2r10dvs2j8n9c2u75nklkuj2i2jh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cpmentalhelp",
+            "certificate_hash": "73987b1efc2c5da3d23a03ccf7cd54ae12967fbf"
+          }
+        },
+        {
+          "client_id": "642980716461-6iep98br4h6ljv797njgjht8nsa866iu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmXPlykAFxTILEtNJQ3FgFtjOZXzpDNiQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "642980716461-6iep98br4h6ljv797njgjht8nsa866iu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

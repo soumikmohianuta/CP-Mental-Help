@@ -1,58 +1,174 @@
 import React, { useState } from 'react';
 import styled from 'styled-components/native';
-import { View } from 'react-native';
+import { View,KeyboardAvoidingView,TextInput,SafeAreaView,TouchableOpacity,ActivityIndicator,TouchableWithoutFeedback,Keyboard } from 'react-native';
 import { useForm,Controller } from "react-hook-form";
 import { Text, Button, Input } from 'react-native-elements';
+import "firebase/firestore";
+import firebase from "firebase";
+import * as Facebook from 'expo-facebook';
+import * as GoogleSignIn from 'expo-google-sign-in';
+import {AuthContext} from '../../context/AuthContext';
 
-const Container = styled(View)`
+const Container = styled(KeyboardAvoidingView)`
   flex: 1;
-  padding: 72px 24px;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const ErrorText = styled(Text)`
   color: red;
 `;
+ 
+const FormContainer = styled(View)`
+  width: 86%;
+  margin-top: 15;
+`;
 
-export const LoginScreen = ({ navigation }: any) => {
-  const { control, handleSubmit, errors } = useForm();
-  const [loginError, setLoginError] = useState('');
+const LogoContainer = styled(Text)`
+  margin-top: 20;
+`;
 
-  const onSubmit = (data: Record<string, any>) => {
-    // TODO: Login API
-    if (data.email == 'A' && data.password == '1') {
-      navigation.navigate('Home');
-    } else {
-      setLoginError('Incorrect email or password');
+const InputContainer = styled(TextInput)`
+  font-size: 20;
+  background-color: #707070;
+  border-bottom-width: 1;
+  padding-bottom: 1.5;
+  margin-top: 25.5;
+`;
+
+const ButtonContainer = styled(View)`
+  background-color: #3A559F;
+  height: 44;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 22;
+`;
+
+const GButtonContainer = styled(View)`
+      background-color: #ffffff;
+      height: 44;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      border-radius: 22;
+      border-width: 1;
+      border-color: #707070;
+`;
+
+
+
+
+export const SignInScreen = ({ navigation }: any) => {
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessage, seErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+  const {signIn} = React.useContext(AuthContext);
+
+  const onLoginSuccess= (curUser:any) => {
+      signIn(curUser);
+  }
+  const onLoginFailure= (errorMessage:string) => {
+    seErrorMessage(errorMessage);
+    setLoading(false);
+  }
+
+  const renderLoading= () => {
+    if (loading) {
+      return (
+        <View>
+          <ActivityIndicator size={'large'} />
+        </View>
+      );
+    }
+  }
+
+  async function signInWithFacebook(){
+    try {
+      await Facebook.initializeAsync('650718795524020');
+      const { type, token } = await Facebook.logInWithReadPermissionsAsync('650718795524020', {
+        permissions: ['public_profile'],
+      });
+      if (type === 'success') {
+        await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+        const credential = firebase.auth.FacebookAuthProvider.credential(token);
+        const facebookProfileData = await firebase.auth().signInWithCredential(credential);
+        onLoginSuccess(facebookProfileData);
+      }
+    } catch ({ message }) {
+      alert(`Facebook Login Error: ${message}`);
+      //alert(`Facebook Login Error: ${message}`);
+
+    }
+  }
+  async function signInWithGoogle(){
+    try {
+      await GoogleSignIn.askForPlayServicesAsync();
+      const { type, user } = await GoogleSignIn.signInAsync();
+      const data = await GoogleSignIn.GoogleAuthentication.prototype.toJSON();
+      if (type === 'success') {
+        await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+        const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken);
+        const googleProfileData = await firebase.auth().signInWithCredential(credential);
+        onLoginSuccess(googleProfileData);
+      }
+    } catch ({ message }) {
+//      alert('login: Error:' + message);
+      alert('Invalid Credetntials');
     }
   }
 
   return (
-    <Container>
-      <Text h3> Welcome!</Text>
-      <Controller
-        as={Input}
-        control={control}
-        name="email"
-        onChange={args => args[0].nativeEvent.text}
-        rules={{ required: true }}
-        defaultValue=""
-        placeholder="Email"
-      />
-      {errors.email && <ErrorText>This is required.</ErrorText>}
 
-      <Controller
-        as={Input}
-        control={control}
-        name="password"
-        onChange={args => args[0].nativeEvent.text}
-        defaultValue=""
-        placeholder="Password"
-        secureTextEntry={true}
-        rules={{ required: true }}
-      />
-      {errors.password && <ErrorText>This is required.</ErrorText>}
-      {<ErrorText>{loginError}</ErrorText>}
-      <Button title="Login" onPress={handleSubmit(onSubmit)} />
-    </Container>
+    <SafeAreaView style={{ flex: 1 }}>
+      <Container behavior="padding">
+        <Text style={{ fontSize: 32, fontWeight: "700", color: "gray" }}>
+          মন ও বিজ্ঞান
+        </Text>
+        <TouchableOpacity 
+          style={{ width: "86%", marginTop: 10 }}
+          onPress={() => signInWithFacebook()}>
+          <ButtonContainer>
+            <Text
+              style={{
+                letterSpacing: 0.5,
+                fontSize: 16,
+                color: "#FFFFFF"
+              }}
+            >
+              Continue with Facebook
+            </Text>
+          </ButtonContainer>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={{ width: "86%", marginTop: 10 }}
+          onPress={() => signInWithGoogle()}>
+          <GButtonContainer >
+            <Text
+              style={{
+                letterSpacing: 0.5,
+                fontSize: 16,
+                color: "#707070"
+              }}
+            >
+              Continue with Google
+            </Text>
+          </GButtonContainer>
+        </TouchableOpacity>
+        <View style={{ marginTop: 10 }}>
+          <Text
+            style={{ fontWeight: "200", fontSize: 17, textAlign: "center" }}
+            onPress={() => {
+              navigation.navigate("SignUp");
+            }}
+          >
+            Don't have an Account?
+          </Text>
+        </View>
+      </Container>
+    </SafeAreaView>
   );
+  
 }
