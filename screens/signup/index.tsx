@@ -65,10 +65,12 @@ export const SignUpScreen = ({ navigation }: any) => {
   const [password, setPassword] = useState('');
   const [errorMessage, seErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
-  const {signIn} = React.useContext(AuthContext);
+  const {signUp} = React.useContext(AuthContext);
 
   const onLoginSuccess= (curUser:any) => {
-      signIn(curUser);
+      alert(Object.keys(curUser.user));
+    signUp(curUser.user);
+    navigation.navigate("UserInfo");
   }
   const onLoginFailure= (errorMessage:string) => {
     seErrorMessage(errorMessage);
@@ -112,7 +114,7 @@ export const SignUpScreen = ({ navigation }: any) => {
       const { type, user } = await GoogleSignIn.signInAsync();
       if (type === 'success') {
         await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-        const credential = firebase.auth.GoogleAuthProvider.credential(user.auth.idToken, user.auth.accessToken,);
+        const credential = firebase.auth.GoogleAuthProvider.credential(user.auth.idToken, user.auth.accessToken);
         const googleProfileData = await firebase.auth().signInWithCredential(credential);
         onLoginSuccess(googleProfileData);
       }

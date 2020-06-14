@@ -15,26 +15,7 @@ const Container = styled(KeyboardAvoidingView)`
   align-items: center;
 `;
 
-const ErrorText = styled(Text)`
-  color: red;
-`;
- 
-const FormContainer = styled(View)`
-  width: 86%;
-  margin-top: 15;
-`;
 
-const LogoContainer = styled(Text)`
-  margin-top: 20;
-`;
-
-const InputContainer = styled(TextInput)`
-  font-size: 20;
-  background-color: #707070;
-  border-bottom-width: 1;
-  padding-bottom: 1.5;
-  margin-top: 25.5;
-`;
 
 const ButtonContainer = styled(View)`
   background-color: #3A559F;
@@ -68,7 +49,7 @@ export const SignInScreen = ({ navigation }: any) => {
   const {signIn} = React.useContext(AuthContext);
 
   const onLoginSuccess= (curUser:any) => {
-      signIn(curUser);
+      signIn(curUser.user);
   }
   const onLoginFailure= (errorMessage:string) => {
     seErrorMessage(errorMessage);

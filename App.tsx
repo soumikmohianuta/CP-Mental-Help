@@ -1,5 +1,4 @@
 import 'react-native-gesture-handler';
-
 import React from 'react';
 import { ThemeProvider } from 'react-native-elements';
 import { NavigationContainer } from '@react-navigation/native';
@@ -13,7 +12,7 @@ import  firebase from 'firebase';
 import { SignUpScreen  } from './screens/signup';
 import { SignInScreen  } from './screens/login';
 import {AuthContext} from './context/AuthContext'
-
+import {UserInfo} from './screens/UserInfo'
 
 firebase.initializeApp(firebaseConfig);
 const { Navigator, Screen } = createStackNavigator();
@@ -27,6 +26,7 @@ const AuthStackScreen = () =>(
 
           <AuthStack.Screen name="SignIn" component={SignInScreen} options={{ title: 'Sign In' }}/>
           <AuthStack.Screen name="SignUp" component={SignUpScreen} options={{ title: 'Sign Up' }}/>
+          <AuthStack.Screen name="UserInfo" component={UserInfo} options={{ title: 'User Info' }}/>
   </AuthStack.Navigator>
 )
 
@@ -51,25 +51,32 @@ const ClientScreen = () =>(
 export default function App() {
   const [isLoading, setIsLoading] = React.useState(true);
   const [user, setUser] = React.useState(null);
+  const [firstTimeLoading, setFirstTimeLoading] = React.useState(true);
   const authContext = React.useMemo(() =>{
     return{
       signIn: (curUser:any) =>{
         setUser(curUser);
       },
       signUp: (curUser:any) =>{
+        setFirstTimeLoading(false);
         setUser(curUser);
       },
       signOut: () =>{
         setUser(null);
       },
+      saveUserData: ()=>{
+        setFirstTimeLoading(true);
+      },
+      user,
     }
   },[]);
 
   React.useEffect(() =>{
-    firebase.auth().onAuthStateChanged(user => {
+    firebase.auth().onAuthStateChanged(cuser => {
+      
        setIsLoading(false);
-       if (user) {
-         setUser(user);
+       if (cuser) {
+        setUser(cuser);
        }
    });
   },[]);
@@ -80,7 +87,7 @@ export default function App() {
     <ThemeProvider>
       <AuthContext.Provider value={authContext}> 
       <NavigationContainer>
-        {isLoading? <LoadingScreen/>:user? <ClientScreen/>: <AuthStackScreen/>}
+        {isLoading? <LoadingScreen/>:(user && firstTimeLoading)? <ClientScreen/>: <AuthStackScreen/>}
       </NavigationContainer>
       </AuthContext.Provider>
     </ThemeProvider>
