@@ -1,17 +1,6 @@
 
 import React from 'react';
-import styled from 'styled-components/native';
-import { View } from 'react-native';
 import { Card, Button } from 'react-native-elements';
-
-const MainContainer = styled(View)`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 24px 12px;
-`;
-
 
 export const OthersCard = ({ }: any) => {
   return (
