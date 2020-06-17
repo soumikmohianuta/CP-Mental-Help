@@ -30,7 +30,7 @@ export const ProgressTracker = ({
 }: any) => {
   return (
     <>
-      <Text>Step {current} of {totalStep}</Text>
+      <Text>Step {current + 1} of {totalStep}</Text>
       <ProgressTrackerContainer>
         {
           [...Array(totalStep).keys()].map((index) => (
