@@ -3,25 +3,22 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import { ThemeProvider } from 'react-native-elements';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { HomeStackScreen } from './screens/home';
+// import { LoginScreen } from './screens/login';
+import { ProfileScreen } from './screens/profile';
 
-import { HomeScreen } from './screens/home';
-import { LoginScreen } from './screens/login';
-import { InitialQuestionnaireScreen } from './screens/initial-questionnaire';
-
-const { Navigator, Screen } = createStackNavigator();
+const { Navigator, Screen } = createBottomTabNavigator();
 
 export default function App() {
   return (
     <ThemeProvider>
       <NavigationContainer>
         <Navigator>
-          <Screen name="Login" component={LoginScreen} />
-          <Screen name="Home" component={HomeScreen} />
+          <Screen name="Home" component={HomeStackScreen} />
           <Screen
-            options={{ title: 'Initial Questions' }}
-            name="InitialQuestionnaire"
-            component={InitialQuestionnaireScreen}
+            name="Profile"
+            component={ProfileScreen}
           />
         </Navigator>
       </NavigationContainer>
