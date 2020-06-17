@@ -4,7 +4,7 @@ import { Card, Button } from 'react-native-elements';
 
 export const OthersCard = ({ }: any) => {
   return (
-    <Card title='অন্যান্য' containerStyle={{ borderRadius: 8, width: '95%' }}>
+    <Card title='অন্যান্য' containerStyle={{ borderRadius: 8, width: '95%', marginBottom: 64 }}>
         <Button
           type="clear"
           title="Psychotic"

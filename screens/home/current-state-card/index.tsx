@@ -2,7 +2,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import { Image, View } from 'react-native';
-import { Button, Card } from 'react-native-elements';
+import { Button, Card, Text } from 'react-native-elements';
 
 const EmoContainer = styled(View)`
   height: 150px;
@@ -22,6 +22,11 @@ const MainContainer = styled(View)`
   padding: 24px 12px;
 `;
 
+const ScoreContainer = styled(View)`
+  display: flex;
+  flex-direction: column;
+`
+
 export const CurrentStateCard = ({ onStartClick, onHistoryClick, rating }: any) => {
   var emoIcon = rating > 50
   ? require('./assets/sad-alt.png')
@@ -36,14 +41,22 @@ export const CurrentStateCard = ({ onStartClick, onHistoryClick, rating }: any) 
                 style={{ width: 100, height: 120 }}
               />
           </EmoContainer>
-          <Button
-            buttonStyle={{
-              borderRadius: 5,
-              backgroundColor: '#ba262b'
-            }}
-            title="নিজেকে যাচাই করুন"
-            onPress={onStartClick}
-          />
+          <ScoreContainer>
+            <Button
+              buttonStyle={{
+                borderRadius: 5,
+                backgroundColor: '#ba262b',
+                marginBottom: 18,
+              }}
+              title="নিজেকে যাচাই করুন"
+              onPress={onStartClick}
+            />
+            <Text style={{ fontSize: 16 }}>আপনার স্কোরঃ
+            </Text>
+            <View>
+              <Text style={{ fontSize: 24 }}>৩০</Text>
+            </View>
+          </ScoreContainer>
         </MainContainer>
         <Button
           type="clear"
