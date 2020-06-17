@@ -1,0 +1,42 @@
+
+import React from 'react';
+import styled from 'styled-components/native';
+import { View } from 'react-native';
+import { Card, Button } from 'react-native-elements';
+
+const MainContainer = styled(View)`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 12px;
+`;
+
+
+export const OthersCard = ({ }: any) => {
+  return (
+    <Card title='অন্যান্য' containerStyle={{ borderRadius: 8, width: '95%' }}>
+        <Button
+          type="clear"
+          title="Psychotic"
+          titleStyle={{
+            color: '#ba262b'
+          }}
+        />
+        <Button
+          type="clear"
+          title="Suicidal Ideation"
+          titleStyle={{
+            color: '#ba262b'
+          }}
+        />
+        <Button
+          type="clear"
+          title="Domestic violence"
+          titleStyle={{
+            color: '#ba262b'
+          }}
+        />
+    </Card>
+  )
+}

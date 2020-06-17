@@ -48,7 +48,7 @@ export const CircleSlider = (props: CircleSliderProps) => {
     strokeColor = '#ddd',
     strokeWidth = 5,
     fillColor = 'none',
-    meterColor = '#2089dc',
+    meterColor = '#ba262b',
     dialWidth = 5,
     textSize = 10,
     textColor = '#fff',

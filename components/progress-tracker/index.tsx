@@ -5,7 +5,7 @@ import { Text } from 'react-native-elements';
 
 const Step = styled(View)`
   height: 5px;
-  background-color: ${({ visited }: any) => visited ? '#2089dc': '#ddd'};
+  background-color: ${({ visited }: any) => visited ? '#ba262b': '#ddd'};
   width: ${({ totalStep }: any) => `${100/totalStep}%`};
   margin-right: 2px;
   border-radius: 5px;

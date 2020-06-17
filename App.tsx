@@ -8,7 +8,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { HomeScreen } from './screens/home';
 import { LoginScreen } from './screens/login';
 import { CurrentStateScreen } from './screens/current-state';
-import { MentalStateMeasureScreen } from './screens/mental-state-measure';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -23,11 +22,6 @@ export default function App() {
             options={{ title: 'আপনার বর্তমান অবস্থা' }}
             name="CurrentState"
             component={CurrentStateScreen}
-          />
-          <Screen
-            options={{ title: 'মানসিক অবস্থার পরিমাপ' }}
-            name="MentalStateMeasure"
-            component={MentalStateMeasureScreen}
           />
         </Navigator>
       </NavigationContainer>
