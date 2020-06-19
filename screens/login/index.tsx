@@ -8,7 +8,8 @@ import firebase from "firebase";
 import * as Facebook from 'expo-facebook';
 import * as GoogleSignIn from 'expo-google-sign-in';
 import {AuthContext} from '../../context/AuthContext';
-
+import {useSelector,useDispatch } from 'react-redux';
+import {setLoginState} from '../../redux/actions';
 const Container = styled(KeyboardAvoidingView)`
   flex: 1;
   flex-direction: column;
@@ -47,9 +48,18 @@ export const SignInScreen = ({ navigation }: any) => {
   const [errorMessage, seErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const {signIn} = React.useContext(AuthContext);
-
+  const dispatch = useDispatch();
   const onLoginSuccess= (curUser:any) => {
-      signIn(curUser.user);
+
+    const currentState = {
+      userId: curUser.user.uid,
+      email: curUser.user.email,
+      name: curUser.user.displayName,
+    };
+
+    dispatch(setLoginState(currentState));
+    navigation.navigate("UserInfo");
+    signIn(curUser.user);
   }
   const onLoginFailure= (errorMessage:string) => {
     seErrorMessage(errorMessage);

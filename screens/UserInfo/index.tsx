@@ -7,6 +7,7 @@ import {RadioButton} from '../../components/radio-button';
 import { SexCategory, MaritalStatus,CurrentLocation,SymptomPresentSelf,SymptomPresenetOthers ,MentalHealthProblemBeforeCorona , KindofTreatment , MentalHealthProblemAfterCorona   } from './contents';
 import  firebase from 'firebase';
 import {AuthContext} from '../../context/AuthContext';
+import {useSelector  } from 'react-redux';
 
 const Container = styled(KeyboardAvoidingView)`
   flex: 1;
@@ -46,42 +47,50 @@ const FieldContainer = styled(Text)`
 
 export const UserInfo = ({ navigation }: any) => {
 
-  const {saveUserData,user} = React.useContext(AuthContext);
+  const {saveUserData} = React.useContext(AuthContext);
   const { control, handleSubmit, errors } = useForm();
  
-  const [ErrorMsg, SetErrorMsg] = React.useState("");
+  const [ErrorMsg, SetErrorMsg] = React.useState("Not a valid Age");
   const [age, SetAge] = React.useState(0);
   const [sex, SetSex] = React.useState("");
   const [maritalStatus, SetMaritalStatus] = React.useState("");
-  const [anySymptom, SetAnySymptom] = React.useState(0);
-  const [anyRelativeWithSymptom, SetAnyRelativeWithSymptom] = React.useState(0);
-  const [address, SetAddress] = React.useState(0);
-  const [anyPrevSymptom, SetAnyPrevSymptom] = React.useState(0);
-  const [anyMentalHelp, SetAnyMentalHelp] = React.useState(0);
-  const [anyAfterSymptom, SetAnyAfterSymptom] = React.useState(0);
-  const [anyAfterMentalhelp, SetAnyAfterMentalhelp] = React.useState(0);
-  const [mediumToKnow, SetMediumToKnow] = React.useState(0);
+  const [anySymptom, SetAnySymptom] = React.useState("");
+  const [anyRelativeWithSymptom, SetAnyRelativeWithSymptom] = React.useState("");
+  const [address, SetAddress] = React.useState("");
+  const [anyPrevSymptom, SetAnyPrevSymptom] = React.useState("");
+  const [anyMentalHelp, SetAnyMentalHelp] = React.useState("");
+  const [anyAfterSymptom, SetAnyAfterSymptom] = React.useState("");
+  const [anyAfterMentalhelp, SetAnyAfterMentalhelp] = React.useState("");
+  const [mediumToKnow, SetMediumToKnow] = React.useState("");
 
 
-  const onSubmit = (data: Record<string, any>) => {
-    if(ErrorMsg!=""){
+  const userID = useSelector(state => state.loginReducer.userId);
+  const eMail = useSelector(state => state.loginReducer.email);
+
+  const onSubmit = () => {
+
+    if(ErrorMsg!="" || sex=="" || maritalStatus=="" || anySymptom=="" || anyRelativeWithSymptom=="" || address=="" || anyPrevSymptom=="" || anyMentalHelp=="" || anyPrevSymptom==""|| anyAfterMentalhelp==""|| mediumToKnow==""){
       alert("Incomplete Information");
     }
 
-    else{
-      firebase.database().ref(user.user.uid).child("Email").set(user.user.emai);
-      firebase.database().ref(user.user.uid).child("Age").set(age);
-      firebase.database().ref(user.user.uid).child("Sex").set(sex);
-      firebase.database().ref(user.user.uid).child("maritalStatus").set(maritalStatus);
-      firebase.database().ref(user.user.uid).child("address").set(address);
-      firebase.database().ref(user.user.uid).child("cSymptom").set(anySymptom);
-      firebase.database().ref(user.user.uid).child("rSymptom").set(anyRelativeWithSymptom);
-      firebase.database().ref(user.user.uid).child("anyPrevSymptom").set(anyPrevSymptom);
-      firebase.database().ref(user.user.uid).child("anyMentalHelp").set(anyMentalHelp);
-      firebase.database().ref(user.user.uid).child("anyAfterSymptom").set(anyAfterSymptom);
-      firebase.database().ref(user.user.uid).child("anyAfterMentalhelp").set(anyAfterMentalhelp);
-      firebase.database().ref(user.user.uid).child("mediumToKnow").set(mediumToKnow);
+   else{
+      const userData = {      "Email":eMail,
+                              "Age":age,
+                              "Sex":sex,
+                              "maritalStatus":maritalStatus,
+                              "address":address,
+                              "cSymptom":anySymptom,
+                              "rSymptom":anyRelativeWithSymptom,
+                              "anyPrevSymptom":anyPrevSymptom,
+                              "anyMentalHelp":anyMentalHelp,
+                              "anyAfterSymptom":anyAfterSymptom,
+                              "anyAfterMentalhelp":anyAfterMentalhelp,
+                              "mediumToKnow":mediumToKnow};
+              
+
+      firebase.database().ref("DemoGraphy/"+userID).set(userData);
       saveUserData();
+    
     }
 
   }
@@ -102,42 +111,53 @@ export const UserInfo = ({ navigation }: any) => {
   }
   
   const checkSetSex = (value: any) => {
+
     SetSex(value); 
   }
   
   const CheckSetMaritalStatus = (value: any) => {
+
     SetMaritalStatus(value); 
   }
 
   const CheckSetAnySymptom = (value: any) => {
+ 
     SetAnySymptom(value); 
   }
 
   const CheckSetAnyRelativeWithSymptom = (value: any) => {
+ 
     SetAnyRelativeWithSymptom(value); 
+    
   }
 
   const CheckSetAddress = (value: any) => {
+
     SetAddress(value); 
   }
 
   const CheckSetAnyPrevSymptom = (value: any) => {
+
     SetAnyPrevSymptom(value); 
   }
 
   const CheckSetAnyMentalHelp = (value: any) => {
+
     SetAnyMentalHelp(value); 
   }
 
   const CheckSetAnyAfterSymptom = (value: any) => {
+
     SetAnyAfterSymptom(value); 
   }
 
   const CheckSetAnyAfterMentalhelp = (value: any) => {
+
     SetAnyAfterMentalhelp(value); 
   }
 
   const CheckSetMediumToKnow = (value: any) => {
+    
     SetMediumToKnow(value); 
   }
 
@@ -164,12 +184,6 @@ export const UserInfo = ({ navigation }: any) => {
             />
              <ErrorText>{ErrorMsg}</ErrorText>
         </ScrollContent>
-
-
-        <ScrollContent >
-              <Button title="Submit" onPress={handleSubmit(onSubmit)} />	
-        </ScrollContent>
-
 
         <ScrollContent >
             <FieldContainer>• লিঙ্গ </FieldContainer>
@@ -268,7 +282,7 @@ export const UserInfo = ({ navigation }: any) => {
         </ScrollContent >
 
         <ScrollButtonContent >
-              <Button  title="Submit" onPress={handleSubmit(onSubmit)} />	
+              <Button  title="Submit" onPress={onSubmit} />	
         </ScrollButtonContent>
 
 

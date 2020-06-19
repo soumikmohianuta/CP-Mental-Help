@@ -13,13 +13,15 @@ import { SignUpScreen  } from './screens/signup';
 import { SignInScreen  } from './screens/login';
 import {AuthContext} from './context/AuthContext'
 import {UserInfo} from './screens/UserInfo'
+import {configureStore} from './redux/store';
+import {Provider} from 'react-redux';
+
 
 firebase.initializeApp(firebaseConfig);
 const { Navigator, Screen } = createStackNavigator();
 const ClinetProfile = createStackNavigator();
 const AuthStack = createStackNavigator();
-
-
+const store = configureStore()
 
 const AuthStackScreen = () =>(
   <AuthStack.Navigator>
@@ -67,7 +69,6 @@ export default function App() {
       saveUserData: ()=>{
         setFirstTimeLoading(true);
       },
-      user,
     }
   },[]);
 
@@ -81,15 +82,19 @@ export default function App() {
    });
   },[]);
   if(isLoading){
+
     return <LoadingScreen/>;
   }
   return (
     <ThemeProvider>
-      <AuthContext.Provider value={authContext}> 
-      <NavigationContainer>
-        {isLoading? <LoadingScreen/>:(user && firstTimeLoading)? <ClientScreen/>: <AuthStackScreen/>}
-      </NavigationContainer>
-      </AuthContext.Provider>
+      <Provider store={store}>
+        <AuthContext.Provider value={authContext}> 
+          <NavigationContainer>
+            {isLoading? <LoadingScreen/>:(user!=null && firstTimeLoading)? <ClientScreen/>: <AuthStackScreen/>}
+          </NavigationContainer>
+          </AuthContext.Provider>
+      </Provider>
     </ThemeProvider>
+
   );
 }

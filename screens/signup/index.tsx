@@ -4,10 +4,12 @@ import { View,StyleSheet,KeyboardAvoidingView,TextInput,SafeAreaView,TouchableOp
 import { useForm,Controller } from "react-hook-form";
 import { Text, Button, Input} from 'react-native-elements';
 import 'firebase/firestore';
-import firebase from 'firebase';
+import firebase, { analytics } from 'firebase';
 import * as Facebook from 'expo-facebook'
 import * as GoogleSignIn from 'expo-google-sign-in'
 import {AuthContext} from '../../context/AuthContext';
+import {useSelector,useDispatch } from 'react-redux';
+import {setLoginState} from '../../redux/actions';
 
 const Container = styled(KeyboardAvoidingView)`
   flex: 1;
@@ -57,18 +59,31 @@ const GButtonContainer = styled(View)`
 `;
 
 
-export const SignUpScreen = ({ navigation }: any) => {
+
+
+
+export const SignUpScreen = ({ navigation }: any ) => {
   
 
   const [displayName, setDisplayName] = useState('');
-  const [email, setEmail] = useState('');
+ // const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, seErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const {signUp} = React.useContext(AuthContext);
+  const [userId, setUserID] = useState('');
 
+  const dispatch = useDispatch();
+  
   const onLoginSuccess= (curUser:any) => {
-      alert(Object.keys(curUser.user));
+    const currentState = {
+      userId: curUser.user.uid,
+      email: curUser.user.email,
+      name: curUser.user.displayName,
+    };
+
+    dispatch(setLoginState(currentState));
+
     signUp(curUser.user);
     navigation.navigate("UserInfo");
   }
@@ -85,7 +100,6 @@ export const SignUpScreen = ({ navigation }: any) => {
       );
     }
   }
- 
   async function signInWithFacebook(){
     try{
     await Facebook.initializeAsync('650718795524020');
@@ -183,3 +197,4 @@ export const SignUpScreen = ({ navigation }: any) => {
 
  
 }
+
