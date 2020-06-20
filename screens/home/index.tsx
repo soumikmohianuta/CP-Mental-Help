@@ -6,10 +6,12 @@ import { CurrentStateCard } from './current-state-card';
 import { MentalStateMeasureCard } from './mental-state-measure-card';
 import { OthersCard } from './others-card';
 import { CurrentStateScreen } from '../current-state';
+import { ProfileScreen } from '../profile';
+
 
 const { Navigator, Screen } = createStackNavigator();
 
-export const HomeStackScreen = () => {
+export const HomePageStack = () => {
   return (
     <Navigator>
       <Screen name="Home" component={HomeScreen} />
@@ -17,6 +19,9 @@ export const HomeStackScreen = () => {
     </Navigator>
   );
 }
+
+
+
 
 const Container = styled(View)`
   flex: 1;
