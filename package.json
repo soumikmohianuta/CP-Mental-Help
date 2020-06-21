@@ -13,7 +13,7 @@
     "@react-navigation/native": "^5.3.0",
     "@react-navigation/stack": "^5.3.3",
     "expo": "~37.0.3",
-	"expo-facebook": "^8.1.0",
+	  "expo-facebook": "^8.1.0",
     "expo-google-sign-in": "^8.1.0",
     "expo-updates": "~0.2.0",
 	"firebase": "^7.15.1",

@@ -27,45 +27,40 @@ const ScoreContainer = styled(View)`
   flex-direction: column;
 `
 
-export const CurrentStateCard = ({ onStartClick, onHistoryClick, rating }: any) => {
+export const MentalHealthMeasureCard = ({ onStartClick, onHistoryClick, rating }: any) => {
   var emoIcon = rating > 50
   ? require('./assets/sad-alt.png')
   : require('./assets/happy-alt.png');
 
   return (
-    <Card title='আপনি কেমন বোধ করছেন?' containerStyle={{ borderRadius: 8, width: '95%' }}>
+    <Card title='আপনার মানসিক স্বাস্থ্য কেমন?' containerStyle={{ borderRadius: 8, width: '95%' }}>
         <MainContainer>
-          <EmoContainer>
+          {/* <EmoContainer>
               <Image
                 source={emoIcon}
                 style={{ width: 100, height: 120 }}
               />
-          </EmoContainer>
+          </EmoContainer> */}
           <ScoreContainer>
             <Button
-              buttonStyle={{
-                borderRadius: 5,
-                backgroundColor: '#ba262b',
-                marginBottom: 18,
-              }}
               title="নিজেকে যাচাই করুন"
               onPress={onStartClick}
             />
-            <Text style={{ fontSize: 16 }}>আপনার স্কোরঃ
+            {/* <Text style={{ fontSize: 16 }}>আপনার স্কোরঃ
             </Text>
             <View>
               <Text style={{ fontSize: 24 }}>৩০</Text>
-            </View>
+            </View> */}
           </ScoreContainer>
         </MainContainer>
-        <Button
+        {/* <Button
           type="clear"
           title="আপনার মানসিক স্বাস্থ্যের হিস্ট্রি দেখুন"
           titleStyle={{
             color: '#ba262b'
           }}
           onPress={onHistoryClick}
-        />
+        /> */}
     </Card>
   )
 }

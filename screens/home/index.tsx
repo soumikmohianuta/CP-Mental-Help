@@ -2,12 +2,11 @@ import React from 'react';
 import styled from 'styled-components/native';
 import { View, ScrollView } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { CurrentStateCard } from './current-state-card';
-import { MentalStateMeasureCard } from './mental-state-measure-card';
+import { MentalHealthMeasureCard } from './mental-health-measure-card';
 import { OthersCard } from './others-card';
-import { CurrentStateScreen } from '../current-state';
-import { ProfileScreen } from '../profile';
-
+import { MentalHealthRatingScreen } from '../mental-health-rating';
+import { MentalHealthMeasureListScreen } from '../mental-health-measure-list';
+import { GHQMeasureScreen } from '../GHQ-measure';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -15,32 +14,37 @@ export const HomePageStack = () => {
   return (
     <Navigator>
       <Screen name="Home" component={HomeScreen} />
-      <Screen name="CurrentState" component={CurrentStateScreen} />
+      <Screen name="MentalHealthRating" component={MentalHealthRatingScreen} />
+      <Screen name="MentalHealthMeasureList" component={MentalHealthMeasureListScreen} />
+      <Screen name="GHQMeasure" component={GHQMeasureScreen} />
     </Navigator>
   );
 }
-
-
-
 
 const Container = styled(View)`
   flex: 1;
   align-items: center;
 `;
 
-export const HomeScreen = ({ navigation }: any) => {
+export const HomeScreen = ({
+  navigation,
+}: any) => {
   const handleStart = () => {
-    navigation.navigate('CurrentState');
+    const isPreStartSurveyEnabled = false;
+    if (isPreStartSurveyEnabled) {
+      navigation.navigate('MentalHealthRating');
+    } else {
+      navigation.navigate('MentalHealthMeasureList');
+    }
   }
 
   return (
     <ScrollView>
       <Container>
-        <CurrentStateCard
+        <MentalHealthMeasureCard
           onStartClick={handleStart}
           onHistoryClick={handleStart}
         />
-        <MentalStateMeasureCard />
         <OthersCard />
       </Container>
     </ScrollView>

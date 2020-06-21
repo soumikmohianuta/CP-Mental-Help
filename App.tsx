@@ -1,7 +1,6 @@
 import 'react-native-gesture-handler';
 
 import React from 'react';
-import { ThemeProvider } from 'react-native-elements';
 import { NavigationContainer } from '@react-navigation/native';
 import { HomePageStack } from './screens/home';
 import { AuthStackScreen } from './screens/login';
@@ -13,7 +12,7 @@ import { firebaseConfig } from './config';
 import { LoadingScreen } from './screens/loading';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { ProfileScreen } from './screens/profile';;
-
+import { ThemeProvider } from './components/theme';
 
 const store = configureStore()
 
@@ -37,9 +36,9 @@ export default function App() {
 	  const [isLoading, setIsLoading] = React.useState(true);
   const [user, setUser] = React.useState(null);
   const [firstTimeLoading, setFirstTimeLoading] = React.useState(true);
-  const authContext = React.useMemo(() =>{
-    return{
-      signIn: (curUser:any) =>{
+  const authContext = React.useMemo(() => {
+    return {
+      signIn: (curUser:any) => {
         setUser(curUser);
       },
       signUp: (curUser:any) =>{
@@ -73,7 +72,8 @@ export default function App() {
         <Provider store={store}>
             <AuthContext.Provider value={authContext}> 
             <NavigationContainer>
-              {isLoading? <LoadingScreen/>:(user!=null && firstTimeLoading)? <HomeStackScreen/>: <AuthStackScreen/>}
+              {/* {isLoading? <LoadingScreen/>:(user!=null && firstTimeLoading)? <HomeStackScreen/>: <AuthStackScreen/>} */}
+              <HomeStackScreen />
             </NavigationContainer>
           </AuthContext.Provider>
       </Provider>
