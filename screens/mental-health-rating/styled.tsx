@@ -1,6 +1,6 @@
 
 import styled from 'styled-components/native';
-import { View, Slider } from 'react-native';
+import { View } from 'react-native';
 import { Text } from 'react-native-elements';
 
 export const Container = styled(View)`

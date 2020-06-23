@@ -10,20 +10,6 @@ import * as GoogleSignIn from 'expo-google-sign-in'
 import {AuthContext} from '../../context/AuthContext';
 import {useSelector,useDispatch } from 'react-redux';
 import {setLoginState} from '../../redux/actions';
-import { createStackNavigator } from '@react-navigation/stack';
-import { SignUpScreen  } from '../signup'; 
-import {UserInfo} from '../UserInfo';
-
-const { Navigator, Screen } = createStackNavigator();
-export const AuthStackScreen = () => {
-  return (
-    <Navigator>
-        <Screen name="SignIn" component={SignInScreen} options={{ title: 'Sign In' }}/>
-          <Screen name="SignUp" component={SignUpScreen} options={{ title: 'Sign Up' }}/>
-          <Screen name="UserInfo" component={UserInfo} options={{ title: 'User Info' }}/>
-    </Navigator>
-  );
-}
 
 const Container = styled(View)`
   flex: 3;
@@ -84,11 +70,13 @@ const SwitchAccountStyle = styled(Text)`
 `;
 
 
-export const SignInScreen = ({ navigation }: any ) => {
+
+
+export const SignUpScreen = ({ navigation }: any ) => {
   
   var appLogo =  require('../../Images/Logo.png');
   const [loading, setLoading] = useState(false);
-  const {signIn} = React.useContext(AuthContext);
+  const {signUp} = React.useContext(AuthContext);
   const [userId, setUserID] = useState('');
   const dispatch = useDispatch();
   
@@ -101,7 +89,8 @@ export const SignInScreen = ({ navigation }: any ) => {
 
     dispatch(setLoginState(currentState));
 
-    signIn(curUser.user);
+    signUp(curUser.user);
+    navigation.navigate("UserInfo");
   }
 
   const renderLoading= () => {
@@ -114,11 +103,17 @@ export const SignInScreen = ({ navigation }: any ) => {
     }
   }
   async function signInWithFacebook(){
-    try {
-      await Facebook.initializeAsync('650718795524020');
-      const { type, token } = await Facebook.logInWithReadPermissionsAsync('650718795524020', {
-        permissions: ['public_profile'],
-      });
+    try{
+    await Facebook.initializeAsync('650718795524020');
+    const {
+      type,
+      token,
+      expires,
+      permissions,
+      declinedPermissions,
+    } = await Facebook.logInWithReadPermissionsAsync({
+      permissions: ['public_profile'],
+    });
       if (type === 'success') {
         await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
         const credential = firebase.auth.FacebookAuthProvider.credential(token);
@@ -127,62 +122,60 @@ export const SignInScreen = ({ navigation }: any ) => {
       }
     } catch ({ message }) {
       alert(`Facebook Login Error: ${message}`);
-      //alert(`Facebook Login Error: ${message}`);
-
     }
   }
   async function signInWithGoogle(){
     try {
       await GoogleSignIn.askForPlayServicesAsync();
       const { type, user } = await GoogleSignIn.signInAsync();
-      const data = await GoogleSignIn.GoogleAuthentication.prototype.toJSON();
       if (type === 'success') {
         await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-        const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken);
+        const credential = firebase.auth.GoogleAuthProvider.credential(user.auth.idToken, user.auth.accessToken);
         const googleProfileData = await firebase.auth().signInWithCredential(credential);
         onLoginSuccess(googleProfileData);
       }
     } catch ({ message }) {
-      alert('Invalid Credetntials');
+      alert('login: Error:' + message);
     }
   }
 
+
   return (
-        <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1 }}>
 
-            <ImageViewContainer>
-               <ImageContainer  source={appLogo} />
-            </ImageViewContainer>
-            
-            <Container>
-            <TouchableOpacityContainer
-              onPress={() => signInWithFacebook()}>
-              <FBButtonContainer>
-                <ButtonTextStyle>
-                  Login with Facebook
-                </ButtonTextStyle>
-              </FBButtonContainer>
-            </TouchableOpacityContainer>
-            <TouchableOpacityContainer 
-              onPress={() => signInWithGoogle()}>
-              <GButtonContainer>
-                <ButtonTextStyle>
-                   Login with Google
-                </ButtonTextStyle>
-              </GButtonContainer>
-            </TouchableOpacityContainer>
+      <ImageViewContainer>
+          <ImageContainer  source={appLogo} />
+      </ImageViewContainer>
+    
+    <Container>
+    <TouchableOpacityContainer
+      onPress={() => signInWithFacebook()}>
+      <FBButtonContainer>
+        <ButtonTextStyle>
+        Sign Up with Facebook
+        </ButtonTextStyle>
+      </FBButtonContainer>
+    </TouchableOpacityContainer>
+    <TouchableOpacityContainer 
+      onPress={() => signInWithGoogle()}>
+      <GButtonContainer>
+        <ButtonTextStyle>
+        Sign Up with Google
+        </ButtonTextStyle>
+      </GButtonContainer>
+    </TouchableOpacityContainer>
 
-            <View style={{ marginTop: 10 }}>
-              <SwitchAccountStyle
-                onPress={() => {
-                    navigation.navigate('SignUp');
-                }}>
-              
-                Don't have an Account?
-              </SwitchAccountStyle>
-            </View>
-          </Container>
-        </SafeAreaView>
+    <View style={{ marginTop: 10 }}>
+      <SwitchAccountStyle
+        onPress={() => {
+            navigation.navigate('SignIn');
+        }}>
+      
+      Already have an account?
+      </SwitchAccountStyle>
+    </View>
+  </Container>
+</SafeAreaView>
   );
 
  

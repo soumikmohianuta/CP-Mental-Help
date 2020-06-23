@@ -10,6 +10,14 @@
       "android",
       "web"
     ],
+	"facebookScheme": "fb650718795524020",
+    "facebookAppId": "650718795524020",
+    "facebookDisplayName": "মন ও বিজ্ঞান",
+
+    "android": {
+        "package": "com.cpmentalhelp",
+        "googleServicesFile": "./google-services.json"
+    },
     "assetBundlePatterns": [
       "**/*"
     ]
