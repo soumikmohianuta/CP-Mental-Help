@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Image, SafeAreaView } from 'react-native';
-import { Button, Card } from 'react-native-paper';
+import { Button, Card, ActivityIndicator } from 'react-native-paper';
 import styled from 'styled-components/native';
 import { ScrollView } from 'react-native-gesture-handler';
 import {PercentageCircle} from '../../components/percentage-circle';
@@ -10,10 +10,9 @@ import {DomesticViolenceProfile} from './domesticViolence';
 import {PsychoticProfile} from './psychoticProfile';
 import {SuicideIdeationProfile} from './suicideIdeation';
 import  firebase from 'firebase';
-import { LoadingScreen } from '../loading';
-
 
 const { Navigator, Screen } = createStackNavigator();
+
 export const MentalProfileStack = () => {
   return (
     <Navigator>
@@ -140,7 +139,7 @@ export const MentalProfile = ({ navigation }: any ) => {
 
     if (isLoading) {
       return (
-        <LoadingScreen/>
+        <ActivityIndicator animating />
       );
     }
 

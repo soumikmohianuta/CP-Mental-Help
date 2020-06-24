@@ -9,10 +9,10 @@ import {Provider} from 'react-redux';
 import  firebase from 'firebase';
 import {AuthContext} from './context/AuthContext'
 import { firebaseConfig } from './config';
-import { LoadingScreen } from './screens/loading';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { ProfileScreen } from './screens/profile';;
 import { ThemeProvider } from './components/theme';
+import { ActivityIndicator } from 'react-native-paper';
 
 const store = configureStore()
 
@@ -64,14 +64,14 @@ export default function App() {
    });
   },[]);
   if(isLoading) {
-    return <LoadingScreen/>;
+    return <ActivityIndicator animating />;
   }
   return (
     <ThemeProvider>
       <Provider store={store}>
         <AuthContext.Provider value={authContext}> 
           <NavigationContainer>
-            {/* {isLoading? <LoadingScreen/>:(user!=null && firstTimeLoading)? <HomeStackScreen/>: <AuthStackScreen/>} */}
+            {/* {isLoading? <ActivityIndicator animating />:(user!=null && firstTimeLoading)? <HomeStackScreen/>: <AuthStackScreen/>} */}
             <HomeStackScreen />
           </NavigationContainer>
         </AuthContext.Provider>

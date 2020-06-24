@@ -4,10 +4,9 @@ import {
   Image,
   SafeAreaView,
 } from "react-native";
-import { Text, Card } from "react-native-paper";
+import { Text, Card, ActivityIndicator } from "react-native-paper";
 import styled from "styled-components/native";
 import firebase from "firebase";
-import { LoadingScreen } from "../loading";
 
 const Container = styled(View)`
   flex: 7;
@@ -77,7 +76,7 @@ export const PersonalProfile = ({ navigation }: any) => {
   }, []);
 
   if (isLoading) {
-    return <LoadingScreen />;
+    return <ActivityIndicator animating />
   }
   return (
     <SafeAreaView style={{ flex: 1 }}>
