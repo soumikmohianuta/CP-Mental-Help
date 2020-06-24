@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button } from 'react-native-elements';
+import { Button } from 'react-native-paper';
 import { ProgressTracker } from '../../components/progress-tracker';
 import { CircleSlider } from '../../components/circular-slider';
 import {
@@ -62,17 +62,12 @@ export const MentalHealthRatingScreen = ({ navigation }: any) => {
         </NoteText>
     
         <ActionsContainer>
-          <Button
-            type="outline"
-            onPress={handleBack}
-            title="Back"
-            disabled={count === 0}
-          />
-          <Button
-            type={count === NUMBER_OF_QUESTIONS - 1 ? 'solid' : 'outline'}
-            onPress={handleNext}
-            title={count === NUMBER_OF_QUESTIONS - 1 ? 'Finish' : 'Next' }
-          />
+          <Button onPress={handleBack} disabled={count === 0}>
+            পূর্বে
+          </Button>
+          <Button onPress={handleNext}>
+            {count === NUMBER_OF_QUESTIONS - 1 ? 'শেষ করুন' : 'পরবর্তী' }
+          </Button>
         </ActionsContainer>
       </Container>
     </ScrollView>

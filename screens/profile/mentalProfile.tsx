@@ -1,7 +1,6 @@
-// https://aboutreact.com/react-native-tab //
-import * as React from 'react';
-import { TouchableOpacity, StyleSheet, View, Text,Image, SafeAreaView } from 'react-native';
-import { Button, Card, Icon  } from 'react-native-elements';
+import React, { useState } from 'react';
+import { View, Image, SafeAreaView } from 'react-native';
+import { Button, Card } from 'react-native-paper';
 import styled from 'styled-components/native';
 import { ScrollView } from 'react-native-gesture-handler';
 import {PercentageCircle} from '../../components/percentage-circle';
@@ -69,24 +68,22 @@ export const MentalProfile = ({ navigation }: any ) => {
     
     var appLogo =  require('../../Images/QLife.png');
 
-    const [profileProgress, SetProfileProgress] = React.useState(0);
-    const [cpComplete, SetcpComplete] = React.useState("close");
-    const [psComplete, SetpsComplete] = React.useState("close");
-    const [siComplete, SetsiComplete] = React.useState("close");
-    const [dvComplete, SetdvComplete] = React.useState("close");
-    const [isLoading, setIsloading] = React.useState(true);
-
-
+    const [profileProgress, SetProfileProgress] = useState(0);
+    const [cpComplete, SetcpComplete] = useState("close");
+    const [psComplete, SetpsComplete] = useState("close");
+    const [siComplete, SetsiComplete] = useState("close");
+    const [dvComplete, SetdvComplete] = useState("close");
+    const [isLoading, setIsloading] = useState(true);
 
     function navigateToCoronaProfile(){
         navigation.navigate('CoronaProfile');
     }
 
-    function navigateToPsychoticProfile(){
+    function navigateToPsychoticProfile() {
         navigation.navigate('PsychoticProfile');
     }
 
-    function navigateToSuicideIdeationProfile(){
+    function navigateToSuicideIdeationProfile() {
         navigation.navigate('SuicideIdeationProfile');
     }
 
@@ -98,12 +95,12 @@ export const MentalProfile = ({ navigation }: any ) => {
       try{
         setIsloading(true);
         firebase.database().ref('/MentalProfile/' + userID).once('value').then(function(snapshot) {
-          if (snapshot.exists()){
+          if (snapshot.exists()) {
             const userData = snapshot.numChildren();
             const curProgress = Math.floor((snapshot.numChildren()/4)*100);
             SetProfileProgress(curProgress);
 
-            if(snapshot.val().CoronaProfile){
+            if(snapshot.val().CoronaProfile) {
               SetcpComplete("check");
             }
             if(snapshot.val().PsychoticProfile){
@@ -149,77 +146,39 @@ export const MentalProfile = ({ navigation }: any ) => {
 
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-        <ScrollView>
-      <View style={{ flex: 1 , padding: 16}}>
-      <Card title='Mental Profile Complete status' containerStyle={{ borderRadius: 8, width: '95%' }}>
-      
-        <ScoreContainer>
-        <PercentageCircle 
-          value={profileProgress}
-          min={0}
-          max={100}
-          btnRadius={10}
-          dialWidth={5}
-          strokeWidth={5}
-          textSize={12}
-          dialRadius={40}
-        />
-        </ScoreContainer>
-
+    <SafeAreaView>
+      <ScrollView>
+        <Card>
+          <Card.Title title="Mental Profile Complete status" />
+          <PercentageCircle 
+            value={profileProgress}
+            min={0}
+            max={100}
+            btnRadius={10}
+            dialWidth={5}
+            strokeWidth={5}
+            textSize={12}
+            dialRadius={40}
+          />
         </Card>
-        
-        <Card title='Menal Health Fields' containerStyle={{ borderRadius: 8, width: '95%', marginBottom: 64 }}>
-        <ButtonContainer>
-        <Button
-          type="clear"
-          title="Corona"
-          titleStyle={{
-            color: '#ba262b'
-          }}
-          onPress={() => navigateToCoronaProfile()}
-        />
-        <Icon name={cpComplete} />
-        </ButtonContainer>
-
-        <ButtonContainer>
-        <Button
-          type="clear"
-          title="Psychotic"
-          titleStyle={{
-            color: '#ba262b'
-          }}
-          onPress={() => navigateToPsychoticProfile()}
-        />
-        <Icon name={psComplete} />
-        </ButtonContainer>
-
-        <ButtonContainer>
-        <Button
-          type="clear"
-          title="Suicidal Ideation"
-          titleStyle={{
-            color: '#ba262b'
-          }}
-          onPress={() => navigateToSuicideIdeationProfile()}
-        />
-            <Icon name={siComplete} />
-       </ButtonContainer>
-       
-       <ButtonContainer>
-        <Button
-          type="clear"
-          title="Domestic violence"
-          titleStyle={{
-            color: '#ba262b'
-          }}
-          onPress={() => navigateToDomesticViolenceProfile()}
-        />
-        <Icon name={dvComplete} />
-      </ButtonContainer>
-    </Card>
-      </View>
-      </ScrollView>
+        <Card>
+          <Card.Title title="Menal Health Fields" />
+          <Card.Content>
+            <Button icon={cpComplete} onPress={() => navigateToCoronaProfile()}>
+              Corona
+            </Button>
+            <Button icon={psComplete} onPress={() => navigateToPsychoticProfile()}>
+              Psychotic
+            </Button>
+            <Button icon={siComplete} onPress={() => navigateToSuicideIdeationProfile()}>
+              Suicidal Ideation
+            </Button>
+            <Button icon={dvComplete} onPress={() => navigateToDomesticViolenceProfile()}>
+              Domestic violence
+            </Button>
+          </Card.Content>
+        </Card>
+        </ScrollView>
     </SafeAreaView>
   );
 }
