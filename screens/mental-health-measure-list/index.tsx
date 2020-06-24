@@ -6,12 +6,14 @@ import { MentalHealthRatingScreen } from '../mental-health-rating';
 export const MentalHealthMeasureListScreen = ({
   navigation
  }: any) => {
-   const onNextScreen = (screenName: string) => {
+  const onNextScreen = (screenName: string) => {
     navigation.navigate(screenName);
-   }
-  if (true) {
+  }
+  
+  if (false) {
     return <MentalHealthRatingScreen onFinish={onNextScreen} />
   }
+
   return (
     <>
     {
@@ -23,11 +25,13 @@ export const MentalHealthMeasureListScreen = ({
         <Card>
           <Card.Title title={title} />
           <Card.Content>
-             <Paragraph>{description}</Paragraph>
+            <Paragraph>{description}</Paragraph>
           </Card.Content>
-          <Button onPress={() => onNextScreen(nextScreen)}>
-            চলুন শুরু করি
-          </Button>
+          <Card.Actions>
+            <Button onPress={() => onNextScreen(nextScreen)}>
+              চলুন শুরু করি
+            </Button>
+          </Card.Actions>
         </Card>
     ))
     }
