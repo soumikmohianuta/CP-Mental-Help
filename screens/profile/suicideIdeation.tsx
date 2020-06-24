@@ -97,6 +97,7 @@ export const SuicideIdeationProfile = ({ navigation }: any) => {
 
   //const userID = useSelector(state => state.loginReducer.userId);
   const [userID, SetUserID] = React.useState("zcbQ5d5RaxT3iuiFqkRGJr5Z0PH2");
+
   const onSubmit = () => {
 
     if( anySuicideThought=="" || anySuicidePlan=="" ||anySuicideAttempt==""){
@@ -109,7 +110,7 @@ export const SuicideIdeationProfile = ({ navigation }: any) => {
                               "anySuicideAttempt":anySuicideAttempt};
               
 
-      firebase.database().ref("MentalProfile/"+userID+"/SuicideIdeation").set(userData);
+      firebase.database().ref("MentalProfile/"+userID+"/SuicideIdeationProfile").set(userData);
       navigation.navigate("MentalProfile");
     
     }

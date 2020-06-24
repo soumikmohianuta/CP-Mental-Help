@@ -89,12 +89,13 @@ const ButtonTextStyle = styled(Text)`
 export const DomesticViolenceProfile = ({ navigation }: any) => {
   var appLogo =  require('../../Images/QLife.png');
   const { control, handleSubmit, errors } = useForm();
-  const [userID, SetUserID] = React.useState("zcbQ5d5RaxT3iuiFqkRGJr5Z0PH2");
 
   const [domesticViolence, SetDomesticViolence] = React.useState("");
 
 
   //const userID = useSelector(state => state.loginReducer.userId);
+  const [userID, SetUserID] = React.useState("zcbQ5d5RaxT3iuiFqkRGJr5Z0PH2");
+  
 
   const onSubmit = () => {
 
@@ -105,7 +106,7 @@ export const DomesticViolenceProfile = ({ navigation }: any) => {
    else{
       const userData = { "domesticViolence":domesticViolence};
               
-      firebase.database().ref("MentalProfile/"+userID+"/DomesticViolence").set(userData);
+      firebase.database().ref("MentalProfile/"+userID+"/DomesticViolenceProfile").set(userData);
       navigation.navigate("MentalProfile");
     
     }

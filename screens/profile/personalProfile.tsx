@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { TouchableOpacity,ScrollView,Image, StyleSheet, View, Text, SafeAreaView } from 'react-native';
+import { TouchableOpacity,ScrollView,Image, StyleSheet, View, Text, SafeAreaView,ActivityIndicator } from 'react-native';
 import { Button, Card } from 'react-native-elements';
 import styled from 'styled-components/native';
 import {useSelector  } from 'react-redux';
 import  firebase from 'firebase';
+import { LoadingScreen } from '../loading';
 
 const Container = styled(View)`
   flex: 7;
@@ -52,6 +53,7 @@ export const PersonalProfile = ({ navigation }: any ) => {
   const [address, SetAddress] = React.useState("");
   const [email, SetEmail] = React.useState("");
   const [userID, SetUserID] = React.useState("zcbQ5d5RaxT3iuiFqkRGJr5Z0PH2");
+  const [isLoading, setIsloading] = React.useState(true);
 
   //const userID = useSelector(state => state.loginReducer.userId);
 
@@ -64,13 +66,20 @@ export const PersonalProfile = ({ navigation }: any ) => {
             SetMaritalStatus(snapshot.val() && snapshot.val().maritalStatus || 'Anonymous');
             SetAddress(snapshot.val() && snapshot.val().address || 'Anonymous');
             SetEmail(snapshot.val() && snapshot.val().Email || 'Anonymous');
+            setIsloading(false);
           });
         }
         catch{
           alert("Error");
         }
+        
   },[]);
 
+  if (isLoading) {
+    return (
+      <LoadingScreen/>
+    );
+  }
   return (
     <SafeAreaView style={{ flex: 1 }}>
     <ImageViewContainer>
@@ -116,4 +125,3 @@ export const PersonalProfile = ({ navigation }: any ) => {
    </SafeAreaView>
   );
 }
-

@@ -98,7 +98,9 @@ export const PsychoticProfile = ({ navigation }: any) => {
 
 
 
-  const userID = useSelector(state => state.loginReducer.userId);
+  //const userID = useSelector(state => state.loginReducer.userId);
+  const [userID, SetUserID] = React.useState("zcbQ5d5RaxT3iuiFqkRGJr5Z0PH2");
+  
 
   const onSubmit = () => {
 

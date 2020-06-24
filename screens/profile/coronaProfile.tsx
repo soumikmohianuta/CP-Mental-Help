@@ -99,8 +99,8 @@ export const CoronaProfile = ({ navigation }: any) => {
   const [anyAfterMentalhelp, SetAnyAfterMentalhelp] = React.useState("");
 
 
-  const userID = useSelector(state => state.loginReducer.userId);
-
+ // const userID = useSelector(state => state.loginReducer.userId);
+  const [userID, SetUserID] = React.useState("zcbQ5d5RaxT3iuiFqkRGJr5Z0PH2");
   const onSubmit = () => {
 
     if( anySymptom=="" || anyRelativeWithSymptom=="" ||anyPrevSymptom=="" ||anyMentalHelp=="" ||anyAfterSymptom=="" ||anyAfterMentalhelp==""  ){
@@ -116,7 +116,7 @@ export const CoronaProfile = ({ navigation }: any) => {
                               "anyAfterMentalhelp":anyAfterMentalhelp};
               
                               
-      firebase.database().ref("MentalProfile/"+userID+"/Corona").set(userData);
+      firebase.database().ref("MentalProfile/"+userID+"/CoronaProfile").set(userData);
       navigation.navigate("MentalProfile");
     
     }
