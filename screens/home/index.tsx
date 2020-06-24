@@ -3,7 +3,6 @@ import styled from 'styled-components/native';
 import { View, ScrollView } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { MentalHealthMeasureCard } from './mental-health-measure-card';
-import { OthersCard } from './others-card';
 import { MentalHealthRatingScreen } from '../mental-health-rating';
 import { MentalHealthMeasureListScreen } from '../mental-health-measure-list';
 import { GHQMeasureScreen } from '../GHQ-measure';
@@ -43,7 +42,6 @@ export const HomeScreen = ({
           onStartClick={handleStart}
           onHistoryClick={handleStart}
         />
-        <OthersCard />
       </Container>
     </ScrollView>
   );
