@@ -5,9 +5,8 @@ import {
   ScrollView,
   Image,
   SafeAreaView,
-  TouchableOpacity,
 } from "react-native";
-import { Text } from "react-native-paper";
+import { Text, Button } from "react-native-paper";
 import { RadioButtonGroup } from "../../components/radio-button-group";
 import { YesNoResponse } from "./contents";
 import firebase from "firebase";
@@ -49,38 +48,12 @@ const ScrollContent = styled(View)`
   margin-top: 5;
   margin-bottom: 5;
 `;
-const ScrollButtonContent = styled(View)`
-  width: 100%;
-  margin-top: 5;
-  margin-bottom: 25;
-`;
 
 const FieldContainer = styled(Text)`
   margin-top: 20;
   font-size: 20;
   align-items: center;
   color: #746f6e;
-`;
-
-const ButtonContainer = styled(View)`
-  background-color: #af2008;
-  height: 44;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  border-radius: 22;
-  border-width: 1;
-  border-color: #707070;
-`;
-
-const TouchableOpacityContainer = styled(TouchableOpacity)`
-  width: 100%;
-  margin-top: 5;
-`;
-
-const ButtonTextStyle = styled(Text)`
-  font-size: 16;
-  letter-spacing: 0.5;
 `;
 
 export const SuicideIdeationProfile = ({ navigation }: any) => {
@@ -161,14 +134,9 @@ export const SuicideIdeationProfile = ({ navigation }: any) => {
               onSelect={checkSetAnySuicideAttempt}
             />
           </ScrollContent>
-
-          <ScrollButtonContent>
-            <TouchableOpacityContainer onPress={() => onSubmit()}>
-              <ButtonContainer>
-                <ButtonTextStyle>Submit</ButtonTextStyle>
-              </ButtonContainer>
-            </TouchableOpacityContainer>
-          </ScrollButtonContent>
+          <Button onPress={onSubmit}>
+              Submit
+          </Button>
         </ScrollContainer>
       </Container>
     </SafeAreaView>

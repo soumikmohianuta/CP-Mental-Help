@@ -6,22 +6,17 @@ import {
   ScrollView,
   Image,
   SafeAreaView,
-  TouchableOpacity,
 } from "react-native";
 import {
   Text,
   TextInput,
+  Button,
 } from "react-native-paper";
 import { RadioButtonGroup } from "../../components/radio-button-group";
 import {
   SexCategory,
   MaritalStatus,
   CurrentLocation,
-  SymptomPresentSelf,
-  SymptomPresenetOthers,
-  MentalHealthProblemBeforeCorona,
-  KindofTreatment,
-  MentalHealthProblemAfterCorona,
 } from "./contents";
 import firebase from "firebase";
 import { AuthContext } from "../../context/AuthContext";
@@ -64,38 +59,12 @@ const ScrollContent = styled(View)`
   margin-top: 5;
   margin-bottom: 5;
 `;
-const ScrollButtonContent = styled(View)`
-  width: 100%;
-  margin-top: 5;
-  margin-bottom: 25;
-`;
 
 const FieldContainer = styled(Text)`
   margin-top: 20;
   font-size: 20;
   align-items: center;
   color: #746f6e;
-`;
-
-const ButtonContainer = styled(View)`
-  background-color: #af2008;
-  height: 44;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  border-radius: 22;
-  border-width: 1;
-  border-color: #707070;
-`;
-
-const TouchableOpacityContainer = styled(TouchableOpacity)`
-  width: 100%;
-  margin-top: 5;
-`;
-
-const ButtonTextStyle = styled(Text)`
-  font-size: 16;
-  letter-spacing: 0.5;
 `;
 
 export const UserInfo = ({ navigation }: any) => {
@@ -107,18 +76,11 @@ export const UserInfo = ({ navigation }: any) => {
   const [age, SetAge] = useState(0);
   const [sex, SetSex] = useState("");
   const [maritalStatus, SetMaritalStatus] = useState("");
-  // const [anySymptom, SetAnySymptom] = useState("");
-  // const [anyRelativeWithSymptom, SetAnyRelativeWithSymptom] = useState("");
   const [address, SetAddress] = useState("");
-  // const [anyPrevSymptom, SetAnyPrevSymptom] = useState("");
-  // const [anyMentalHelp, SetAnyMentalHelp] = useState("");
-  // const [anyAfterSymptom, SetAnyAfterSymptom] = useState("");
-  // const [anyAfterMentalhelp, SetAnyAfterMentalhelp] = useState("");
-  // const [mediumToKnow, SetMediumToKnow] = useState("");
 
-  const userID = useSelector((state) => state.loginReducer.userId);
-  const eMail = useSelector((state) => state.loginReducer.email);
-
+  const userID = useSelector((state: any) => state.loginReducer.userId);
+  const eMail = useSelector((state: any) => state.loginReducer.email);
+  
   const onSubmit = () => {
     if (ErrorMsg != "" || sex == "" || maritalStatus == "" || address == "") {
       alert("Incomplete Information");
@@ -208,14 +170,9 @@ export const UserInfo = ({ navigation }: any) => {
               onSelect={CheckSetAddress}
             />
           </ScrollContent>
-
-          <ScrollButtonContent>
-            <TouchableOpacityContainer onPress={() => onSubmit()}>
-              <ButtonContainer>
-                <ButtonTextStyle>Submit</ButtonTextStyle>
-              </ButtonContainer>
-            </TouchableOpacityContainer>
-          </ScrollButtonContent>
+          <Button onPress={onSubmit}>
+              Submit
+          </Button>
         </ScrollContainer>
       </Container>
     </SafeAreaView>
