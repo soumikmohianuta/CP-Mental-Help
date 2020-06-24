@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Button, Paragraph } from 'react-native-paper';
 import { measureList } from './content';
+import { MentalHealthRatingScreen } from '../mental-health-rating';
 
 export const MentalHealthMeasureListScreen = ({
   navigation
@@ -8,7 +9,9 @@ export const MentalHealthMeasureListScreen = ({
    const onNextScreen = (screenName: string) => {
     navigation.navigate(screenName);
    }
-  
+  if (true) {
+    return <MentalHealthRatingScreen onFinish={onNextScreen} />
+  }
   return (
     <>
     {

@@ -1,63 +1,12 @@
 import React, { useState } from "react";
-import styled from "styled-components/native";
-import {
-  View,
-  ScrollView,
-  Image,
-  SafeAreaView,
-} from "react-native";
+import { ScrollView, SafeAreaView } from "react-native";
 import { Text, Button } from "react-native-paper";
 import { RadioButtonGroup } from "../../components/radio-button-group";
 import { YesNoResponse } from "./contents";
 import firebase from "firebase";
 
-const Container = styled(View)`
-  flex: 7;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const ImageContainer = styled(Image)`
-  flex: 1;
-  height: undefined;
-  width: 80%;
-  flex-direction: column;
-  align-self: center;
-  resize-mode: contain;
-`;
-
-const ImageViewContainer = styled(View)`
-  flex: 2;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const ScrollContainer = styled(ScrollView)`
-  flex: 1;
-  padding: 10px 10px;
-  margin-bottom: 15;
-`;
-
-const ErrorText = styled(Text)`
-  color: #b82204;
-  padding: 0px 0px;
-`;
-
-const ScrollContent = styled(View)`
-  width: 100%;
-  margin-top: 5;
-  margin-bottom: 5;
-`;
-
-const FieldContainer = styled(Text)`
-  margin-top: 20;
-  font-size: 20;
-  align-items: center;
-  color: #746f6e;
-`;
 
 export const DomesticViolenceProfile = ({ navigation }: any) => {
-  var appLogo = require("../../Images/QLife.png");
   const [domesticViolence, SetDomesticViolence] = useState("");
 
   const [userID, SetUserID] = useState("zcbQ5d5RaxT3iuiFqkRGJr5Z0PH2");
@@ -81,24 +30,15 @@ export const DomesticViolenceProfile = ({ navigation }: any) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <ImageViewContainer>
-        <ImageContainer source={appLogo} />
-      </ImageViewContainer>
-      <Container>
-        <ScrollContainer>
-          <ScrollContent>
-            <FieldContainer>• আপনি কি ঘরোয়া সহিংসতার স্বীকার? </FieldContainer>
-            <RadioButtonGroup
-              options={YesNoResponse}
-              onSelect={checkSetDomesticViolence}
-            />
-          </ScrollContent>
-          <Button onPress={onSubmit}>
-              Submit
-          </Button>
-        </ScrollContainer>
-      </Container>
+    <SafeAreaView>
+      <ScrollView>
+        <Text>• আপনি কি ঘরোয়া সহিংসতার স্বীকার? </Text>
+        <RadioButtonGroup
+          options={YesNoResponse}
+          onSelect={checkSetDomesticViolence}
+        />
+        <Button onPress={onSubmit}> Submit </Button>
+      </ScrollView>
     </SafeAreaView>
   );
 };

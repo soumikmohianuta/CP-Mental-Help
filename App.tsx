@@ -71,7 +71,8 @@ export default function App() {
       <Provider store={store}>
         <AuthContext.Provider value={authContext}> 
           <NavigationContainer>
-            {/* {isLoading? <ActivityIndicator animating />:(user!=null && firstTimeLoading)? <HomeStackScreen/>: <AuthStackScreen/>} */}
+            {/* {isLoading ? <ActivityIndicator animating />:(user!=null && firstTimeLoading)? <HomeStackScreen/>: <AuthStackScreen/>} */}
+            {/* <AuthStackScreen /> */}
             <HomeStackScreen />
           </NavigationContainer>
         </AuthContext.Provider>

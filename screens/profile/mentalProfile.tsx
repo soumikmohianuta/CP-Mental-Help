@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { View, Image, SafeAreaView } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import { Button, Card, ActivityIndicator } from 'react-native-paper';
-import styled from 'styled-components/native';
 import { ScrollView } from 'react-native-gesture-handler';
 import {PercentageCircle} from '../../components/percentage-circle';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -26,47 +25,7 @@ export const MentalProfileStack = () => {
   );
 }
 
-const ImageContainer = styled(Image )`
-  flex: 1;
-  height: undefined;
-  width: 80%;
-  flex-direction: column;
-  align-self: center;
-  resize-mode: contain;
-`;
-const MainContainer = styled(View)`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 6px 12px;
-`;
-
-const ScoreContainer = styled(View)`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  `;
-
-
-  const FieldContainer = styled(View)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 4px 12px;
-`;
-
-
-const ButtonContainer = styled(View)`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  `;
-
 export const MentalProfile = ({ navigation }: any ) => {
-    
-    var appLogo =  require('../../Images/QLife.png');
-
     const [profileProgress, SetProfileProgress] = useState(0);
     const [cpComplete, SetcpComplete] = useState("close");
     const [psComplete, SetpsComplete] = useState("close");

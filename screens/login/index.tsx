@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-import styled from "styled-components/native";
 import {
   View,
   Image,
   SafeAreaView,
-  TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import { Text } from "react-native-paper";
+import { Button } from "react-native-paper";
 import "firebase/firestore";
 import firebase from "firebase";
 import * as Facebook from "expo-facebook";
@@ -42,68 +40,10 @@ export const AuthStackScreen = () => {
   );
 };
 
-const Container = styled(View)`
-  flex: 3;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const ImageViewContainer = styled(View)`
-  flex: 7;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const ImageContainer = styled(Image)`
-  flex: 1;
-  height: undefined;
-  width: 80%;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const FBButtonContainer = styled(View)`
-  background-color: #3a559f;
-  height: 44;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  border-radius: 22;
-`;
-
-const GButtonContainer = styled(View)`
-  background-color: #0f9d58;
-  height: 44;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  border-radius: 22;
-  border-width: 1;
-  border-color: #707070;
-`;
-
-const TouchableOpacityContainer = styled(TouchableOpacity)`
-  width: 86%;
-  margin-top: 5;
-`;
-
-const ButtonTextStyle = styled(Text)`
-  font-size: 16;
-  letter-spacing: 0.5;
-`;
-
-const SwitchAccountStyle = styled(Text)`
-  font-weight: 200;
-  color: #a82204;
-  font-size: 17;
-  text-align: center;
-`;
-
 export const SignInScreen = ({ navigation }: any) => {
   var appLogo = require("../../Images/Logo.png");
   const [loading, setLoading] = useState(false);
   const { signIn } = React.useContext(AuthContext);
-  const [userId, setUserID] = useState("");
   const dispatch = useDispatch();
 
   const onLoginSuccess = (curUser: any) => {
@@ -174,33 +114,21 @@ export const SignInScreen = ({ navigation }: any) => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <ImageViewContainer>
-        <ImageContainer source={appLogo} />
-      </ImageViewContainer>
-
-      <Container>
-        <TouchableOpacityContainer onPress={() => signInWithFacebook()}>
-          <FBButtonContainer>
-            <ButtonTextStyle>Login with Facebook</ButtonTextStyle>
-          </FBButtonContainer>
-        </TouchableOpacityContainer>
-        <TouchableOpacityContainer onPress={() => signInWithGoogle()}>
-          <GButtonContainer>
-            <ButtonTextStyle>Login with Google</ButtonTextStyle>
-          </GButtonContainer>
-        </TouchableOpacityContainer>
-
-        <View style={{ marginTop: 10 }}>
-          <SwitchAccountStyle
-            onPress={() => {
-              navigation.navigate("SignUp");
-            }}
-          >
-            Don't have an Account?
-          </SwitchAccountStyle>
-        </View>
-      </Container>
+    <SafeAreaView>
+      <Button icon="facebook" onPress={signInWithFacebook}>
+        Login with Facebook
+      </Button>
+      <Button icon="google" onPress={signInWithGoogle}>
+        Login with Google
+      </Button>
+      <Button
+        mode="text"
+        onPress={() => {
+          navigation.navigate("SignUp");
+        }}
+      >
+        Don't have an Account?
+      </Button>
     </SafeAreaView>
   );
 };

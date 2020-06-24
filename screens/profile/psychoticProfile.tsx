@@ -1,61 +1,11 @@
 import React, { useState } from "react";
-import styled from "styled-components/native";
-import {
-  View,
-  ScrollView,
-  Image,
-  SafeAreaView,
-} from "react-native";
+import { ScrollView, SafeAreaView } from "react-native";
 import { Text, Button } from "react-native-paper";
 import { RadioButtonGroup } from "../../components/radio-button-group";
 import { YesNoResponse, KindofTreatment } from "./contents";
 import firebase from "firebase";
 
-const Container = styled(View)`
-  flex: 7;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const ImageContainer = styled(Image)`
-  flex: 1;
-  height: undefined;
-  width: 80%;
-  flex-direction: column;
-  align-self: center;
-  resize-mode: contain;
-`;
-
-const ImageViewContainer = styled(View)`
-  flex: 2;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const ScrollContainer = styled(ScrollView)`
-  flex: 1;
-  padding: 10px 10px;
-  margin-bottom: 15;
-`;
-
-
-const ScrollContent = styled(View)`
-  width: 100%;
-  margin-top: 5;
-  margin-bottom: 5;
-`;
-
-const FieldContainer = styled(Text)`
-  margin-top: 20;
-  font-size: 20;
-  align-items: center;
-  color: #746f6e;
-`;
-
-
 export const PsychoticProfile = ({ navigation }: any) => {
-  const appLogo = require("../../Images/QLife.png");
-  
   const [anyHarmByOther, SetAnyHarmByOther] = useState("");
   const [anyControlByOther, SetAnyControlByOther] = useState("");
   const [anyAbnoramality, SetAnyAbnoramality] = useState("");
@@ -104,60 +54,42 @@ export const PsychoticProfile = ({ navigation }: any) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <ImageViewContainer>
-        <ImageContainer source={appLogo} />
-      </ImageViewContainer>
-      <Container>
-        <ScrollContainer>
-          <ScrollContent>
-            <FieldContainer>
-              • আপনার কি মনে হয় মানুষ ইচ্ছাকৃত ভাবে আপনার ক্ষতি করতে চাচ্ছে অথবা
-              আপনার বিরুদ্ধে ষড়যন্ত্র করছে?{" "}
-            </FieldContainer>
-            <RadioButtonGroup
-              options={YesNoResponse}
-              onSelect={checkSetAnyHarmByOther}
-            />
-          </ScrollContent>
-
-          <ScrollContent>
-            <FieldContainer>
-              • আপনার কি মনে হয় কোন কিছু বা অন্য কোন ব্যক্তি আপনার চিন্তাগুলোকে
-              সরাসরি নিয়ন্ত্রণ করছে?{" "}
-            </FieldContainer>
-            <RadioButtonGroup
-              options={YesNoResponse}
-              onSelect={checkSetAnyControlByOther}
-            />
-          </ScrollContent>
-
-          <ScrollContent>
-            <FieldContainer>
-              • আপনার কি এরকম মনে হয় যে অস্বাভাবিক কিছু একটা ঘটছে, তবে অন্য কেউ
-              বিশ্বাস করছে না?{" "}
-            </FieldContainer>
-            <RadioButtonGroup
-              options={YesNoResponse}
-              onSelect={checkSetAnyAbnoramality}
-            />
-          </ScrollContent>
-
-          <ScrollContent>
-            <FieldContainer>
-              • আপনি কি এমন কিছু দেখতে, শুনতে বা অনুভব করতে পারেন যেটা অন্য কেউ
-              পারেনা?{" "}
-            </FieldContainer>
-            <RadioButtonGroup
-              options={KindofTreatment}
-              onSelect={checkSetSetAnyFeeling}
-            />
-          </ScrollContent>
-          <Button onPress={onSubmit}>
-              Submit
-          </Button>
-        </ScrollContainer>
-      </Container>
+    <SafeAreaView>
+      <ScrollView>
+        <Text>
+          • আপনার কি মনে হয় মানুষ ইচ্ছাকৃত ভাবে আপনার ক্ষতি করতে চাচ্ছে অথবা
+          আপনার বিরুদ্ধে ষড়যন্ত্র করছে?{" "}
+        </Text>
+        <RadioButtonGroup
+          options={YesNoResponse}
+          onSelect={checkSetAnyHarmByOther}
+        />
+        <Text>
+          • আপনার কি মনে হয় কোন কিছু বা অন্য কোন ব্যক্তি আপনার চিন্তাগুলোকে
+          সরাসরি নিয়ন্ত্রণ করছে?{" "}
+        </Text>
+        <RadioButtonGroup
+          options={YesNoResponse}
+          onSelect={checkSetAnyControlByOther}
+        />
+        <Text>
+          • আপনার কি এরকম মনে হয় যে অস্বাভাবিক কিছু একটা ঘটছে, তবে অন্য কেউ
+          বিশ্বাস করছে না?{" "}
+        </Text>
+        <RadioButtonGroup
+          options={YesNoResponse}
+          onSelect={checkSetAnyAbnoramality}
+        />
+        <Text>
+          • আপনি কি এমন কিছু দেখতে, শুনতে বা অনুভব করতে পারেন যেটা অন্য কেউ
+          পারেনা?{" "}
+        </Text>
+        <RadioButtonGroup
+          options={KindofTreatment}
+          onSelect={checkSetSetAnyFeeling}
+        />
+        <Button onPress={onSubmit}>Submit </Button>
+      </ScrollView>
     </SafeAreaView>
   );
 };

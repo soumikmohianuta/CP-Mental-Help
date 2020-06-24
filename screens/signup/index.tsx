@@ -1,13 +1,6 @@
 import React, { useState } from "react";
-import styled from "styled-components/native";
-import {
-  View,
-  Image,
-  SafeAreaView,
-  TouchableOpacity,
-  ActivityIndicator,
-} from "react-native";
-import { Text } from "react-native-paper";
+import { SafeAreaView } from "react-native";
+import { Button, ActivityIndicator } from "react-native-paper";
 import "firebase/firestore";
 import firebase from "firebase";
 import * as Facebook from "expo-facebook";
@@ -16,68 +9,10 @@ import { AuthContext } from "../../context/AuthContext";
 import { useDispatch } from "react-redux";
 import { setLoginState } from "../../redux/actions";
 
-const Container = styled(View)`
-  flex: 3;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const ImageViewContainer = styled(View)`
-  flex: 7;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const ImageContainer = styled(Image)`
-  flex: 1;
-  height: undefined;
-  width: 80%;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const FBButtonContainer = styled(View)`
-  background-color: #3a559f;
-  height: 44;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  border-radius: 22;
-`;
-
-const GButtonContainer = styled(View)`
-  background-color: #0f9d58;
-  height: 44;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  border-radius: 22;
-  border-width: 1;
-  border-color: #707070;
-`;
-
-const TouchableOpacityContainer = styled(TouchableOpacity)`
-  width: 86%;
-  margin-top: 5;
-`;
-
-const ButtonTextStyle = styled(Text)`
-  font-size: 16;
-  letter-spacing: 0.5;
-`;
-
-const SwitchAccountStyle = styled(Text)`
-  font-weight: 200;
-  color: #a82204;
-  font-size: 17;
-  text-align: center;
-`;
-
 export const SignUpScreen = ({ navigation }: any) => {
   var appLogo = require("../../Images/Logo.png");
   const [loading, setLoading] = useState(false);
   const { signUp } = React.useContext(AuthContext);
-  const [userId, setUserID] = useState("");
   const dispatch = useDispatch();
 
   const onLoginSuccess = (curUser: any) => {
@@ -95,14 +30,10 @@ export const SignUpScreen = ({ navigation }: any) => {
 
   const renderLoading = () => {
     if (loading) {
-      return (
-        <View>
-          <ActivityIndicator size={"large"} />
-        </View>
-      );
+      return <ActivityIndicator animating />;
     }
   };
-  async function signInWithFacebook() {
+  async function signUpWithFacebook() {
     try {
       await Facebook.initializeAsync("650718795524020");
       const {
@@ -128,7 +59,7 @@ export const SignUpScreen = ({ navigation }: any) => {
       alert(`Facebook Login Error: ${message}`);
     }
   }
-  async function signInWithGoogle() {
+  async function signUpWithGoogle() {
     try {
       await GoogleSignIn.askForPlayServicesAsync();
       const { type, user } = await GoogleSignIn.signInAsync();
@@ -151,33 +82,21 @@ export const SignUpScreen = ({ navigation }: any) => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <ImageViewContainer>
-        <ImageContainer source={appLogo} />
-      </ImageViewContainer>
-
-      <Container>
-        <TouchableOpacityContainer onPress={() => signInWithFacebook()}>
-          <FBButtonContainer>
-            <ButtonTextStyle>Sign Up with Facebook</ButtonTextStyle>
-          </FBButtonContainer>
-        </TouchableOpacityContainer>
-        <TouchableOpacityContainer onPress={() => signInWithGoogle()}>
-          <GButtonContainer>
-            <ButtonTextStyle>Sign Up with Google</ButtonTextStyle>
-          </GButtonContainer>
-        </TouchableOpacityContainer>
-
-        <View style={{ marginTop: 10 }}>
-          <SwitchAccountStyle
-            onPress={() => {
-              navigation.navigate("SignIn");
-            }}
-          >
-            Already have an account?
-          </SwitchAccountStyle>
-        </View>
-      </Container>
+    <SafeAreaView>
+      <Button icon="facebook" onPress={signUpWithFacebook}>
+        Sign Up with Facebook
+      </Button>
+      <Button icon="google" onPress={signUpWithGoogle}>
+        Sign Up with Google
+      </Button>
+      <Button
+        mode="text"
+        onPress={() => {
+          navigation.navigate("SignIn");
+        }}
+      >
+        Already have an account?
+      </Button>
     </SafeAreaView>
   );
 };
