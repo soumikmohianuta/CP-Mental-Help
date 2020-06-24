@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native-elements';
+import { Text } from 'react-native-paper';
 import { questions } from './content';
 import { RadioButton } from '../../components/radio-button';
 

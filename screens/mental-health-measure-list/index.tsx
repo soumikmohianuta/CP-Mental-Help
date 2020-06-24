@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, Card, Button } from 'react-native-elements';
+import { Card, Button, Paragraph } from 'react-native-paper';
 import { measureList } from './content';
 
 export const MentalHealthMeasureListScreen = ({
@@ -17,12 +17,14 @@ export const MentalHealthMeasureListScreen = ({
         description,
         nextScreen
       }) => (
-        <Card title={title}>
-          <Text>{description}</Text>
-          <Button
-            title="চলুন শুরু করি"
-            onPress={() => onNextScreen(nextScreen)}
-          />
+        <Card>
+          <Card.Title title={title} />
+          <Card.Content>
+             <Paragraph>{description}</Paragraph>
+          </Card.Content>
+          <Button onPress={() => onNextScreen(nextScreen)}>
+            চলুন শুরু করি
+          </Button>
         </Card>
     ))
     }

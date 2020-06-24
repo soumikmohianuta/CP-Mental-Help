@@ -1,14 +1,16 @@
-import React, { useState, useContext } from 'react';
-import styled from 'styled-components/native';
-import { useForm,Controller } from "react-hook-form";
-import { View,ScrollView,Image,TextInput,SafeAreaView,TouchableOpacity,ActivityIndicator,TouchableWithoutFeedback,Keyboard } from 'react-native';
-import { Text, Button, Input,ButtonGroup,CheckBox  } from 'react-native-elements';
-import {RadioButton} from '../../components/radio-button';
-import { YesNoResponse, KindofTreatment  } from './contents';
-import  firebase from 'firebase';
-import {AuthContext} from '../../context/AuthContext';
-import {useSelector  } from 'react-redux';
-
+import React, { useState } from "react";
+import styled from "styled-components/native";
+import {
+  View,
+  ScrollView,
+  Image,
+  SafeAreaView,
+  TouchableOpacity,
+} from "react-native";
+import { Text } from "react-native-paper";
+import { RadioButton } from "../../components/radio-button";
+import { YesNoResponse, KindofTreatment } from "./contents";
+import firebase from "firebase";
 
 const Container = styled(View)`
   flex: 7;
@@ -16,8 +18,7 @@ const Container = styled(View)`
   align-items: center;
 `;
 
-
-const ImageContainer = styled(Image )`
+const ImageContainer = styled(Image)`
   flex: 1;
   height: undefined;
   width: 80%;
@@ -26,55 +27,51 @@ const ImageContainer = styled(Image )`
   resize-mode: contain;
 `;
 
-const ImageViewContainer = styled(View )`
+const ImageViewContainer = styled(View)`
   flex: 2;
   flex-direction: column;
   align-items: center;
 `;
 
-
 const ScrollContainer = styled(ScrollView)`
   flex: 1;
   padding: 10px 10px;
-  margin-bottom: 15; 
+  margin-bottom: 15;
 `;
 
 const ErrorText = styled(Text)`
-  color: #B82204;
+  color: #b82204;
   padding: 0px 0px;
 `;
- 
+
 const ScrollContent = styled(View)`
   width: 100%;
-  margin-top: 5; 
-  margin-bottom: 5; 
+  margin-top: 5;
+  margin-bottom: 5;
 `;
 const ScrollButtonContent = styled(View)`
   width: 100%;
-  margin-top: 5; 
-  margin-bottom: 25; 
+  margin-top: 5;
+  margin-bottom: 25;
 `;
 
 const FieldContainer = styled(Text)`
   margin-top: 20;
   font-size: 20;
   align-items: center;
-  color: #746F6E;
+  color: #746f6e;
 `;
-
-
 
 const ButtonContainer = styled(View)`
-      background-color: #AF2008;
-      height: 44;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      border-radius: 22;
-      border-width: 1;
-      border-color: #707070;
+  background-color: #af2008;
+  height: 44;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 22;
+  border-width: 1;
+  border-color: #707070;
 `;
-
 
 const TouchableOpacityContainer = styled(TouchableOpacity)`
   width: 100%;
@@ -83,133 +80,147 @@ const TouchableOpacityContainer = styled(TouchableOpacity)`
 
 const ButtonTextStyle = styled(Text)`
   font-size: 16;
-  letter-spacing: 0.5
+  letter-spacing: 0.5;
 `;
 
 export const PsychoticProfile = ({ navigation }: any) => {
-  var appLogo =  require('../../Images/QLife.png');
-  const { control, handleSubmit, errors } = useForm();
- 
-
-  const [anyHarmByOther, SetAnyHarmByOther] = React.useState("");
-  const [anyControlByOther, SetAnyControlByOther] = React.useState("");
-  const [anyAbnoramality, SetAnyAbnoramality] = React.useState("");
-  const [anyFeeling, SetAnyFeeling] = React.useState("");
-
-
-
-  //const userID = useSelector(state => state.loginReducer.userId);
-  const [userID, SetUserID] = React.useState("zcbQ5d5RaxT3iuiFqkRGJr5Z0PH2");
+  const appLogo = require("../../Images/QLife.png");
   
+  const [anyHarmByOther, SetAnyHarmByOther] = useState("");
+  const [anyControlByOther, SetAnyControlByOther] = useState("");
+  const [anyAbnoramality, SetAnyAbnoramality] = useState("");
+  const [anyFeeling, SetAnyFeeling] = useState("");
+
+  const [userID, SetUserID] = useState("zcbQ5d5RaxT3iuiFqkRGJr5Z0PH2");
 
   const onSubmit = () => {
-
-    if( anyHarmByOther=="" || anyControlByOther=="" ||anyAbnoramality=="" ||anyFeeling==""){
+    if (
+      anyHarmByOther == "" ||
+      anyControlByOther == "" ||
+      anyAbnoramality == "" ||
+      anyFeeling == ""
+    ) {
       alert("Incomplete Information");
-    }
+    } else {
+      const userData = {
+        anyHarmByOther: anyHarmByOther,
+        anyControlByOther: anyControlByOther,
+        anyAbnoramality: anyAbnoramality,
+        anyFeeling: anyFeeling,
+      };
 
-   else{
-      const userData = {      "anyHarmByOther":anyHarmByOther,
-                              "anyControlByOther":anyControlByOther,
-                              "anyAbnoramality":anyAbnoramality,
-                              "anyFeeling":anyFeeling};
-              
-                              
-      firebase.database().ref("MentalProfile/"+userID+"/PsychoticProfile").set(userData);
+      firebase
+        .database()
+        .ref("MentalProfile/" + userID + "/PsychoticProfile")
+        .set(userData);
       navigation.navigate("MentalProfile");
-    
     }
+  };
 
-  }
-
-  
   const checkSetAnyHarmByOther = (value: any) => {
+    SetAnyHarmByOther(value);
+  };
 
-    SetAnyHarmByOther(value); 
-  }
-  
   const checkSetAnyControlByOther = (value: any) => {
+    SetAnyControlByOther(value);
+  };
 
-    SetAnyControlByOther(value); 
-  }
-  
   const checkSetAnyAbnoramality = (value: any) => {
+    SetAnyAbnoramality(value);
+  };
 
-    SetAnyAbnoramality(value); 
-  }
-  
   const checkSetSetAnyFeeling = (value: any) => {
+    SetAnyFeeling(value);
+  };
 
-    SetAnyFeeling(value); 
-  }
-  
-  
-
-  
   return (
-  
-  <SafeAreaView style={{ flex: 1 }}>
-     <ImageViewContainer>
-          <ImageContainer   source={appLogo} />
+    <SafeAreaView style={{ flex: 1 }}>
+      <ImageViewContainer>
+        <ImageContainer source={appLogo} />
       </ImageViewContainer>
-      <Container >
+      <Container>
         <ScrollContainer>
+          <ScrollContent>
+            <FieldContainer>
+              • আপনার কি মনে হয় মানুষ ইচ্ছাকৃত ভাবে আপনার ক্ষতি করতে চাচ্ছে অথবা
+              আপনার বিরুদ্ধে ষড়যন্ত্র করছে?{" "}
+            </FieldContainer>
+            {YesNoResponse.map((q: any) => {
+              return (
+                <RadioButton
+                  key={q.label}
+                  label={q.label}
+                  value={q.value}
+                  onSelecting={checkSetAnyHarmByOther}
+                  selected={anyHarmByOther}
+                />
+              );
+            })}
+          </ScrollContent>
 
-        <ScrollContent >
-            <FieldContainer>• আপনার কি মনে হয় মানুষ ইচ্ছাকৃত ভাবে আপনার ক্ষতি করতে চাচ্ছে অথবা আপনার বিরুদ্ধে ষড়যন্ত্র করছে?  </FieldContainer>
-            {
-        YesNoResponse.map((q: any) => {
-          return(<RadioButton key={q.label} label={q.label} value={q.value} onSelecting={checkSetAnyHarmByOther} selected={anyHarmByOther}/>)
-        })
-        }
-        </ScrollContent >
+          <ScrollContent>
+            <FieldContainer>
+              • আপনার কি মনে হয় কোন কিছু বা অন্য কোন ব্যক্তি আপনার চিন্তাগুলোকে
+              সরাসরি নিয়ন্ত্রণ করছে?{" "}
+            </FieldContainer>
+            {YesNoResponse.map((q: any) => {
+              return (
+                <RadioButton
+                  key={q.label}
+                  label={q.label}
+                  value={q.value}
+                  onSelecting={checkSetAnyControlByOther}
+                  selected={anyControlByOther}
+                />
+              );
+            })}
+          </ScrollContent>
 
-        <ScrollContent >
-            <FieldContainer>• আপনার কি মনে হয় কোন কিছু বা অন্য কোন ব্যক্তি আপনার চিন্তাগুলোকে সরাসরি নিয়ন্ত্রণ করছে?  </FieldContainer>
-            {
-        YesNoResponse .map((q: any) => {
-          return(<RadioButton key={q.label} label={q.label} value={q.value} onSelecting={checkSetAnyControlByOther} selected={anyControlByOther}/>)
-        })
-        }
-        </ScrollContent >
+          <ScrollContent>
+            <FieldContainer>
+              • আপনার কি এরকম মনে হয় যে অস্বাভাবিক কিছু একটা ঘটছে, তবে অন্য কেউ
+              বিশ্বাস করছে না?{" "}
+            </FieldContainer>
+            {YesNoResponse.map((q: any) => {
+              return (
+                <RadioButton
+                  key={q.label}
+                  label={q.label}
+                  value={q.value}
+                  onSelecting={checkSetAnyAbnoramality}
+                  selected={anyAbnoramality}
+                />
+              );
+            })}
+          </ScrollContent>
 
-        <ScrollContent >
-            <FieldContainer>• আপনার কি এরকম মনে হয় যে অস্বাভাবিক কিছু একটা ঘটছে, তবে অন্য কেউ বিশ্বাস করছে না?  </FieldContainer>
-            {
-        YesNoResponse .map((q: any) => {
-          return(<RadioButton key={q.label} label={q.label} value={q.value} onSelecting={checkSetAnyAbnoramality} selected={anyAbnoramality}/>)
-        })
-        }
-        </ScrollContent >
+          <ScrollContent>
+            <FieldContainer>
+              • আপনি কি এমন কিছু দেখতে, শুনতে বা অনুভব করতে পারেন যেটা অন্য কেউ
+              পারেনা?{" "}
+            </FieldContainer>
+            {KindofTreatment.map((q: any) => {
+              return (
+                <RadioButton
+                  key={q.label}
+                  label={q.label}
+                  value={q.value}
+                  onSelecting={checkSetSetAnyFeeling}
+                  selected={anyFeeling}
+                />
+              );
+            })}
+          </ScrollContent>
 
-
-        <ScrollContent >
-            <FieldContainer>• আপনি কি এমন কিছু দেখতে, শুনতে বা অনুভব করতে পারেন যেটা অন্য কেউ পারেনা?  </FieldContainer>
-            {
-        KindofTreatment .map((q: any) => {
-          return(<RadioButton key={q.label} label={q.label} value={q.value} onSelecting={checkSetSetAnyFeeling} selected={anyFeeling}/>)
-        })
-        }
-        </ScrollContent >
-
-
-
-        <ScrollButtonContent >
-           <TouchableOpacityContainer 
-                  onPress={() => onSubmit()}>
-                <ButtonContainer>
-                    <ButtonTextStyle>
-                      Submit
-                    </ButtonTextStyle>
-                </ButtonContainer>
+          <ScrollButtonContent>
+            <TouchableOpacityContainer onPress={() => onSubmit()}>
+              <ButtonContainer>
+                <ButtonTextStyle>Submit</ButtonTextStyle>
+              </ButtonContainer>
             </TouchableOpacityContainer>
-        </ScrollButtonContent>
-
-
+          </ScrollButtonContent>
         </ScrollContainer>
       </Container>
     </SafeAreaView>
   );
-}
-
-
+};

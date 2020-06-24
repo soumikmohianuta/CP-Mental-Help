@@ -2,7 +2,9 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import { Image, View } from 'react-native';
-import { Button, Card, Text } from 'react-native-elements';
+import { Button, Card, Title, Paragraph, Avatar } from 'react-native-paper';
+
+const LeftContent = props => <Avatar.Icon {...props} icon="folder" />
 
 const EmoContainer = styled(View)`
   height: 150px;
@@ -33,7 +35,8 @@ export const MentalHealthMeasureCard = ({ onStartClick, onHistoryClick, rating }
   : require('./assets/happy-alt.png');
 
   return (
-    <Card title='আপনার মানসিক স্বাস্থ্য কেমন?' containerStyle={{ borderRadius: 8, width: '95%' }}>
+    <>
+    {/* <Card title='আপনার মানসিক স্বাস্থ্য কেমন?' containerStyle={{ borderRadius: 8, width: '95%' }}>
         <MainContainer>
           {/* <EmoContainer>
               <Image
@@ -41,18 +44,21 @@ export const MentalHealthMeasureCard = ({ onStartClick, onHistoryClick, rating }
                 style={{ width: 100, height: 120 }}
               />
           </EmoContainer> */}
-          <ScoreContainer>
-            <Button
+          {/* <ScoreContainer>
+          <Button icon="camera" mode="contained" onPress={() => console.log('Pressed')}>
+            Press me
+          </Button> */}
+            {/* <Button
               title="নিজেকে যাচাই করুন"
               onPress={onStartClick}
-            />
+            /> */}
             {/* <Text style={{ fontSize: 16 }}>আপনার স্কোরঃ
             </Text>
             <View>
               <Text style={{ fontSize: 24 }}>৩০</Text>
             </View> */}
-          </ScoreContainer>
-        </MainContainer>
+          {/* </ScoreContainer>
+        </MainContainer> */}
         {/* <Button
           type="clear"
           title="আপনার মানসিক স্বাস্থ্যের হিস্ট্রি দেখুন"
@@ -61,6 +67,19 @@ export const MentalHealthMeasureCard = ({ onStartClick, onHistoryClick, rating }
           }}
           onPress={onHistoryClick}
         /> */}
-    </Card>
+    {/* </Card> */}
+    <Card>
+        <Card.Title title="Card Title" subtitle="Card Subtitle" left={LeftContent} />
+        <Card.Content>
+          <Title>Card title</Title>
+          <Paragraph>Card content</Paragraph>
+        </Card.Content>
+        <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
+        <Card.Actions>
+          <Button>Cancel</Button>
+          <Button onPress={onStartClick}>Ok</Button>
+        </Card.Actions>
+      </Card>
+    </>
   )
 }

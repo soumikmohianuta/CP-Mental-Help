@@ -1,7 +1,7 @@
 
 import styled from 'styled-components/native';
 import { View } from 'react-native';
-import { Text } from 'react-native-elements';
+import { Text } from 'react-native-paper';
 
 export const Container = styled(View)`
   padding: 24px 24px 72px ;

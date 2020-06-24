@@ -63,19 +63,18 @@ export default function App() {
        }
    });
   },[]);
-  if(isLoading){
-
+  if(isLoading) {
     return <LoadingScreen/>;
   }
   return (
     <ThemeProvider>
-        <Provider store={store}>
-            <AuthContext.Provider value={authContext}> 
-            <NavigationContainer>
-              {/* {isLoading? <LoadingScreen/>:(user!=null && firstTimeLoading)? <HomeStackScreen/>: <AuthStackScreen/>} */}
-              <HomeStackScreen />
-            </NavigationContainer>
-          </AuthContext.Provider>
+      <Provider store={store}>
+        <AuthContext.Provider value={authContext}> 
+          <NavigationContainer>
+            {/* {isLoading? <LoadingScreen/>:(user!=null && firstTimeLoading)? <HomeStackScreen/>: <AuthStackScreen/>} */}
+            <HomeStackScreen />
+          </NavigationContainer>
+        </AuthContext.Provider>
       </Provider>
     </ThemeProvider>
   );

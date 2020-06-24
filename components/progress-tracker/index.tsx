@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import { View } from 'react-native';
-import { Text } from 'react-native-elements';
+import { Text } from 'react-native-paper';
 
 const Step = styled(View)`
   height: 5px;
