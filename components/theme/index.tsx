@@ -1,11 +1,19 @@
 import React from 'react';
-import { Provider as PaperProvider } from 'react-native-paper';
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 
-// primary: '#ba262b',
-// secondary: '#ababab',
+const theme = {
+  ...DefaultTheme,
+  roundness: 2,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: '#ba262b',
+    secondary: '#ababab',
+    accent: '#ababab',
+  },
+};
 
 export const ThemeProvider = ({ children }: any) => (
-  <PaperProvider>
+  <PaperProvider theme={theme}>
     {children}
   </PaperProvider>
 );
