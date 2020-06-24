@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Text } from "react-native-paper";
-import { RadioButton } from "../../components/radio-button";
+import { RadioButtonGroup } from "../../components/radio-button-group";
 import { YesNoResponse } from "./contents";
 import firebase from "firebase";
 
@@ -116,17 +116,10 @@ export const DomesticViolenceProfile = ({ navigation }: any) => {
         <ScrollContainer>
           <ScrollContent>
             <FieldContainer>• আপনি কি ঘরোয়া সহিংসতার স্বীকার? </FieldContainer>
-            {YesNoResponse.map((q: any) => {
-              return (
-                <RadioButton
-                  key={q.label}
-                  label={q.label}
-                  value={q.value}
-                  onSelecting={checkSetDomesticViolence}
-                  selected={domesticViolence}
-                />
-              );
-            })}
+            <RadioButtonGroup
+              options={YesNoResponse}
+              onSelect={checkSetDomesticViolence}
+            />
           </ScrollContent>
 
           <ScrollButtonContent>

@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Text } from "react-native-paper";
-import { RadioButton } from "../../components/radio-button";
+import { RadioButtonGroup } from "../../components/radio-button-group";
 import { YesNoResponse } from "./contents";
 import firebase from "firebase";
 
@@ -135,33 +135,20 @@ export const SuicideIdeationProfile = ({ navigation }: any) => {
         <ScrollContainer>
           <ScrollContent>
             <FieldContainer>• আপনি কি আত্মহত্যার কথা ভাবেন?? </FieldContainer>
-            {YesNoResponse.map((q: any) => {
-              return (
-                <RadioButton
-                  key={q.label}
-                  label={q.label}
-                  value={q.value}
-                  onSelecting={checkSetSuicideThought}
-                  selected={anySuicideThought}
-                />
-              );
-            })}
+            <RadioButtonGroup
+              options={YesNoResponse}
+              onSelect={checkSetSuicideThought}
+            />
           </ScrollContent>
 
           <ScrollContent>
             <FieldContainer>
               • আত্মহত্যার করার কোন পরিকল্পনা করেছিলেন?{" "}
             </FieldContainer>
-            {YesNoResponse.map((q: any) => {
-              return (
-                <RadioButton
-                  key={q.label}
-                  label={q.label}
-                  value={q.value}
-                  onSelecting={checkSetAnySuicidePlan}
-                  selected={anySuicidePlan}
-                />
-              );
+            <RadioButtonGroup
+              options={YesNoResponse}
+              onSelect={checkSetAnySuicidePlan}
+            />
             })}
           </ScrollContent>
 
@@ -169,17 +156,10 @@ export const SuicideIdeationProfile = ({ navigation }: any) => {
             <FieldContainer>
               • আগে কখনো আত্মহত্যা করার চেষ্টা করেছিলেন কি?{" "}
             </FieldContainer>
-            {YesNoResponse.map((q: any) => {
-              return (
-                <RadioButton
-                  key={q.label}
-                  label={q.label}
-                  value={q.value}
-                  onSelecting={checkSetAnySuicideAttempt}
-                  selected={anySuicideAttempt}
-                />
-              );
-            })}
+            <RadioButtonGroup
+              options={YesNoResponse}
+              onSelect={checkSetAnySuicideAttempt}
+            />
           </ScrollContent>
 
           <ScrollButtonContent>

@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Text } from "react-native-paper";
-import { RadioButton } from "../../components/radio-button";
+import { RadioButtonGroup } from "../../components/radio-button-group";
 import { YesNoResponse, KindofTreatment } from "./contents";
 import firebase from "firebase";
 
@@ -145,17 +145,10 @@ export const PsychoticProfile = ({ navigation }: any) => {
               • আপনার কি মনে হয় মানুষ ইচ্ছাকৃত ভাবে আপনার ক্ষতি করতে চাচ্ছে অথবা
               আপনার বিরুদ্ধে ষড়যন্ত্র করছে?{" "}
             </FieldContainer>
-            {YesNoResponse.map((q: any) => {
-              return (
-                <RadioButton
-                  key={q.label}
-                  label={q.label}
-                  value={q.value}
-                  onSelecting={checkSetAnyHarmByOther}
-                  selected={anyHarmByOther}
-                />
-              );
-            })}
+            <RadioButtonGroup
+              options={YesNoResponse}
+              onSelect={checkSetAnyHarmByOther}
+            />
           </ScrollContent>
 
           <ScrollContent>
@@ -163,17 +156,10 @@ export const PsychoticProfile = ({ navigation }: any) => {
               • আপনার কি মনে হয় কোন কিছু বা অন্য কোন ব্যক্তি আপনার চিন্তাগুলোকে
               সরাসরি নিয়ন্ত্রণ করছে?{" "}
             </FieldContainer>
-            {YesNoResponse.map((q: any) => {
-              return (
-                <RadioButton
-                  key={q.label}
-                  label={q.label}
-                  value={q.value}
-                  onSelecting={checkSetAnyControlByOther}
-                  selected={anyControlByOther}
-                />
-              );
-            })}
+            <RadioButtonGroup
+              options={YesNoResponse}
+              onSelect={checkSetAnyControlByOther}
+            />
           </ScrollContent>
 
           <ScrollContent>
@@ -181,17 +167,10 @@ export const PsychoticProfile = ({ navigation }: any) => {
               • আপনার কি এরকম মনে হয় যে অস্বাভাবিক কিছু একটা ঘটছে, তবে অন্য কেউ
               বিশ্বাস করছে না?{" "}
             </FieldContainer>
-            {YesNoResponse.map((q: any) => {
-              return (
-                <RadioButton
-                  key={q.label}
-                  label={q.label}
-                  value={q.value}
-                  onSelecting={checkSetAnyAbnoramality}
-                  selected={anyAbnoramality}
-                />
-              );
-            })}
+            <RadioButtonGroup
+              options={YesNoResponse}
+              onSelect={checkSetAnyAbnoramality}
+            />
           </ScrollContent>
 
           <ScrollContent>
@@ -199,17 +178,10 @@ export const PsychoticProfile = ({ navigation }: any) => {
               • আপনি কি এমন কিছু দেখতে, শুনতে বা অনুভব করতে পারেন যেটা অন্য কেউ
               পারেনা?{" "}
             </FieldContainer>
-            {KindofTreatment.map((q: any) => {
-              return (
-                <RadioButton
-                  key={q.label}
-                  label={q.label}
-                  value={q.value}
-                  onSelecting={checkSetSetAnyFeeling}
-                  selected={anyFeeling}
-                />
-              );
-            })}
+            <RadioButtonGroup
+              options={KindofTreatment}
+              onSelect={checkSetSetAnyFeeling}
+            />
           </ScrollContent>
 
           <ScrollButtonContent>

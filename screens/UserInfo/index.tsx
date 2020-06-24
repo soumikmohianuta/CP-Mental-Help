@@ -12,7 +12,7 @@ import {
   Text,
   TextInput,
 } from "react-native-paper";
-import { RadioButton } from "../../components/radio-button";
+import { RadioButtonGroup } from "../../components/radio-button-group";
 import {
   SexCategory,
   MaritalStatus,
@@ -185,49 +185,28 @@ export const UserInfo = ({ navigation }: any) => {
 
           <ScrollContent>
             <FieldContainer>• লিঙ্গ </FieldContainer>
-            {SexCategory.map((q: any) => {
-              return (
-                <RadioButton
-                  key={q.label}
-                  label={q.label}
-                  value={q.value}
-                  onSelecting={checkSetSex}
-                  selected={sex}
-                />
-              );
-            })}
+            <RadioButtonGroup
+              options={SexCategory}
+              onSelect={checkSetSex}
+            />
           </ScrollContent>
 
           <ScrollContent>
             <FieldContainer>• বৈবাহিক অবস্থা </FieldContainer>
-            {MaritalStatus.map((q: any) => {
-              return (
-                <RadioButton
-                  key={q.label}
-                  label={q.label}
-                  value={q.value}
-                  onSelecting={CheckSetMaritalStatus}
-                  selected={maritalStatus}
-                />
-              );
-            })}
+            <RadioButtonGroup
+              options={MaritalStatus}
+              onSelect={CheckSetMaritalStatus}
+            />
           </ScrollContent>
 
           <ScrollContent>
             <FieldContainer>
               • আপনি বর্তমানে কোন বিভাগে অবস্থান করছেন?{" "}
             </FieldContainer>
-            {CurrentLocation.map((q: any) => {
-              return (
-                <RadioButton
-                  key={q.label}
-                  label={q.label}
-                  value={q.value}
-                  onSelecting={CheckSetAddress}
-                  selected={address}
-                />
-              );
-            })}
+            <RadioButtonGroup
+              options={CurrentLocation}
+              onSelect={CheckSetAddress}
+            />
           </ScrollContent>
 
           <ScrollButtonContent>

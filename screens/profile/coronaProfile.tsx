@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Text } from "react-native-paper";
-import { RadioButton } from "../../components/radio-button";
+import { RadioButtonGroup } from "../../components/radio-button-group";
 import { YesNoResponse, KindofTreatment } from "./contents";
 import firebase from "firebase";
 
@@ -163,17 +163,10 @@ export const CoronaProfile = ({ navigation }: any) => {
               • করোনায় আক্রান্ত রোগীর লক্ষন (জ্বর, সর্দি, কাশি ইত্যাদি) আপনার
               মধ্যে বিদ্যমান?{" "}
             </FieldContainer>
-            {YesNoResponse.map((q: any) => {
-              return (
-                <RadioButton
-                  key={q.label}
-                  label={q.label}
-                  value={q.value}
-                  onSelecting={checkSetAnySymptom}
-                  selected={anySymptom}
-                />
-              );
-            })}
+            <RadioButtonGroup
+              options={YesNoResponse}
+              onSelect={checkSetAnySymptom}
+            />
           </ScrollContent>
 
           <ScrollContent>
@@ -181,52 +174,30 @@ export const CoronaProfile = ({ navigation }: any) => {
               • করোনায় আক্রান্ত রোগীর লক্ষন (জ্বর, সর্দি, কাশি ইত্যাদি) আপনার
               কাছের মানুষদের মধ্যে বিদ্যমান?{" "}
             </FieldContainer>
-            {YesNoResponse.map((q: any) => {
-              return (
-                <RadioButton
-                  key={q.label}
-                  label={q.label}
-                  value={q.value}
-                  onSelecting={checkSetAnyRelativeWithSymptom}
-                  selected={anyRelativeWithSymptom}
-                />
-              );
-            })}
+            <RadioButtonGroup
+              options={YesNoResponse}
+              onSelect={checkSetAnyRelativeWithSymptom}
+            />
           </ScrollContent>
-
           <ScrollContent>
             <FieldContainer>
               • করোনা পরিস্থিতি উদ্ভুত হওয়ার পূর্বে আপনার কি কোনও মানসিক
               স্বাস্থ্য সমস্যা দেখা দিয়েছিল?{" "}
             </FieldContainer>
-            {YesNoResponse.map((q: any) => {
-              return (
-                <RadioButton
-                  key={q.label}
-                  label={q.label}
-                  value={q.value}
-                  onSelecting={checkSetAnyPrevSymptom}
-                  selected={anyPrevSymptom}
-                />
-              );
-            })}
+            <RadioButtonGroup
+              options={YesNoResponse}
+              onSelect={checkSetAnyPrevSymptom}
+            />
           </ScrollContent>
 
           <ScrollContent>
             <FieldContainer>
               • যদি হ্যাঁ হয় তাহলে সেজন্য কি কোন চিকিৎসা নিয়েছিলেন?{" "}
             </FieldContainer>
-            {KindofTreatment.map((q: any) => {
-              return (
-                <RadioButton
-                  key={q.label}
-                  label={q.label}
-                  value={q.value}
-                  onSelecting={checkSetAnyMentalHelp}
-                  selected={anyMentalHelp}
-                />
-              );
-            })}
+            <RadioButtonGroup
+              options={KindofTreatment}
+              onSelect={checkSetAnyMentalHelp}
+            />
           </ScrollContent>
 
           <ScrollContent>
@@ -234,34 +205,20 @@ export const CoronaProfile = ({ navigation }: any) => {
               • করোনা পরিস্থিতি উদ্ভুত হওয়ার পরে/ এই পরিস্থিতির কারণে আপনার কি
               কোনও মানসিক স্বাস্থ্য সমস্যা দেখা দিয়েছে?{" "}
             </FieldContainer>
-            {YesNoResponse.map((q: any) => {
-              return (
-                <RadioButton
-                  key={q.label}
-                  label={q.label}
-                  value={q.value}
-                  onSelecting={checkSetAnyAfterSymptom}
-                  selected={anyAfterSymptom}
-                />
-              );
-            })}
+            <RadioButtonGroup
+              options={YesNoResponse}
+              onSelect={checkSetAnyAfterSymptom}
+            />
           </ScrollContent>
 
           <ScrollContent>
             <FieldContainer>
               • যদি হ্যাঁ হয় তাহলে সেজন্য কি কোন চিকিৎসা নিয়েছিলেন?{" "}
             </FieldContainer>
-            {KindofTreatment.map((q: any) => {
-              return (
-                <RadioButton
-                  key={q.label}
-                  label={q.label}
-                  value={q.value}
-                  onSelecting={checkSetAnyAfterMentalhelp}
-                  selected={anyAfterMentalhelp}
-                />
-              );
-            })}
+            <RadioButtonGroup
+              options={KindofTreatment}
+              onSelect={checkSetAnyAfterMentalhelp}
+            />
           </ScrollContent>
 
           <ScrollButtonContent>
