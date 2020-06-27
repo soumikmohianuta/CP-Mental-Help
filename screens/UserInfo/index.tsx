@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import {
   View,
@@ -18,11 +18,9 @@ import {
   CurrentLocation,
 } from "./contents";
 import firebase from "firebase";
-import { AuthContext } from "../../context/AuthContext";
 import { useSelector } from "react-redux";
 
 export const UserInfo = () => {
-  const { saveUserData } = useContext(AuthContext);
   const { control, handleSubmit, errors } = useForm();
 
   const [ErrorMsg, SetErrorMsg] = useState("Not a valid Age");
@@ -50,7 +48,7 @@ export const UserInfo = () => {
         .database()
         .ref("DemoGraphy/" + userID)
         .set(userData);
-      saveUserData();
+      // saveUserData();
     }
   };
 
