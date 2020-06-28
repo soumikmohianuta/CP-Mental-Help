@@ -2,34 +2,56 @@ import 'react-native-gesture-handler';
 
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import { BottomNavigation } from 'react-native-paper';
 import { HomePageStack } from './screens/home';
 import { AuthStackScreen } from './screens/login';
 import {configureStore} from './redux/store';
 import {Provider} from 'react-redux';
 import  firebase from 'firebase';
-import {AuthContext} from './context/AuthContext'
 import { firebaseConfig } from './config';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { ProfileScreen } from './screens/profile';;
+// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { ProfileScreen, TabViewExample, ProfileScreenStack } from './screens/profile';;
 import { ThemeProvider } from './components/theme';
 import { ActivityIndicator } from 'react-native-paper';
 
 const store = configureStore()
 
-const { Navigator, Screen } = createBottomTabNavigator();
+// const { Navigator, Screen } = createBottomTabNavigator();
 
-export const HomeStackScreen = () => {
+// export const HomeStackScreen = () => {
+//   return (
+//     <Navigator>
+//           <Screen name="Home" component={HomePageStack} />
+//           <Screen
+//             name="Profile"
+//             component={ProfileScreen}
+//           />
+//     </Navigator>
+//   );
+// }
+ 
+const HomeNavigation = () => {
+  const [index, setIndex] = React.useState(0);
+  const [routes] = React.useState([
+    { key: 'home', title: 'Home', icon: 'home' },
+    { key: 'profile', title: 'Profile', icon: 'album' },
+    { key: 'settings', title: 'Settings', icon: 'settings' },
+  ]);
+
+  const renderScene = BottomNavigation.SceneMap({
+    home: HomePageStack,
+    profile: ProfileScreenStack,
+    settings: ProfileScreenStack,
+  });
+
   return (
-    <Navigator>
-          <Screen name="Home" component={HomePageStack} />
-          <Screen
-            name="Profile"
-            component={ProfileScreen}
-          />
-    </Navigator>
+    <BottomNavigation
+      navigationState={{ index, routes }}
+      onIndexChange={setIndex}
+      renderScene={renderScene}
+    />
   );
 }
-
 firebase.initializeApp(firebaseConfig);
 
 export default function App() {
@@ -63,17 +85,18 @@ export default function App() {
        }
    });
   },[]);
+
   if(isLoading) {
     return <ActivityIndicator animating />;
   }
   return (
     <ThemeProvider>
       <Provider store={store}>
-        <NavigationContainer>
+        {/* <NavigationContainer> */}
           {/* {isLoading ? <ActivityIndicator animating />:(user!=null && firstTimeLoading)? <HomeStackScreen/>: <AuthStackScreen/>} */}
-          <AuthStackScreen />
-          {/* <HomeStackScreen /> */}
-        </NavigationContainer>
+          {/* <AuthStackScreen /> */}
+          <HomeNavigation />
+        {/* </NavigationContainer> */}
       </Provider>
     </ThemeProvider>
   );

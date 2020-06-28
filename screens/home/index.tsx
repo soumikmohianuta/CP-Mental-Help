@@ -5,17 +5,20 @@ import { MentalHealthMeasureCard } from './mental-health-measure-card';
 import { MentalHealthRatingScreen } from '../mental-health-rating';
 import { MentalHealthMeasureListScreen } from '../mental-health-measure-list';
 import { GHQMeasureScreen } from '../GHQ-measure';
+import { NavigationContainer } from '@react-navigation/native';
 
 const { Navigator, Screen } = createStackNavigator();
 
 export const HomePageStack = () => {
   return (
-    <Navigator>
-      <Screen name="Home" component={HomeScreen} />
-      <Screen name="MentalHealthRating" component={MentalHealthRatingScreen} />
-      <Screen name="MentalHealthMeasureList" component={MentalHealthMeasureListScreen} />
-      <Screen name="GHQMeasure" component={GHQMeasureScreen} />
-    </Navigator>
+    <NavigationContainer>
+      <Navigator>
+        <Screen name="Home" component={HomeScreen} />
+        <Screen name="MentalHealthRating" component={MentalHealthRatingScreen} />
+        <Screen name="MentalHealthMeasureList" component={MentalHealthMeasureListScreen} />
+        <Screen name="GHQMeasure" component={GHQMeasureScreen} />
+      </Navigator>
+    </NavigationContainer>
   );
 }
 

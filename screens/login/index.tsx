@@ -6,8 +6,6 @@ import { UserInfo } from "../UserInfo";
 import { signInFacebook, signUpFacebook } from "../../services/facebook";
 import { signInGoogle, signUpGoogle } from "../../services/google";
 
-import "firebase/firestore";
-
 const { Navigator, Screen } = createStackNavigator();
 export const AuthStackScreen = () => {
   return (
