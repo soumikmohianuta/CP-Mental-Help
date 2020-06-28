@@ -8,6 +8,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@expo-google-fonts/alegreya": "^0.1.0",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/bottom-tabs": "^5.5.2",
     "@react-navigation/material-top-tabs": "^5.2.10",
@@ -15,6 +16,7 @@
     "@react-navigation/stack": "^5.3.3",
     "expo": "~37.0.3",
     "expo-facebook": "^8.1.0",
+    "expo-font": "^8.2.1",
     "expo-google-sign-in": "^8.1.0",
     "expo-updates": "~0.2.0",
     "firebase": "^7.15.1",
