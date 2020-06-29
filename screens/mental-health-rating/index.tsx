@@ -12,11 +12,12 @@ import {
 
 import { questionnaires } from "./contents";
 import { ScrollView, View } from "react-native";
+import { setUserData } from "../../services/firebase";
 
 const NUMBER_OF_QUESTIONS = 5;
 
 export const MentalHealthRatingScreen = ({ navigation, onFinish }: any) => {
-  const [answers, setAnswers] = useState([20, 30, 40, 50, 20]);
+  const [answers, setAnswers] = useState([0, 0, 0, 0, 0]);
   const [currentAnswer, setCurrentAnswer] = useState(0);
   const [count, setCount] = useState(0);
 
@@ -24,8 +25,12 @@ export const MentalHealthRatingScreen = ({ navigation, onFinish }: any) => {
     setCurrentAnswer(ans);
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (count === NUMBER_OF_QUESTIONS - 1) {
+      // TODO: usrId will be retrieved from auth token
+      await setUserData(`/mental-health-rating/${1}`, {
+        answers
+      });
       onFinish && onFinish("MentalHealthMeasureList");
     } else {
       const newAnswers = [...answers];

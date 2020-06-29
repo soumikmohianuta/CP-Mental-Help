@@ -14,3 +14,10 @@ export const fetchPersonalData = async (userId: string) => {
     email: data.Email, 
   }
 }
+
+export const setUserData = async (ref: string, data: any) => {
+  firebase
+  .database()
+  .ref(ref)
+  .set(data);
+}
