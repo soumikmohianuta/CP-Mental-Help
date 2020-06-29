@@ -3,17 +3,19 @@ import {
   Button,
   ProgressBar,
   Colors,
-  Subheading,
+  Headline,
   HelperText,
   TextInput,
+  Appbar,
+  Subheading,
 } from "react-native-paper";
 
 import { questionnaires } from "./contents";
-import { ScrollView } from "react-native";
+import { ScrollView, View } from "react-native";
 
 const NUMBER_OF_QUESTIONS = 5;
 
-export const MentalHealthRatingScreen = ({ onFinish }: any) => {
+export const MentalHealthRatingScreen = ({ navigation, onFinish }: any) => {
   const [answers, setAnswers] = useState([20, 30, 40, 50, 20]);
   const [currentAnswer, setCurrentAnswer] = useState(0);
   const [count, setCount] = useState(0);
@@ -37,27 +39,38 @@ export const MentalHealthRatingScreen = ({ onFinish }: any) => {
   };
 
   return (
-    <ScrollView>
-      <ProgressBar
-        progress={(count + 1) / NUMBER_OF_QUESTIONS}
-        color={Colors.red800}
-      />
-      <Subheading>{questionnaires[count]}</Subheading>
-      <TextInput
-        mode="flat"
-        defaultValue={answers[count]}
-        value={answers[count]}
-        onChangeText={handleSlideComplete}
-      />
-      <HelperText>
-        যেখানে ০ মানে হল একেবারেই না আর ১০০ মানে হল সর্ব পরিমাণে
-      </HelperText>
-      <Button onPress={handleBack} disabled={count === 0}>
-        পূর্বে
-      </Button>
-      <Button onPress={handleNext}>
-        {count === NUMBER_OF_QUESTIONS - 1 ? "শেষ করুন" : "পরবর্তী"}
-      </Button>
-    </ScrollView>
+    <>
+      <Appbar.Header>
+        <Appbar.BackAction onPress={() => navigation.navigate('Home')}  />
+        <Appbar.Content title="How's you feeling?" />
+      </Appbar.Header>
+      <ScrollView style={{ margin: 12, marginTop: 32 }}>
+        <Subheading style={{ marginBottom: 12 }}> QUESTIONS {count + 1} of {NUMBER_OF_QUESTIONS}</Subheading>
+        <ProgressBar
+          progress={(count + 1) / NUMBER_OF_QUESTIONS}
+          color={Colors.red800}
+          style={{ marginBottom: 24 }}
+        />
+        <Headline>{questionnaires[count]}</Headline>
+        {/* <TextInput
+          mode="flat"
+          onChangeText={handleSlideComplete}
+        /> */}
+        <HelperText style={{ marginBottom: 24 }}>
+          যেখানে ০ মানে হল একেবারেই না আর ১০০ মানে হল সর্ব পরিমাণে
+        </HelperText>
+        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
+          <Button
+            onPress={handleBack}
+            disabled={count === 0}
+          >
+            Previous
+          </Button>
+          <Button onPress={handleNext}>
+            {count === NUMBER_OF_QUESTIONS - 1 ? "Submit" : "Next"}
+          </Button>
+        </View>
+      </ScrollView>
+    </>
   );
 };

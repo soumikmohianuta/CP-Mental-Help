@@ -1,7 +1,7 @@
 import React from 'react';
-import { Card, Button, Paragraph } from 'react-native-paper';
+import { Card, Button, Paragraph, Appbar } from 'react-native-paper';
 import { measureList } from './content';
-import { MentalHealthRatingScreen } from '../mental-health-rating';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export const MentalHealthMeasureListScreen = ({
   navigation
@@ -9,32 +9,39 @@ export const MentalHealthMeasureListScreen = ({
   const onNextScreen = (screenName: string) => {
     navigation.navigate(screenName);
   }
-  
-  if (false) {
-    return <MentalHealthRatingScreen onFinish={onNextScreen} />
-  }
 
   return (
     <>
-    {
-      measureList.map(({
-        title,
-        description,
-        nextScreen
-      }) => (
-        <Card>
-          <Card.Title title={title} />
-          <Card.Content>
-            <Paragraph>{description}</Paragraph>
-          </Card.Content>
-          <Card.Actions>
-            <Button onPress={() => onNextScreen(nextScreen)}>
-              চলুন শুরু করি
-            </Button>
-          </Card.Actions>
-        </Card>
-    ))
-    }
+      <Appbar.Header>
+        <Appbar.BackAction onPress={() => navigation.navigate('Home')}  />
+        <Appbar.Content title="Measure Mental Health" />
+      </Appbar.Header>
+      <ScrollView>
+      {
+          measureList.map(({
+            title,
+            description,
+            image,
+            nextScreen
+          }) => (
+            <Card elevation={5} style={{ margin: 12, borderRadius: 5 }}>
+              <Card.Title title={title} />
+              <Card.Cover source={image} />
+              <Card.Content>
+                <Paragraph style={{ marginTop: 24, marginBottom: 12 }}>{description}</Paragraph>
+              </Card.Content>
+              <Card.Actions>
+                <Button onPress={() => onNextScreen(nextScreen)}>
+                  See History
+                </Button>
+                <Button onPress={() => onNextScreen(nextScreen)}>
+                  Take test
+                </Button>
+              </Card.Actions>
+            </Card>
+        ))
+        }
+      </ScrollView>
     </>
   );
 }
