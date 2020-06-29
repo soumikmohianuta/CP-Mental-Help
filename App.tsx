@@ -1,17 +1,15 @@
 import 'react-native-gesture-handler';
 
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { BottomNavigation } from 'react-native-paper';
 import { HomePageStack } from './screens/home';
 import { SignInScreen } from './screens/login';
-import {Provider} from 'react-redux';
 import  firebase from 'firebase';
 import { firebaseConfig } from './config';
-// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { ProfileScreen, ProfileScreenStack } from './screens/profile';;
+import { ProfileScreenStack } from './screens/profile';;
 import { ThemeProvider } from './components/theme';
 import { ActivityIndicator } from 'react-native-paper';
+import { SettingsScreen } from './screens/settings';
  
 const HomeNavigation = () => {
   const [index, setIndex] = React.useState(0);
@@ -24,7 +22,7 @@ const HomeNavigation = () => {
   const renderScene = BottomNavigation.SceneMap({
     home: HomePageStack,
     profile: ProfileScreenStack,
-    settings: ProfileScreenStack,
+    settings: SettingsScreen,
   });
 
   return (
@@ -74,11 +72,9 @@ export default function App() {
   }
   return (
     <ThemeProvider>   
-        {/* <NavigationContainer> */}
-          {/* {isLoading ? <ActivityIndicator animating />:(user!=null && firstTimeLoading)? <HomeStackScreen/>: <AuthStackScreen/>} */}
-          {/* <SignInScreen /> */}
-          <HomeNavigation />
-        {/* </NavigationContainer> */}
+        {/* {isLoading ? <ActivityIndicator animating />:(user!=null && firstTimeLoading)? <HomeStackScreen/>: <AuthStackScreen/>} */}
+        {/* <SignInScreen /> */}
+        <HomeNavigation />
     </ThemeProvider>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ScrollView, SafeAreaView } from "react-native";
+import { ScrollView } from "react-native";
 import { Headline, Button, Appbar } from "react-native-paper";
 import { RadioButtonGroup } from "../../components/radio-button-group";
 import { YesNoResponse, KindofTreatment } from "../profile/contents";
@@ -54,12 +54,12 @@ export const PsychoticProfile = ({ navigation }: any) => {
   };
 
   return (
-    <SafeAreaView>
+    <>
       <Appbar.Header>
         <Appbar.BackAction onPress={() => navigation.navigate('Profile')}  />
         <Appbar.Content title="Psychotic Information" />
       </Appbar.Header>
-      <ScrollView style={{ margin: 12, marginBottom: 88 }}>
+      <ScrollView style={{ margin: 12 }}>
         <Headline>
           আপনার কি মনে হয় মানুষ ইচ্ছাকৃত ভাবে আপনার ক্ষতি করতে চাচ্ছে অথবা
           আপনার বিরুদ্ধে ষড়যন্ত্র করছে?
@@ -94,6 +94,6 @@ export const PsychoticProfile = ({ navigation }: any) => {
         />
         <Button onPress={onSubmit} mode="contained"> Submit </Button>
       </ScrollView>
-    </SafeAreaView>
+    </>
   );
 };

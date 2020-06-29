@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ScrollView, SafeAreaView } from "react-native";
+import { ScrollView } from "react-native";
 import { Headline, Button, Appbar } from "react-native-paper";
 import { RadioButtonGroup } from "../../components/radio-button-group";
 import { YesNoResponse, KindofTreatment } from "../profile/contents";
@@ -69,12 +69,12 @@ export const CoronaProfile = ({ navigation }: any) => {
   };
 
   return (
-    <SafeAreaView>
+    <>
       <Appbar.Header>
         <Appbar.BackAction onPress={() => navigation.navigate('Profile')}  />
         <Appbar.Content title="Corona Information" />
       </Appbar.Header>
-      <ScrollView style={{ margin: 12, marginBottom: 88 }}>
+      <ScrollView style={{ margin: 12 }}>
         <Headline>
           করোনায় আক্রান্ত রোগীর লক্ষন (জ্বর, সর্দি, কাশি ইত্যাদি) আপনার
           মধ্যে বিদ্যমান?
@@ -123,6 +123,6 @@ export const CoronaProfile = ({ navigation }: any) => {
         />
         <Button onPress={onSubmit} mode="contained"> Submit </Button>
       </ScrollView>
-    </SafeAreaView>
+    </>
   );
 };

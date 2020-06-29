@@ -6,13 +6,14 @@ import { MentalHealthRatingScreen } from '../mental-health-rating';
 import { MentalHealthMeasureListScreen } from '../mental-health-measure-list';
 import { GHQMeasureScreen } from '../GHQ-measure';
 import { NavigationContainer } from '@react-navigation/native';
+import { Appbar } from 'react-native-paper';
 
 const { Navigator, Screen } = createStackNavigator();
 
 export const HomePageStack = () => {
   return (
     <NavigationContainer>
-      <Navigator>
+      <Navigator headerMode="none">
         <Screen name="Home" component={HomeScreen} />
         <Screen name="MentalHealthRating" component={MentalHealthRatingScreen} />
         <Screen name="MentalHealthMeasureList" component={MentalHealthMeasureListScreen} />
@@ -35,11 +36,16 @@ export const HomeScreen = ({
   }
 
   return (
-    <ScrollView>
+    <>
+      <Appbar.Header>
+        <Appbar.Content title="Home" />
+      </Appbar.Header>
+      <ScrollView>
       <MentalHealthMeasureCard
         onStartClick={handleStart}
         onHistoryClick={handleStart}
       />
-    </ScrollView>
+      </ScrollView>
+    </>
   );
 }
