@@ -4,10 +4,10 @@ import { ScrollView, Text } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { fetchPersonalData } from '../../services/firebase';
-import { CoronaProfile } from './coronaProfile';
-import { PsychoticProfile } from './psychoticProfile';
-import { SuicideIdeationProfile } from './suicideIdeation';
-import { DomesticViolenceProfile } from './domesticViolence';
+import { CoronaProfile } from '../corona-profile';
+import { PsychoticProfile } from '../psychotic-profile';
+import { SuicideIdeationProfile } from '../suicide-ideation';
+import { DomesticViolenceProfile } from '../domestic-violence';
 const { Navigator, Screen } = createStackNavigator();
 
 const MENTAL_HEALTH_PROFILE_SECTIONS = [
@@ -34,10 +34,10 @@ export const ProfileScreenStack = () => {
     <NavigationContainer>
       <Navigator headerMode="none">
         <Screen name="Profile" component={ProfileScreen} />
-        <Screen name="CoronaProfile" component={CoronaProfile} options={{ title: 'Corona Information' }}/>
-        <Screen name="PsychoticProfile" component={PsychoticProfile} options={{ title: 'Psychotic Information' }}/>
-        <Screen name="SuicidalIdeationProfile" component={SuicideIdeationProfile} options={{ title: 'Suicide Ideation Information' }}/>
-        <Screen name="DomesticViolenceProfile" component={DomesticViolenceProfile} options={{ title: 'Domestic Violence Information' }}/>
+        <Screen name="CoronaProfile" component={CoronaProfile}/>
+        <Screen name="PsychoticProfile" component={PsychoticProfile} />
+        <Screen name="SuicidalIdeationProfile" component={SuicideIdeationProfile} />
+        <Screen name="DomesticViolenceProfile" component={DomesticViolenceProfile} />
       </Navigator>
     </NavigationContainer>
   );

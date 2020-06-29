@@ -4,31 +4,14 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { BottomNavigation } from 'react-native-paper';
 import { HomePageStack } from './screens/home';
-import { AuthStackScreen } from './screens/login';
-import {configureStore} from './redux/store';
+import { SignInScreen } from './screens/login';
 import {Provider} from 'react-redux';
 import  firebase from 'firebase';
 import { firebaseConfig } from './config';
 // import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { ProfileScreen, TabViewExample, ProfileScreenStack } from './screens/profile';;
+import { ProfileScreen, ProfileScreenStack } from './screens/profile';;
 import { ThemeProvider } from './components/theme';
 import { ActivityIndicator } from 'react-native-paper';
-
-const store = configureStore()
-
-// const { Navigator, Screen } = createBottomTabNavigator();
-
-// export const HomeStackScreen = () => {
-//   return (
-//     <Navigator>
-//           <Screen name="Home" component={HomePageStack} />
-//           <Screen
-//             name="Profile"
-//             component={ProfileScreen}
-//           />
-//     </Navigator>
-//   );
-// }
  
 const HomeNavigation = () => {
   const [index, setIndex] = React.useState(0);
@@ -90,14 +73,12 @@ export default function App() {
     return <ActivityIndicator animating />;
   }
   return (
-    <ThemeProvider>
-      <Provider store={store}>
+    <ThemeProvider>   
         {/* <NavigationContainer> */}
           {/* {isLoading ? <ActivityIndicator animating />:(user!=null && firstTimeLoading)? <HomeStackScreen/>: <AuthStackScreen/>} */}
-          {/* <AuthStackScreen /> */}
+          {/* <SignInScreen /> */}
           <HomeNavigation />
         {/* </NavigationContainer> */}
-      </Provider>
     </ThemeProvider>
   );
 }

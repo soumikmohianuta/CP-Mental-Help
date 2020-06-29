@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { ScrollView, SafeAreaView } from "react-native";
-import { Text, Button } from "react-native-paper";
+import { Headline, Button, Appbar } from "react-native-paper";
 import { RadioButtonGroup } from "../../components/radio-button-group";
-import { YesNoResponse } from "./contents";
+import { YesNoResponse } from "../profile/contents";
 import firebase from "firebase";
 
 
@@ -31,13 +31,17 @@ export const DomesticViolenceProfile = ({ navigation }: any) => {
 
   return (
     <SafeAreaView>
-      <ScrollView>
-        <Text>• আপনি কি ঘরোয়া সহিংসতার স্বীকার? </Text>
+      <Appbar.Header>
+        <Appbar.BackAction onPress={() => navigation.navigate('Profile')}  />
+        <Appbar.Content title="Domestic Violence Information" />
+      </Appbar.Header>
+      <ScrollView style={{ margin: 12, marginBottom: 88 }}>
+        <Headline>আপনি কি ঘরোয়া সহিংসতার স্বীকার? </Headline>
         <RadioButtonGroup
           options={YesNoResponse}
           onSelect={checkSetDomesticViolence}
         />
-        <Button onPress={onSubmit}> Submit </Button>
+        <Button onPress={onSubmit} mode="contained"> Submit </Button>
       </ScrollView>
     </SafeAreaView>
   );

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { ScrollView, SafeAreaView } from "react-native";
-import { Text, Button } from "react-native-paper";
+import { Headline, Button, Appbar } from "react-native-paper";
 import { RadioButtonGroup } from "../../components/radio-button-group";
-import { YesNoResponse } from "./contents";
+import { YesNoResponse } from "../profile/contents";
 import firebase from "firebase";
 
 export const SuicideIdeationProfile = ({ navigation }: any) => {
@@ -48,27 +48,31 @@ export const SuicideIdeationProfile = ({ navigation }: any) => {
 
   return (
     <SafeAreaView>
-      <ScrollView>
-        <Text>• আপনি কি আত্মহত্যার কথা ভাবেন?</Text>
+      <Appbar.Header>
+        <Appbar.BackAction onPress={() => navigation.navigate('Profile')}  />
+        <Appbar.Content title="Suicide Ideation Information" />
+      </Appbar.Header>
+      <ScrollView style={{ margin: 12, marginBottom: 88 }}>
+        <Headline>আপনি কি আত্মহত্যার কথা ভাবেন?</Headline>
         <RadioButtonGroup
           options={YesNoResponse}
           onSelect={checkSetSuicideThought}
         />
-        <Text>
-          • আত্মহত্যার করার কোন পরিকল্পনা করেছিলেন?{" "}
-        </Text>
+        <Headline>
+          আত্মহত্যার করার কোন পরিকল্পনা করেছিলেন?
+        </Headline>
         <RadioButtonGroup
           options={YesNoResponse}
           onSelect={checkSetAnySuicidePlan}
         />
-        <Text>
-          • আগে কখনো আত্মহত্যা করার চেষ্টা করেছিলেন কি?{" "}
-        </Text>
+        <Headline>
+          আগে কখনো আত্মহত্যা করার চেষ্টা করেছিলেন কি?
+        </Headline>
         <RadioButtonGroup
           options={YesNoResponse}
           onSelect={checkSetAnySuicideAttempt}
         />
-        <Button onPress={onSubmit}> Submit </Button>
+        <Button onPress={onSubmit} mode="contained"> Submit </Button>
       </ScrollView>
     </SafeAreaView>
   );

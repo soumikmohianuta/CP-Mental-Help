@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { ScrollView, SafeAreaView } from "react-native";
-import { Text, Button } from "react-native-paper";
+import { Headline, Button, Appbar } from "react-native-paper";
 import { RadioButtonGroup } from "../../components/radio-button-group";
-import { YesNoResponse, KindofTreatment } from "./contents";
+import { YesNoResponse, KindofTreatment } from "../profile/contents";
 import firebase from "firebase";
 
 export const CoronaProfile = ({ navigation }: any) => {
@@ -70,54 +70,58 @@ export const CoronaProfile = ({ navigation }: any) => {
 
   return (
     <SafeAreaView>
-      <ScrollView>
-        <Text>
-          • করোনায় আক্রান্ত রোগীর লক্ষন (জ্বর, সর্দি, কাশি ইত্যাদি) আপনার
-          মধ্যে বিদ্যমান?{" "}
-        </Text>
+      <Appbar.Header>
+        <Appbar.BackAction onPress={() => navigation.navigate('Profile')}  />
+        <Appbar.Content title="Corona Information" />
+      </Appbar.Header>
+      <ScrollView style={{ margin: 12, marginBottom: 88 }}>
+        <Headline>
+          করোনায় আক্রান্ত রোগীর লক্ষন (জ্বর, সর্দি, কাশি ইত্যাদি) আপনার
+          মধ্যে বিদ্যমান?
+        </Headline>
         <RadioButtonGroup
           options={YesNoResponse}
           onSelect={checkSetAnySymptom}
         />
-        <Text>
-          • করোনায় আক্রান্ত রোগীর লক্ষন (জ্বর, সর্দি, কাশি ইত্যাদি) আপনার
-          কাছের মানুষদের মধ্যে বিদ্যমান?{" "}
-        </Text>
+        <Headline>
+          করোনায় আক্রান্ত রোগীর লক্ষন (জ্বর, সর্দি, কাশি ইত্যাদি) আপনার
+          কাছের মানুষদের মধ্যে বিদ্যমান?
+        </Headline>
         <RadioButtonGroup
           options={YesNoResponse}
           onSelect={checkSetAnyRelativeWithSymptom}
         />
-        <Text>
-          • করোনা পরিস্থিতি উদ্ভুত হওয়ার পূর্বে আপনার কি কোনও মানসিক
-          স্বাস্থ্য সমস্যা দেখা দিয়েছিল?{" "}
-        </Text>
+        <Headline>
+          করোনা পরিস্থিতি উদ্ভুত হওয়ার পূর্বে আপনার কি কোনও মানসিক
+          স্বাস্থ্য সমস্যা দেখা দিয়েছিল?
+        </Headline>
         <RadioButtonGroup
           options={YesNoResponse}
           onSelect={checkSetAnyPrevSymptom}
         />
-        <Text>
-          • যদি হ্যাঁ হয় তাহলে সেজন্য কি কোন চিকিৎসা নিয়েছিলেন?{" "}
-        </Text>
+        <Headline>
+          যদি হ্যাঁ হয় তাহলে সেজন্য কি কোন চিকিৎসা নিয়েছিলেন?
+        </Headline>
         <RadioButtonGroup
           options={KindofTreatment}
           onSelect={checkSetAnyMentalHelp}
         />
-        <Text>
-          • করোনা পরিস্থিতি উদ্ভুত হওয়ার পরে/ এই পরিস্থিতির কারণে আপনার কি
-          কোনও মানসিক স্বাস্থ্য সমস্যা দেখা দিয়েছে?{" "}
-        </Text>
+        <Headline>
+          করোনা পরিস্থিতি উদ্ভুত হওয়ার পরে/ এই পরিস্থিতির কারণে আপনার কি
+          কোনও মানসিক স্বাস্থ্য সমস্যা দেখা দিয়েছে?
+        </Headline>
         <RadioButtonGroup
           options={YesNoResponse}
           onSelect={checkSetAnyAfterSymptom}
         />
-        <Text>
-          • যদি হ্যাঁ হয় তাহলে সেজন্য কি কোন চিকিৎসা নিয়েছিলেন?{" "}
-        </Text>
+        <Headline>
+          যদি হ্যাঁ হয় তাহলে সেজন্য কি কোন চিকিৎসা নিয়েছিলেন?
+        </Headline>
         <RadioButtonGroup
           options={KindofTreatment}
           onSelect={checkSetAnyAfterMentalhelp}
         />
-        <Button onPress={onSubmit}> Submit </Button>
+        <Button onPress={onSubmit} mode="contained"> Submit </Button>
       </ScrollView>
     </SafeAreaView>
   );

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { ScrollView, SafeAreaView } from "react-native";
-import { Text, Button } from "react-native-paper";
+import { Headline, Button, Appbar } from "react-native-paper";
 import { RadioButtonGroup } from "../../components/radio-button-group";
-import { YesNoResponse, KindofTreatment } from "./contents";
+import { YesNoResponse, KindofTreatment } from "../profile/contents";
 import firebase from "firebase";
 
 export const PsychoticProfile = ({ navigation }: any) => {
@@ -55,40 +55,44 @@ export const PsychoticProfile = ({ navigation }: any) => {
 
   return (
     <SafeAreaView>
-      <ScrollView>
-        <Text>
-          • আপনার কি মনে হয় মানুষ ইচ্ছাকৃত ভাবে আপনার ক্ষতি করতে চাচ্ছে অথবা
-          আপনার বিরুদ্ধে ষড়যন্ত্র করছে?{" "}
-        </Text>
+      <Appbar.Header>
+        <Appbar.BackAction onPress={() => navigation.navigate('Profile')}  />
+        <Appbar.Content title="Psychotic Information" />
+      </Appbar.Header>
+      <ScrollView style={{ margin: 12, marginBottom: 88 }}>
+        <Headline>
+          আপনার কি মনে হয় মানুষ ইচ্ছাকৃত ভাবে আপনার ক্ষতি করতে চাচ্ছে অথবা
+          আপনার বিরুদ্ধে ষড়যন্ত্র করছে?
+        </Headline>
         <RadioButtonGroup
           options={YesNoResponse}
           onSelect={checkSetAnyHarmByOther}
         />
-        <Text>
-          • আপনার কি মনে হয় কোন কিছু বা অন্য কোন ব্যক্তি আপনার চিন্তাগুলোকে
-          সরাসরি নিয়ন্ত্রণ করছে?{" "}
-        </Text>
+        <Headline>
+          আপনার কি মনে হয় কোন কিছু বা অন্য কোন ব্যক্তি আপনার চিন্তাগুলোকে
+          সরাসরি নিয়ন্ত্রণ করছে?
+        </Headline>
         <RadioButtonGroup
           options={YesNoResponse}
           onSelect={checkSetAnyControlByOther}
         />
-        <Text>
-          • আপনার কি এরকম মনে হয় যে অস্বাভাবিক কিছু একটা ঘটছে, তবে অন্য কেউ
-          বিশ্বাস করছে না?{" "}
-        </Text>
+        <Headline>
+          আপনার কি এরকম মনে হয় যে অস্বাভাবিক কিছু একটা ঘটছে, তবে অন্য কেউ
+          বিশ্বাস করছে না?
+        </Headline>
         <RadioButtonGroup
           options={YesNoResponse}
           onSelect={checkSetAnyAbnoramality}
         />
-        <Text>
-          • আপনি কি এমন কিছু দেখতে, শুনতে বা অনুভব করতে পারেন যেটা অন্য কেউ
-          পারেনা?{" "}
-        </Text>
+        <Headline>
+          আপনি কি এমন কিছু দেখতে, শুনতে বা অনুভব করতে পারেন যেটা অন্য কেউ
+          পারেনা?
+        </Headline>
         <RadioButtonGroup
           options={KindofTreatment}
           onSelect={checkSetSetAnyFeeling}
         />
-        <Button onPress={onSubmit}>Submit </Button>
+        <Button onPress={onSubmit} mode="contained"> Submit </Button>
       </ScrollView>
     </SafeAreaView>
   );
