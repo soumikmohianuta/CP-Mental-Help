@@ -22,19 +22,20 @@ export const MentalHealthMeasureListScreen = ({
             title,
             description,
             image,
-            nextScreen
-          }) => (
-            <Card elevation={5} style={{ margin: 12, borderRadius: 5 }}>
+            testRoute,
+            historyRoute,
+          }, index) => (
+            <Card elevation={5} style={{ margin: 12, borderRadius: 5 }} key={index}>
               <Card.Title title={title} />
               <Card.Cover source={image} />
               <Card.Content>
                 <Paragraph style={{ marginTop: 24, marginBottom: 12 }}>{description}</Paragraph>
               </Card.Content>
               <Card.Actions>
-                <Button onPress={() => onNextScreen(nextScreen)}>
+                <Button onPress={() => onNextScreen(historyRoute)}>
                   See History
                 </Button>
-                <Button onPress={() => onNextScreen(nextScreen)}>
+                <Button onPress={() => onNextScreen(testRoute)}>
                   Take test
                 </Button>
               </Card.Actions>

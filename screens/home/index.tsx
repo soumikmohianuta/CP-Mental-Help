@@ -7,6 +7,8 @@ import { MentalHealthMeasureListScreen } from '../mental-health-measure-list';
 import { GHQMeasureScreen } from '../GHQ-measure';
 import { NavigationContainer } from '@react-navigation/native';
 import { Appbar } from 'react-native-paper';
+import { PSSMeasureScreen } from '../PSS-measure';
+import { PSSHistoryScreen } from '../PSS-history';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -18,6 +20,8 @@ export const HomePageStack = () => {
         <Screen name="MentalHealthRating" component={MentalHealthRatingScreen} />
         <Screen name="MentalHealthMeasureList" component={MentalHealthMeasureListScreen} />
         <Screen name="GHQMeasure" component={GHQMeasureScreen} />
+        <Screen name="PSSMeasure" component={PSSMeasureScreen} />
+        <Screen name="PSSHistory" component={PSSHistoryScreen} />
       </Navigator>
     </NavigationContainer>
   );

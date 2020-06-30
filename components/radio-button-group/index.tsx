@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
-import { RadioButton, Text } from 'react-native-paper';
+import { RadioButton } from 'react-native-paper';
 
 export const RadioButtonGroup = ({
   defaultValue,
@@ -12,6 +11,7 @@ export const RadioButtonGroup = ({
     setValue(value);
     onSelect && onSelect(value);
   }
+
   return(
     <RadioButton.Group
       onValueChange={onValueChange}
