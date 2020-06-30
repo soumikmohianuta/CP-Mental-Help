@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { List, Card, ActivityIndicator, Appbar } from 'react-native-paper';
-import { ScrollView, Text } from 'react-native';
+import { ScrollView } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { fetchPersonalData } from '../../services/firebase';

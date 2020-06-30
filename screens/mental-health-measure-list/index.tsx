@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Button, Paragraph, Appbar } from 'react-native-paper';
+import { Card, Button, Paragraph, Appbar, Headline, Badge } from 'react-native-paper';
 import { measureList } from './content';
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -28,10 +28,10 @@ export const MentalHealthMeasureListScreen = ({
             <Card elevation={5} style={{ margin: 12, borderRadius: 5 }} key={index}>
               <Card.Title title={title} />
               <Card.Cover source={image} />
-              <Card.Content>
-                <Paragraph style={{ marginTop: 24, marginBottom: 12 }}>{description}</Paragraph>
+              <Card.Content style={{ marginTop: 24, marginBottom: 12 }}>
+                <Paragraph>{description}</Paragraph>
               </Card.Content>
-              <Card.Actions>
+              <Card.Actions style={{ justifyContent: 'flex-end' }}>
                 <Button onPress={() => onNextScreen(historyRoute)}>
                   See History
                 </Button>

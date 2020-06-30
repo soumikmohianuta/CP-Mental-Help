@@ -4,6 +4,20 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { getMentalHealthScore } from '../../services/firebase';
 import { HistoryTable } from '../../components/history-table';
 
+const SCALE_LEVEL = [
+  {
+    name: 'Low',
+    maxRange: 13,
+  },
+  {
+    name: 'Moderate',
+    maxRange: 26,
+  },
+  {
+    name: 'High Percieved',
+    maxRange: 40,
+  }];
+
 export const PSSHistoryScreen = ({ navigation }: any) => {
   const [history, setHistory] = useState([]);
   useEffect(() => {
@@ -22,6 +36,7 @@ export const PSSHistoryScreen = ({ navigation }: any) => {
       <ScrollView style={{ margin: 12 }}>
         <HistoryTable
           history={history}
+          scaleLevel={SCALE_LEVEL}
         />
       </ScrollView>
     </>
