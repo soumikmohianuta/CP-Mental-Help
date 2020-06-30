@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { PanResponder, View, Dimensions } from 'react-native'
 import Svg, { Path, Circle, G, Text } from 'react-native-svg'
 
-type CircleSliderProps = any;
+type PercentageCircleProps = any;
 
 function polarToCartesian(angle: number, dialRadius: number, btnRadius: number) {
   let r = dialRadius;
@@ -37,7 +37,7 @@ function getAngle(value: number, min: number, max: number) {
   return value * 359 / (max - min) ;
 }
 
-export const CircleSlider = (props: CircleSliderProps) => {
+export const PercentageCircle = (props: PercentageCircleProps) => {
   const {
     xCenter =  Dimensions.get('window').width/2,
     yCenter = Dimensions.get('window').height/2,
@@ -52,7 +52,6 @@ export const CircleSlider = (props: CircleSliderProps) => {
     dialWidth = 5,
     textSize = 10,
     textColor = '#fff',
-    onValueChange,
     value,
   } = props;
 
@@ -79,8 +78,6 @@ export const CircleSlider = (props: CircleSliderProps) => {
           } else {
             newAngle = polarAngle;
           }
-          setAngle(newAngle);
-          onValueChange(getValue(newAngle, min, max));
         }
       }); 
       setMount(true);

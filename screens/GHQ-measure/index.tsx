@@ -1,7 +1,7 @@
 import React from 'react';
-import { Text } from 'react-native-elements';
+import { Text } from 'react-native-paper';
 import { questions } from './content';
-import { RadioButton } from '../../components/radio-button';
+import { RadioButtonGroup } from '../../components/radio-button-group';
 
 export const GHQMeasureScreen = () => {
   return (
@@ -10,14 +10,7 @@ export const GHQMeasureScreen = () => {
         questions.map(({ question, answers }) => (
           <>
             <Text>{question}</Text>
-            { answers.map(({ label, value }: any) => (
-                <RadioButton
-                  key={label}
-                  label={label}
-                  value={value}
-                 />)
-            )
-            }
+            <RadioButtonGroup options={answers} />
           </>
         ))
       }

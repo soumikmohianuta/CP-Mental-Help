@@ -1,30 +1,31 @@
 import React from 'react';
-import styled from 'styled-components/native';
-import { View, ScrollView } from 'react-native';
+import { ScrollView } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { MentalHealthMeasureCard } from './mental-health-measure-card';
-import { OthersCard } from './others-card';
 import { MentalHealthRatingScreen } from '../mental-health-rating';
 import { MentalHealthMeasureListScreen } from '../mental-health-measure-list';
 import { GHQMeasureScreen } from '../GHQ-measure';
+import { NavigationContainer } from '@react-navigation/native';
+import { Appbar } from 'react-native-paper';
+import { PSSMeasureScreen } from '../PSS-measure';
+import { PSSHistoryScreen } from '../PSS-history';
 
 const { Navigator, Screen } = createStackNavigator();
 
 export const HomePageStack = () => {
   return (
-    <Navigator>
-      <Screen name="Home" component={HomeScreen} />
-      <Screen name="MentalHealthRating" component={MentalHealthRatingScreen} />
-      <Screen name="MentalHealthMeasureList" component={MentalHealthMeasureListScreen} />
-      <Screen name="GHQMeasure" component={GHQMeasureScreen} />
-    </Navigator>
+    <NavigationContainer>
+      <Navigator headerMode="none">
+        <Screen name="Home" component={HomeScreen} />
+        <Screen name="MentalHealthRating" component={MentalHealthRatingScreen} />
+        <Screen name="MentalHealthMeasureList" component={MentalHealthMeasureListScreen} />
+        <Screen name="GHQMeasure" component={GHQMeasureScreen} />
+        <Screen name="PSSMeasure" component={PSSMeasureScreen} />
+        <Screen name="PSSHistory" component={PSSHistoryScreen} />
+      </Navigator>
+    </NavigationContainer>
   );
 }
-
-const Container = styled(View)`
-  flex: 1;
-  align-items: center;
-`;
 
 export const HomeScreen = ({
   navigation,
@@ -39,14 +40,16 @@ export const HomeScreen = ({
   }
 
   return (
-    <ScrollView>
-      <Container>
-        <MentalHealthMeasureCard
-          onStartClick={handleStart}
-          onHistoryClick={handleStart}
-        />
-        <OthersCard />
-      </Container>
-    </ScrollView>
+    <>
+      <Appbar.Header>
+        <Appbar.Content title="Home" />
+      </Appbar.Header>
+      <ScrollView>
+      <MentalHealthMeasureCard
+        onStartClick={handleStart}
+        onHistoryClick={handleStart}
+      />
+      </ScrollView>
+    </>
   );
 }

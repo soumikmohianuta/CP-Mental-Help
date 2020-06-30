@@ -1,80 +1,81 @@
-import React, { useState } from 'react';
-import { Button } from 'react-native-elements';
-import { ProgressTracker } from '../../components/progress-tracker';
-import { CircleSlider } from '../../components/circular-slider';
+import React, { useState } from "react";
 import {
-  Container,
-  NoteText,
-  QuestionText,
-  SliderContainer,
-  ActionsContainer,
-} from './styled';
-import { questionnaires } from './contents';
-import { ScrollView } from 'react-native';
+  Button,
+  ProgressBar,
+  Colors,
+  Headline,
+  HelperText,
+  TextInput,
+  Appbar,
+  Subheading,
+} from "react-native-paper";
+
+import { questionnaires } from "./contents";
+import { ScrollView, View } from "react-native";
+import { setUserData } from "../../services/firebase";
 
 const NUMBER_OF_QUESTIONS = 5;
 
-export const MentalHealthRatingScreen = ({ navigation }: any) => {
-  const [answers, setAnswers] = useState([20, 30, 40, 50, 20]);
+export const MentalHealthRatingScreen = ({ navigation, onFinish }: any) => {
+  const [answers, setAnswers] = useState([0, 0, 0, 0, 0]);
   const [currentAnswer, setCurrentAnswer] = useState(0);
   const [count, setCount] = useState(0);
 
   const handleSlideComplete = (ans: any) => {
     setCurrentAnswer(ans);
-  }
+  };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (count === NUMBER_OF_QUESTIONS - 1) {
-      navigation.navigate('MentalHealthMeasureList');
+      // TODO: usrId will be retrieved from auth token
+      await setUserData(`/mental-health-rating/${1}`, {
+        answers
+      });
+      onFinish && onFinish("MentalHealthMeasureList");
     } else {
       const newAnswers = [...answers];
       newAnswers[count] = currentAnswer;
       setAnswers(newAnswers);
-      setCount(count+1);
+      setCount(count + 1);
     }
-  }
+  };
   const handleBack = () => {
     setCount(count - 1);
-  }
+  };
 
   return (
-    <ScrollView>
-      <Container>
-        <ProgressTracker totalStep={NUMBER_OF_QUESTIONS} current={count} />
-        <QuestionText h4>
-          {questionnaires[count]}
-        </QuestionText>
-        <SliderContainer>
-          <CircleSlider
-            value={answers[count]}
-            min={0}
-            max={100}
-            btnRadius={25}
-            dialWidth={10}
-            strokeWidth={10}
-            textSize={16}
-            dialRadius={100}
-            onValueChange={handleSlideComplete}
-          />
-        </SliderContainer>
-        <NoteText>
-          (যেখানে ০ মানে হল একেবারেই না আর ১০০ মানে হল সর্ব পরিমাণে)
-        </NoteText>
-    
-        <ActionsContainer>
+    <>
+      <Appbar.Header>
+        <Appbar.BackAction onPress={() => navigation.navigate('Home')}  />
+        <Appbar.Content title="How's you feeling?" />
+      </Appbar.Header>
+      <ScrollView style={{ margin: 12, marginTop: 32 }}>
+        <Subheading style={{ marginBottom: 12 }}> QUESTIONS {count + 1} of {NUMBER_OF_QUESTIONS}</Subheading>
+        <ProgressBar
+          progress={(count + 1) / NUMBER_OF_QUESTIONS}
+          color={Colors.red800}
+          style={{ marginBottom: 24 }}
+        />
+        <Headline>{questionnaires[count]}</Headline>
+        {/* <TextInput
+          mode="flat"
+          onChangeText={handleSlideComplete}
+        /> */}
+        <HelperText style={{ marginBottom: 24 }}>
+          যেখানে ০ মানে হল একেবারেই না আর ১০০ মানে হল সর্ব পরিমাণে
+        </HelperText>
+        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
           <Button
-            type="outline"
             onPress={handleBack}
-            title="Back"
             disabled={count === 0}
-          />
-          <Button
-            type={count === NUMBER_OF_QUESTIONS - 1 ? 'solid' : 'outline'}
-            onPress={handleNext}
-            title={count === NUMBER_OF_QUESTIONS - 1 ? 'Finish' : 'Next' }
-          />
-        </ActionsContainer>
-      </Container>
-    </ScrollView>
+          >
+            Previous
+          </Button>
+          <Button onPress={handleNext}>
+            {count === NUMBER_OF_QUESTIONS - 1 ? "Submit" : "Next"}
+          </Button>
+        </View>
+      </ScrollView>
+    </>
   );
-}
+};

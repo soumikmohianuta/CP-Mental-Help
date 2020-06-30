@@ -1,35 +1,38 @@
 import 'react-native-gesture-handler';
 
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { BottomNavigation } from 'react-native-paper';
 import { HomePageStack } from './screens/home';
-import { AuthStackScreen } from './screens/login';
-import {configureStore} from './redux/store';
-import {Provider} from 'react-redux';
+import { SignInScreen } from './screens/login';
 import  firebase from 'firebase';
-import {AuthContext} from './context/AuthContext'
 import { firebaseConfig } from './config';
-import { LoadingScreen } from './screens/loading';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { ProfileScreen } from './screens/profile';;
+import { ProfileScreenStack } from './screens/profile';;
 import { ThemeProvider } from './components/theme';
+import { ActivityIndicator } from 'react-native-paper';
+import { SettingsScreen } from './screens/settings';
+ 
+const HomeNavigation = () => {
+  const [index, setIndex] = React.useState(0);
+  const [routes] = React.useState([
+    { key: 'home', title: 'Home', icon: 'home' },
+    { key: 'profile', title: 'Profile', icon: 'album' },
+    { key: 'settings', title: 'Settings', icon: 'settings' },
+  ]);
 
-const store = configureStore()
+  const renderScene = BottomNavigation.SceneMap({
+    home: HomePageStack,
+    profile: ProfileScreenStack,
+    settings: SettingsScreen,
+  });
 
-const { Navigator, Screen } = createBottomTabNavigator();
-
-export const HomeStackScreen = () => {
   return (
-    <Navigator>
-          <Screen name="Home" component={HomePageStack} />
-          <Screen
-            name="Profile"
-            component={ProfileScreen}
-          />
-    </Navigator>
+    <BottomNavigation
+      navigationState={{ index, routes }}
+      onIndexChange={setIndex}
+      renderScene={renderScene}
+    />
   );
 }
-
 firebase.initializeApp(firebaseConfig);
 
 export default function App() {
@@ -63,20 +66,15 @@ export default function App() {
        }
    });
   },[]);
-  if(isLoading){
 
-    return <LoadingScreen/>;
+  if(isLoading) {
+    return <ActivityIndicator animating />;
   }
   return (
-    <ThemeProvider>
-        <Provider store={store}>
-            <AuthContext.Provider value={authContext}> 
-            <NavigationContainer>
-              {/* {isLoading? <LoadingScreen/>:(user!=null && firstTimeLoading)? <HomeStackScreen/>: <AuthStackScreen/>} */}
-              <HomeStackScreen />
-            </NavigationContainer>
-          </AuthContext.Provider>
-      </Provider>
+    <ThemeProvider>   
+        {/* {isLoading ? <ActivityIndicator animating />:(user!=null && firstTimeLoading)? <HomeStackScreen/>: <AuthStackScreen/>} */}
+        {/* <SignInScreen /> */}
+        <HomeNavigation />
     </ThemeProvider>
   );
 }
