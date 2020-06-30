@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Appbar, Text } from 'react-native-paper';
+import { Appbar } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
 import { getMentalHealthScore } from '../../services/firebase';
+import { HistoryTable } from '../../components/history-table';
 
 export const PSSHistoryScreen = ({ navigation }: any) => {
   const [history, setHistory] = useState([]);
   useEffect(() => {
     const getPSSHistory = async () => {
-      const pssHistory = await getMentalHealthScore('1', 'pss');
+      const pssHistory = await getMentalHealthScore('2', 'pss');
       setHistory(pssHistory);
     };
     getPSSHistory();
@@ -19,7 +20,9 @@ export const PSSHistoryScreen = ({ navigation }: any) => {
         <Appbar.Content title="Your PSS Score History" />
       </Appbar.Header>
       <ScrollView style={{ margin: 12 }}>
-        <Text>{JSON.stringify(history, null, 2)}</Text>
+        <HistoryTable
+          history={history}
+        />
       </ScrollView>
     </>
   )
