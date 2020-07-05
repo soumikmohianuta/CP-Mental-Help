@@ -5,14 +5,15 @@ import {
   Colors,
   Headline,
   HelperText,
-  TextInput,
+  Title,
   Appbar,
   Subheading,
 } from "react-native-paper";
 
 import { questionnaires } from "./contents";
-import { ScrollView, View } from "react-native";
+import { View, Dimensions } from "react-native";
 import { setUserData } from "../../services/firebase";
+import CircularPicker from "../../components/circle-picker";
 
 const NUMBER_OF_QUESTIONS = 5;
 
@@ -22,7 +23,7 @@ export const MentalHealthRatingScreen = ({ navigation, onFinish }: any) => {
   const [count, setCount] = useState(0);
 
   const handleSlideComplete = (ans: any) => {
-    setCurrentAnswer(ans);
+    setCurrentAnswer(parseInt(ans, 10) + 1);
   };
 
   const handleNext = async () => {
@@ -49,7 +50,7 @@ export const MentalHealthRatingScreen = ({ navigation, onFinish }: any) => {
         <Appbar.BackAction onPress={() => navigation.navigate('Home')}  />
         <Appbar.Content title="How's you feeling?" />
       </Appbar.Header>
-      <ScrollView style={{ margin: 12, marginTop: 32 }}>
+      <View style={{ margin: 12, marginTop: 32 }}>
         <Subheading style={{ marginBottom: 12 }}> QUESTIONS {count + 1} of {NUMBER_OF_QUESTIONS}</Subheading>
         <ProgressBar
           progress={(count + 1) / NUMBER_OF_QUESTIONS}
@@ -57,10 +58,15 @@ export const MentalHealthRatingScreen = ({ navigation, onFinish }: any) => {
           style={{ marginBottom: 24 }}
         />
         <Headline>{questionnaires[count]}</Headline>
-        {/* <TextInput
-          mode="flat"
-          onChangeText={handleSlideComplete}
-        /> */}
+        <CircularPicker
+          size={Dimensions.get('window').width - 48}
+          gradients={{
+            0: ['rgb(255, 97, 99)', 'rgb(247, 129, 119)'],
+          }}
+          onChange={handleSlideComplete}
+        >
+          <Title style={{ fontSize: 30, textAlign: 'center' }}>{currentAnswer}</Title>
+        </CircularPicker>
         <HelperText style={{ marginBottom: 24 }}>
           যেখানে ০ মানে হল একেবারেই না আর ১০০ মানে হল সর্ব পরিমাণে
         </HelperText>
@@ -75,7 +81,7 @@ export const MentalHealthRatingScreen = ({ navigation, onFinish }: any) => {
             {count === NUMBER_OF_QUESTIONS - 1 ? "Submit" : "Next"}
           </Button>
         </View>
-      </ScrollView>
+      </View>
     </>
   );
 };

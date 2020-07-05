@@ -10,15 +10,15 @@ export const SettingsScreen = () => {
       </Appbar.Header>
       <ScrollView style={{ marginTop: 12, marginBottom: 12}}>
         <Drawer.Item
-          icon="info"
+          icon="archive"
           label="About Us"
         />
         <Drawer.Item
-          icon="star"
+          icon="label"
           label="Privacy"
         />
         <Drawer.Item
-          icon="help"
+          icon="equal"
           label="Help Center"
         />
         <Divider />
