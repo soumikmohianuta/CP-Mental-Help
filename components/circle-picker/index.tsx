@@ -1,13 +1,12 @@
 import React, { useRef, useState } from 'react';
 import { PanResponder, View } from 'react-native';
-import PropTypes from 'prop-types';
 import Svg, {
   Circle, G, LinearGradient, Path, Defs, Stop,
 } from 'react-native-svg';
 
 const { PI, cos, sin, atan2 } = Math;
 
-const calculateAngle = (pos, radius) => {
+const calculateAngle = (pos: number, radius: number) => {
   const startAngle = ((2 * PI) - (PI * -0.5));
   const endAngle = (PI + (PI * pos));
 
@@ -20,12 +19,12 @@ const calculateAngle = (pos, radius) => {
   return { x1, y1, x2, y2 };
 };
 
-const calculateRealPos = (x, y, radius, strokeWidth) => ({
+const calculateRealPos = (x: number, y: number, radius: number, strokeWidth: number) => ({
   endX: x + radius + strokeWidth / 2,
   endY: y + radius + strokeWidth / 2,
 });
 
-const calculateMovement = (x, y, radius, strokeWidth) => {
+const calculateMovement = (x: number, y: number, radius: number, strokeWidth: number) => {
   const cx = ((x + strokeWidth) / radius) - PI / 2;
   const cy = -(((y + strokeWidth) / radius) - PI / 2);
 
@@ -37,16 +36,16 @@ const calculateMovement = (x, y, radius, strokeWidth) => {
   return pos;
 };
 
-const percentToPos = (percent) => (2 / 100 * percent) - 0.5;
-const posToPercent = (pos) => 100 * (pos + 0.5) / 2;
+const percentToPos = (percent: number) => (2 / 100 * percent) - 0.5;
+const posToPercent = (pos: number) => 100 * (pos + 0.5) / 2;
 
-const selectGradient = (gradients, pos) => {
+const selectGradient = (gradients: number, pos: number) => {
   const current = posToPercent(pos);
-  let selected = 0;
+  let selected: number = 0;
 
   for (const [key] of Object.entries(gradients)) {
-    if (key > selected && key < current) {
-      selected = key;
+    if (key as unknown as number > selected && key as unknown as number < current) {
+      selected = key as unknown as number;
     }
   }
 
@@ -55,16 +54,18 @@ const selectGradient = (gradients, pos) => {
 
 const CircularPicker = ({
   size,
-  strokeWidth,
-  defaultPos,
-  steps,
-  gradients,
-  backgroundColor,
-  stepColor,
-  borderColor,
+  strokeWidth = 30,
+  defaultPos = 0,
+  steps = [],
+  gradients = {
+    0: ['rgb(255, 97, 99)', 'rgb(247, 129, 119)'],
+  },
+  backgroundColor = 'rgb(231, 231, 231)',
+  stepColor = 'rgba(0, 0, 0, 0.2)',
+  borderColor = 'rgb(255, 255, 255)',
   children,
   onChange,
-}) => {
+}: any) => {
   const [pos, setPos] = useState(percentToPos(defaultPos));
   const circle = useRef(null);
 
@@ -119,7 +120,12 @@ const CircularPicker = ({
   `;
 
   return (
-    <Svg height={size} width={size} ref={circle}>
+    <Svg
+      height={size}
+      width={size}
+      ref={circle}
+      style={{ marginLeft: 'auto', marginRight: 'auto' }}
+    >
       <Defs>
         <LinearGradient id="grad" x1="0" y1="0" x2="100%" y2="0">
           <Stop offset="0" stopColor={gradient[0]} />
@@ -143,7 +149,7 @@ const CircularPicker = ({
       <G transform={{ translate: `${center + padding}, ${strokeWidth / 2 + padding}` }}>
         <Circle r={(strokeWidth) / 2} fill={backgroundColor} />
       </G>
-      {steps && steps.map((step, index) => (
+      {steps && steps.map((step: number, index: number) => (
         <G transform={{ translate: `${step.x + padding}, ${step.y + padding}` }} key={index}>
           <Circle
             r={(strokeWidth / 2.5) / 2}
@@ -162,41 +168,16 @@ const CircularPicker = ({
         />
       </G>
       {children && (
-        <View style={{ height: size, alignItems: 'center', justifyContent: 'center' }}>
+        <View style={{
+            height: size,
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
           <View>{children}</View>
         </View>
       )}
     </Svg>
   );
 }
-
-CircularPicker.propTypes = {
-  size: PropTypes.number.isRequired,
-  strokeWidth: PropTypes.number,
-  defaultPos: PropTypes.number,
-  steps: PropTypes.arrayOf(PropTypes.number),
-  gradients: PropTypes.objectOf(
-    PropTypes.arrayOf(PropTypes.string)
-  ),
-  backgroundColor: PropTypes.string,
-  stepColor: PropTypes.string,
-  borderColor: PropTypes.string,
-  onChange: PropTypes.func,
-  children: PropTypes.any,
-};
-
-CircularPicker.defaultProps = {
-  strokeWidth: 45,
-  defaultPos: 0,
-  steps: [],
-  gradients: {
-    0: ['rgb(255, 204, 0)', 'rgb(255, 214, 10)'],
-  },
-  backgroundColor: 'rgb(231, 231, 231)',
-  stepColor: 'rgba(0, 0, 0, 0.2)',
-  borderColor: 'rgb(255, 255, 255)',
-  onChange: () => undefined,
-  children: null,
-};
 
 export default CircularPicker;

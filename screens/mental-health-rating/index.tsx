@@ -8,6 +8,7 @@ import {
   Title,
   Appbar,
   Subheading,
+  Text,
 } from "react-native-paper";
 
 import { questionnaires } from "./contents";
@@ -37,10 +38,12 @@ export const MentalHealthRatingScreen = ({ navigation, onFinish }: any) => {
       const newAnswers = [...answers];
       newAnswers[count] = currentAnswer;
       setAnswers(newAnswers);
+      setCurrentAnswer(newAnswers[count + 1]);
       setCount(count + 1);
     }
   };
   const handleBack = () => {
+    setCurrentAnswer(answers[count - 1]);
     setCount(count - 1);
   };
 
@@ -57,20 +60,34 @@ export const MentalHealthRatingScreen = ({ navigation, onFinish }: any) => {
           color={Colors.red800}
           style={{ marginBottom: 24 }}
         />
-        <Headline>{questionnaires[count]}</Headline>
-        <CircularPicker
-          size={Dimensions.get('window').width - 48}
-          gradients={{
-            0: ['rgb(255, 97, 99)', 'rgb(247, 129, 119)'],
-          }}
-          onChange={handleSlideComplete}
-        >
-          <Title style={{ fontSize: 30, textAlign: 'center' }}>{currentAnswer}</Title>
-        </CircularPicker>
+        {
+          questionnaires.map((question, index) => {
+            return index != count ?
+             null
+             :
+             <>
+              <Headline>{question}</Headline>
+              <CircularPicker
+                size={256}
+                defaultPos={currentAnswer}
+                onChange={handleSlideComplete}
+              >
+                <Text style={{ fontSize: 76 }}>
+                  {currentAnswer}
+                </Text>
+              </CircularPicker>
+             </>
+          })
+        }
         <HelperText style={{ marginBottom: 24 }}>
           যেখানে ০ মানে হল একেবারেই না আর ১০০ মানে হল সর্ব পরিমাণে
         </HelperText>
-        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}
+        >
           <Button
             onPress={handleBack}
             disabled={count === 0}
