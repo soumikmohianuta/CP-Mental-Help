@@ -5,10 +5,10 @@ import { questions } from './content';
 import { QuestionForm } from '../../components/question-form';
 import { setMentalHealthScore } from '../../services/firebase';
 
-export const PSSMeasureScreen = ({ navigation }: any) => {
+export const AnxietyScaleMeasureScreen = ({ navigation }: any) => {
   const handleSubmit = (score: number) => {
     // TODO: userId should be fetched from local storage
-    setMentalHealthScore('2', 'pss', score);
+    setMentalHealthScore('2', 'anxiety_scale', score);
     navigation.navigate('MentalHealthMeasureList');
   }
 
@@ -16,15 +16,12 @@ export const PSSMeasureScreen = ({ navigation }: any) => {
     <>
       <Appbar.Header>
         <Appbar.BackAction onPress={() => navigation.navigate('MentalHealthMeasureList')}  />
-        <Appbar.Content title="PSS Scale" />
+        <Appbar.Content title="Anxiety Scale" />
       </Appbar.Header>
       <ScrollView style={{ margin: 12 }}>
         <QuestionForm
           questions={questions}
           onSubmit={handleSubmit}
-          questionStyle={{
-            height: 150,
-          }}
         />
       </ScrollView>
     </>

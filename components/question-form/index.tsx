@@ -3,8 +3,9 @@ import { Subheading, ProgressBar, Colors, Headline, Button } from 'react-native-
 import { RadioButtonGroup } from '../radio-button-group';
 import { View } from 'react-native';
 
-export const QuestionForm = ( {
+export const QuestionForm = ({
   questions,
+  questionStyle,
   onSkip,
   onSubmit,
 }: any) => {
@@ -63,9 +64,9 @@ export const QuestionForm = ( {
             <>
               <Headline
                 style={{
-                  height: 150,
                   justifyContent: 'center',
                   alignItems: 'center',
+                  ...questionStyle,
                 }}
               >
                   {item.question}

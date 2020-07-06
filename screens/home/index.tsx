@@ -9,6 +9,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { Appbar } from 'react-native-paper';
 import { PSSMeasureScreen } from '../PSS-measure';
 import { PSSHistoryScreen } from '../PSS-history';
+import{ AnxietyScaleMeasureScreen } from '../anxiety-scale-measure';
+import { AnxietyScaleHistoryScreen } from '../anxiety-scale-history';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -22,6 +24,8 @@ export const HomePageStack = () => {
         <Screen name="GHQMeasure" component={GHQMeasureScreen} />
         <Screen name="PSSMeasure" component={PSSMeasureScreen} />
         <Screen name="PSSHistory" component={PSSHistoryScreen} />
+        <Screen name="AnxietyScaleMeasure" component={AnxietyScaleMeasureScreen} />
+        <Screen name="AnxietyScaleHistory" component={AnxietyScaleHistoryScreen} />
       </Navigator>
     </NavigationContainer>
   );
