@@ -22,6 +22,7 @@ const fontConfig = {
     },
   },
 };
+
 fontConfig.ios = fontConfig.default;
 fontConfig.android = fontConfig.default;
 
@@ -31,7 +32,7 @@ const theme = {
   colors: {
     ...DefaultTheme.colors,
     primary: '#ba262b',
-    accent: '#ababab',
+    accent: '#ba262b',
   },
   fonts: configureFonts(fontConfig),
 };

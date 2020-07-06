@@ -31,7 +31,7 @@ export const HomeScreen = ({
   navigation,
 }: any) => {
   const handleStart = () => {
-    const isPreStartSurveyEnabled = true;
+    const isPreStartSurveyEnabled = false;
     if (isPreStartSurveyEnabled) {
       navigation.navigate('MentalHealthRating');
     } else {

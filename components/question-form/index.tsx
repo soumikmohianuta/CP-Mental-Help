@@ -10,9 +10,12 @@ export const QuestionForm = ( {
 }: any) => {
   const NUMBER_OF_QUESTIONS = questions.length;
   const [count, setCount] = useState<number>(0);
+  const [showSubmit, setShowSubmit] = useState<boolean>(false);
+  const [currentAnswers, setCurrentAnswers] = useState<number>(0);
   const [answers, setAnswers] = useState<number[]>(new Array(NUMBER_OF_QUESTIONS).fill(0));
   
   const handlePrevious = () => {
+    setCurrentAnswers(answers[count - 1]);
     setCount(count - 1);
   }
 
@@ -34,7 +37,13 @@ export const QuestionForm = ( {
     newAnswers[count] = value;
     setAnswers(newAnswers);
     if (count < NUMBER_OF_QUESTIONS - 1) {
-      setCount(count + 1);
+      setCurrentAnswers(answers[count + 1]);
+      // Note: To see the selection visibility
+      setTimeout(() => {
+        setCount(count + 1);
+      }, 250);
+    } else {
+      setShowSubmit(true);
     }
   }
 
@@ -46,20 +55,30 @@ export const QuestionForm = ( {
         color={Colors.red800}
         style={{ marginBottom: 24 }}
       />
-      <Headline
-        style={{
-          height: 150,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-          {questions[count].question}
-      </Headline>
-      <RadioButtonGroup
-        options={questions[count].answers}
-        onSelect={onAnswerSelect}
-        defaultValue={answers[count]}
-      />
+      {
+        questions.map((item: any, index: number) => {
+          return index != count ?
+            null
+            :
+            <>
+              <Headline
+                style={{
+                  height: 150,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                  {item.question}
+              </Headline>
+              <RadioButtonGroup
+                options={item.answers}
+                onSelect={onAnswerSelect}
+                defaultValue={currentAnswers}
+              />
+            </>
+        })
+      }
+      
       <View
         style={{
           flex: 1,
@@ -71,15 +90,23 @@ export const QuestionForm = ( {
           <Button
             onPress={handlePrevious}
             disabled={count === 0}
+            mode="outlined"
           >
             Previous
           </Button>
           {
-            count === NUMBER_OF_QUESTIONS - 1 ?
+            showSubmit && count === NUMBER_OF_QUESTIONS - 1 ?
             <Button onPress={handleSubmit} mode="contained"> Submit </Button>
-            : <Button onPress={handleSkip}> Skip </Button>
+            : null
           }
         </View>
+        <Button
+          onPress={handleSkip}
+          mode="text"
+          uppercase={false}
+        >
+          Skip the test
+        </Button>
     </>
   )
 }
