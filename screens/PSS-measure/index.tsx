@@ -9,7 +9,7 @@ export const PSSMeasureScreen = ({ navigation }: any) => {
   const handleSubmit = (score: number) => {
     // TODO: userId should be fetched from local storage
     setMentalHealthScore('2', 'pss', score);
-    navigation.navigate('MentalHealthMeasureList');
+    navigation.navigate('PSSScoreView', { score, scale: 'pss' });
   }
 
   return (

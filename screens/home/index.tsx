@@ -9,6 +9,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { Appbar } from 'react-native-paper';
 import { PSSMeasureScreen } from '../PSS-measure';
 import { PSSHistoryScreen } from '../PSS-history';
+import { PSSScoreViewScreen } from '../PSS-score-view';
 import{ AnxietyScaleMeasureScreen } from '../anxiety-scale-measure';
 import { AnxietyScaleHistoryScreen } from '../anxiety-scale-history';
 
@@ -23,6 +24,7 @@ export const HomePageStack = () => {
         <Screen name="MentalHealthMeasureList" component={MentalHealthMeasureListScreen} />
         <Screen name="GHQMeasure" component={GHQMeasureScreen} />
         <Screen name="PSSMeasure" component={PSSMeasureScreen} />
+        <Screen name="PSSScoreView" component={PSSScoreViewScreen} />
         <Screen name="PSSHistory" component={PSSHistoryScreen} />
         <Screen name="AnxietyScaleMeasure" component={AnxietyScaleMeasureScreen} />
         <Screen name="AnxietyScaleHistory" component={AnxietyScaleHistoryScreen} />
