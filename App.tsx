@@ -9,7 +9,7 @@ import { firebaseConfig } from './config';
 import { ProfileScreenStack } from './screens/profile';;
 import { ThemeProvider } from './components/theme';
 import { ActivityIndicator } from 'react-native-paper';
-import { SettingsScreen } from './screens/settings';
+import { SettingsNavigation } from './screens/settings';
  
 const HomeNavigation = () => {
   const [index, setIndex] = React.useState(0);
@@ -22,7 +22,7 @@ const HomeNavigation = () => {
   const renderScene = BottomNavigation.SceneMap({
     home: HomePageStack,
     profile: ProfileScreenStack,
-    settings: SettingsScreen,
+    settings: SettingsNavigation,
   });
 
   return (
