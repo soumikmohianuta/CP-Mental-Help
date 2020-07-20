@@ -4,6 +4,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { HelpCenterScreen } from '../help-center';
+import { AboutScreen } from '../about';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -13,6 +14,7 @@ export const SettingsNavigation = () => {
       <Navigator headerMode="none">
         <Screen name="Settings" component={SettingsScreen} />
         <Screen name="HelpCenter" component={HelpCenterScreen} />
+        <Screen name="About" component={AboutScreen} />
       </Navigator>
     </NavigationContainer>
   );
@@ -28,6 +30,7 @@ export const SettingsScreen = ({ navigation }: any) => {
         <Drawer.Item
           icon="archive"
           label="About Us"
+          onPress={() => navigation.navigate('About')}
         />
         <Drawer.Item
           icon="label"
