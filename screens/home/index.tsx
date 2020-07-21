@@ -51,10 +51,10 @@ export const HomeScreen = ({
         <Appbar.Content title="Home" />
       </Appbar.Header>
       <ScrollView>
-      <MentalHealthMeasureCard
-        onStartClick={handleStart}
-        onHistoryClick={handleStart}
-      />
+        <MentalHealthMeasureCard
+          onStartClick={handleStart}
+          onHistoryClick={handleStart}
+        />
       </ScrollView>
     </>
   );
