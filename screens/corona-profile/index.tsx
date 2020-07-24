@@ -4,7 +4,7 @@ import { Headline, Button, Appbar } from "react-native-paper";
 import { RadioButtonGroup } from "../../components/radio-button-group";
 import { YesNoResponse, KindofTreatment } from "../profile/contents";
 import firebase from "firebase";
-
+import {UserContext} from '../../context';
 export const CoronaProfile = ({ navigation }: any) => {
   const [anySymptom, SetAnySymptom] = useState("");
   const [anyRelativeWithSymptom, SetAnyRelativeWithSymptom] = useState(
@@ -15,7 +15,7 @@ export const CoronaProfile = ({ navigation }: any) => {
   const [anyAfterSymptom, SetAnyAfterSymptom] = useState("");
   const [anyAfterMentalhelp, SetAnyAfterMentalhelp] = useState("");
 
-  const [userID ] = React.useState("zcbQ5d5RaxT3iuiFqkRGJr5Z0PH2");
+  const {userName} = React.useContext(UserContext);
   const onSubmit = () => {
     if (
       anySymptom == "" ||
@@ -38,9 +38,9 @@ export const CoronaProfile = ({ navigation }: any) => {
 
       firebase
         .database()
-        .ref("MentalProfile/" + userID + "/CoronaProfile")
+        .ref(userName+"/MentalProfile/CoronaProfile")
         .set(userData);
-      navigation.navigate("MentalProfile");
+      navigation.navigate("Profile");
     }
   };
 

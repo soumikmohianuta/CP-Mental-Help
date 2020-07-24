@@ -4,14 +4,13 @@ import { Headline, Button, Appbar } from "react-native-paper";
 import { RadioButtonGroup } from "../../components/radio-button-group";
 import { YesNoResponse, KindofTreatment } from "../profile/contents";
 import firebase from "firebase";
-
+import {UserContext} from '../../context';
 export const PsychoticProfile = ({ navigation }: any) => {
   const [anyHarmByOther, SetAnyHarmByOther] = useState("");
   const [anyControlByOther, SetAnyControlByOther] = useState("");
   const [anyAbnoramality, SetAnyAbnoramality] = useState("");
   const [anyFeeling, SetAnyFeeling] = useState("");
-
-  const [userID, SetUserID] = useState("zcbQ5d5RaxT3iuiFqkRGJr5Z0PH2");
+  const {userName} = React.useContext(UserContext);
 
   const onSubmit = () => {
     if (
@@ -31,9 +30,20 @@ export const PsychoticProfile = ({ navigation }: any) => {
 
       firebase
         .database()
-        .ref("MentalProfile/" + userID + "/PsychoticProfile")
+        .ref(userName+"/MentalProfile/PsychoticProfile")
         .set(userData);
-      navigation.navigate("MentalProfile");
+      
+        if( anyHarmByOther == "Yes" ||
+        anyControlByOther == "Yes" ||
+        anyAbnoramality == "Yes" ||
+        anyFeeling == "Yes"){
+
+          navigation.navigate("HelpCenterPPScreen");
+         
+        }
+        else{
+          navigation.navigate("Profile");
+        }
     }
   };
 
@@ -89,7 +99,7 @@ export const PsychoticProfile = ({ navigation }: any) => {
           পারেনা?
         </Headline>
         <RadioButtonGroup
-          options={KindofTreatment}
+          options={YesNoResponse}
           onSelect={checkSetSetAnyFeeling}
         />
         <Button onPress={onSubmit} mode="contained"> Submit </Button>

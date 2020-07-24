@@ -4,12 +4,12 @@ import { Headline, Button, Appbar } from "react-native-paper";
 import { RadioButtonGroup } from "../../components/radio-button-group";
 import { YesNoResponse } from "../profile/contents";
 import firebase from "firebase";
-
+import {UserContext} from '../../context';
 
 export const DomesticViolenceProfile = ({ navigation }: any) => {
   const [domesticViolence, SetDomesticViolence] = useState("");
 
-  const [userID, SetUserID] = useState("zcbQ5d5RaxT3iuiFqkRGJr5Z0PH2");
+  const {userName} = React.useContext(UserContext);
 
   const onSubmit = () => {
     if (domesticViolence == "") {
@@ -19,9 +19,15 @@ export const DomesticViolenceProfile = ({ navigation }: any) => {
 
       firebase
         .database()
-        .ref("MentalProfile/" + userID + "/DomesticViolenceProfile")
+        .ref(userName+ "/MentalProfile/DomesticViolenceProfile")
         .set(userData);
-      navigation.navigate("MentalProfile");
+
+      if(domesticViolence =="No"){
+        navigation.navigate("Profile");
+      }
+      else{
+        navigation.navigate("DomesticViolenceHelp");
+      }
     }
   };
 

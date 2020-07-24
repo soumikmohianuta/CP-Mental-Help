@@ -10,7 +10,12 @@ import { ProfileScreenStack } from './screens/profile';;
 import { ThemeProvider } from './components/theme';
 import { ActivityIndicator } from 'react-native-paper';
 import { SettingsNavigation } from './screens/settings';
- 
+import { AuthStackScreen} from './screens/login';
+import { AuthContext, UserContext, baseUserContext,getUserContext,getUserContextFromStorage} from './context';
+import {getItem, storeUserContext, deleteItem, getContextFromStorage  } from './storage';
+
+
+
 const HomeNavigation = () => {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
@@ -25,56 +30,83 @@ const HomeNavigation = () => {
     settings: SettingsNavigation,
   });
 
-  return (
-    <BottomNavigation
-      navigationState={{ index, routes }}
-      onIndexChange={setIndex}
-      renderScene={renderScene}
-    />
-  );
+    return (
+      <BottomNavigation
+        navigationState={{ index, routes }}
+        onIndexChange={setIndex}
+        renderScene={renderScene}
+      />
+    );
+
 }
 firebase.initializeApp(firebaseConfig);
 
 export default function App() {
-	  const [isLoading, setIsLoading] = React.useState(true);
-  const [user, setUser] = React.useState(null);
-  const [firstTimeLoading, setFirstTimeLoading] = React.useState(true);
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [userName, setUsername] = React.useState("none");
+  const [curUserContext, setCurUserContext] = React.useState(baseUserContext);
+
+
   const authContext = React.useMemo(() => {
     return {
-      signIn: (curUser:any) => {
-        setUser(curUser);
+      signIn: async (curUser:any) => {
+        setIsLoading(true);
+        const userContext = getUserContext(curUser);
+        setCurUserContext(userContext);
+        await storeUserContext(curUser);
+        setUsername(curUser.user.uid);
+        setIsLoading(false);
       },
-      signUp: (curUser:any) =>{
-        setFirstTimeLoading(false);
-        setUser(curUser);
-      },
-      signOut: () =>{
-        setUser(null);
-      },
-      saveUserData: ()=>{
-        setFirstTimeLoading(true);
+      signOut: async () =>{
+        setIsLoading(true);
+        await deleteItem('userName');
+        setUsername("none");
+        setIsLoading(false);
       },
     }
   },[]);
 
+ 
+
   React.useEffect(() =>{
-    firebase.auth().onAuthStateChanged(cuser => {
-      
-       setIsLoading(false);
-       if (cuser) {
-        setUser(cuser);
-       }
-   });
+
+    const checkUser = async () => {
+      var userNameInstorages = await getItem('userName');
+      if(userNameInstorages != null && userNameInstorages != 'none'){
+        const userContext = await getContextFromStorage();
+        setCurUserContext(userContext);
+        setUsername(userContext.userName);
+      }
+      setIsLoading(false);
+    };
+    checkUser();
+
   },[]);
 
-  if(isLoading) {
-    return <ActivityIndicator animating />;
+  if (isLoading)
+    return <ActivityIndicator />;
+
+  if (userName=="none" ){
+    return (
+      <ThemeProvider>   
+        <AuthContext.Provider value={authContext}> 
+          <UserContext.Provider value={curUserContext}> 
+                {<AuthStackScreen/>}
+          </UserContext.Provider> 
+        </AuthContext.Provider>
+      </ThemeProvider>
+    );
+
   }
+  else {
   return (
-    <ThemeProvider>   
-        {/* {isLoading ? <ActivityIndicator animating />:(user!=null && firstTimeLoading)? <HomeStackScreen/>: <AuthStackScreen/>} */}
-        {/* <SignInScreen /> */}
-        <HomeNavigation />
-    </ThemeProvider>
-  );
+      <ThemeProvider>           
+         <AuthContext.Provider value={authContext}> 
+          <UserContext.Provider value={curUserContext}> 
+            {<HomeNavigation/>}
+            </UserContext.Provider> 
+          </AuthContext.Provider>
+      </ThemeProvider>
+     );
+  }
 }

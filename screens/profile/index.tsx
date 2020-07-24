@@ -3,29 +3,39 @@ import { List, Card, ActivityIndicator, Appbar } from 'react-native-paper';
 import { ScrollView } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { fetchPersonalData } from '../../services/firebase';
+import { fetchPersonalData,getProfileState } from '../../services/firebase';
 import { CoronaProfile } from '../corona-profile';
 import { PsychoticProfile } from '../psychotic-profile';
+import {HelpCenterPPScreen} from '../psychotic-profile/helpPP'
 import { SuicideIdeationProfile } from '../suicide-ideation';
+import {SuicideIdeationNextProfile} from '../suicide-ideation/nextProfile';
+import { HelpCenterSIScreen } from '../suicide-ideation/helpSI';
 import { DomesticViolenceProfile } from '../domestic-violence';
+import {HelpCenterDVScreen} from '../domestic-violence/helpDV';
+import {UserContext} from '../../context';
+
 const { Navigator, Screen } = createStackNavigator();
 
-const MENTAL_HEALTH_PROFILE_SECTIONS = [
+var MENTAL_HEALTH_PROFILE_SECTIONS = [
   {
     name: 'Corona',
-    route: 'CoronaProfile'
+    route: 'CoronaProfile',
+    iconName:'cancel'
   },
   {
     name: 'Psychotic',
-    route: 'PsychoticProfile'
+    route: 'PsychoticProfile',
+    iconName:'cancel'
   },
   {
     name: 'Suicidal Ideation',
-    route: 'SuicidalIdeationProfile'
+    route: 'SuicidalIdeationProfile',
+    iconName:'cancel'
   },
   {
     name: 'Domestic violence',
-    route: 'DomesticViolenceProfile'
+    route: 'DomesticViolenceProfile',
+    iconName:'cancel'
   },
 ];
 
@@ -37,7 +47,11 @@ export const ProfileScreenStack = () => {
         <Screen name="CoronaProfile" component={CoronaProfile}/>
         <Screen name="PsychoticProfile" component={PsychoticProfile} />
         <Screen name="SuicidalIdeationProfile" component={SuicideIdeationProfile} />
+        <Screen name="SuicidalIdeationNextProfile" component={SuicideIdeationNextProfile} />
         <Screen name="DomesticViolenceProfile" component={DomesticViolenceProfile} />
+        <Screen name="PsychoticHelp" component={HelpCenterPPScreen} />
+        <Screen name="SuicidalIdeationHelp" component={HelpCenterSIScreen} />
+        <Screen name="DomesticViolenceHelp" component={HelpCenterDVScreen} />
       </Navigator>
     </NavigationContainer>
   );
@@ -47,10 +61,23 @@ export const ProfileScreen = ({ navigation }: any) => {
   const [basicInformation, setBasicInformation] = useState<any>({});
   const [loading, setLoading] = useState(true);
 
+  const {userName} = React.useContext(UserContext);
+
+  const setProfileState= async (profileState:any) =>{
+    for (var i = 0; i < profileState.length; i++) {
+      if (profileState[i]){
+        MENTAL_HEALTH_PROFILE_SECTIONS[i].iconName = 'check';
+      }
+    }
+ 
+  }
+
   useEffect(() => {
     const getPersonalData = async () => {
       try {
-        const data = await fetchPersonalData('zcbQ5d5RaxT3iuiFqkRGJr5Z0PH2');
+        const data = await fetchPersonalData(userName);
+        const profileState = await getProfileState(userName);
+        setProfileState(profileState);
         setBasicInformation(data);
       } catch(e) {
         alert('Get Personal Data Error');
@@ -101,10 +128,10 @@ export const ProfileScreen = ({ navigation }: any) => {
           <Card.Title title="Mental Health Profile" />
           <Card.Content>
             {
-              MENTAL_HEALTH_PROFILE_SECTIONS.map(({ name, route }) => (
+              MENTAL_HEALTH_PROFILE_SECTIONS.map(({ name, route, iconName }) => (
                 <List.Item
                   title={name}
-                  right={props => <List.Icon {...props} icon="check" />}
+                  right={props => <List.Icon {...props} icon={iconName} />}
                   onPress={() => { navigation.navigate(route)}}
                 />
               ))
