@@ -3,24 +3,36 @@ import { SafeAreaView, View } from "react-native";
 import { Button, Avatar } from "react-native-paper";
 import { createStackNavigator } from "@react-navigation/stack";
 import { UserInfo } from "../UserInfo";
+import { ConsentScreen } from "../Consent";
 import { signInFacebook, signUpFacebook } from "../../services/facebook";
 import { signInGoogle, signUpGoogle } from "../../services/google";
+import { NavigationContainer } from '@react-navigation/native';
+import {getItem} from '../../storage';
+import {AuthContext, UserContext} from '../../context';
+import {checkUserInfoExists} from '../../services/firebase';
 
 const { Navigator, Screen } = createStackNavigator();
 export const AuthStackScreen = () => {
   return (
-    <Navigator>
-      <Screen
-        name="SignIn"
-        component={SignInScreen}
-        options={{ title: "" }}
-      />
-      <Screen
-        name="UserInfo"
-        component={UserInfo}
-        options={{ title: "User Info" }}
-      />
-    </Navigator>
+    <NavigationContainer>
+      <Navigator>
+        <Screen
+          name="SignIn"
+          component={SignInScreen}
+         options={{ title: "" }}
+       />
+       <Screen
+         name="Consent"
+         component={ConsentScreen}
+         options={{ title: "Consent" }}
+       />
+       <Screen
+         name="UserInfo"
+         component={UserInfo}
+         options={{ title: "User Info" }}
+       />
+      </Navigator>
+    </NavigationContainer>
   );
 };
 
@@ -29,37 +41,40 @@ const socialMediaButtonStyle = {
 };
 
 export const SignInScreen = ({ navigation }: any) => {
-  const [isSignIn, setIsSignIn] = useState(true);
+  const {signIn} = React.useContext(AuthContext);
   const onLoginSuccess = (curUser: any) => {
-    const currentState = {
-      userId: curUser.user.uid,
-      email: curUser.user.email,
-      name: curUser.user.displayName,
+    const checkUser = async () => {
+      var userInfoExists = await checkUserInfoExists(curUser.user.uid);
+      if(userInfoExists){
+          signIn(curUser);
+      }
+      else{
+          navigation.navigate("Consent", {curUser});
+      }
     };
-    // TODO: store to expo storage and redirect to home.
+    checkUser();
   };
 
   const handleFacebookAuth = async () => {
     try {
-      const data = isSignIn ? await signInFacebook() : await signUpFacebook();
+      const data =  await signUpFacebook();
       onLoginSuccess(data);
     } catch(e) {
-      alert('Facebook auth error');
+      alert(e);
     }
   }
 
   const handleGoogleAuth = async () => {
     try {
-      const data = isSignIn ? await signInGoogle() : await signUpGoogle();
+      const data =  await signUpGoogle();
       onLoginSuccess(data);
     } catch(e) {
-      alert('Google auth error');
+      alert(e);
+      //alert('Google auth error');
     }
   }
 
-  const switchToAuth = () => {
-    setIsSignIn(!isSignIn);
-  }
+
 
   return (
     <SafeAreaView style={{ marginTop: 60 }}>
@@ -80,7 +95,7 @@ export const SignInScreen = ({ navigation }: any) => {
         style={socialMediaButtonStyle}
         onPress={handleFacebookAuth}
       >
-        { isSignIn ? 'Login with Facebook' : 'Sign Up with Facebook' }
+        { 'Login with Facebook' }
       </Button>
       <Button
         icon="google"
@@ -90,15 +105,9 @@ export const SignInScreen = ({ navigation }: any) => {
         style={socialMediaButtonStyle}
         onPress={handleGoogleAuth}
       >
-         { isSignIn ? 'Login with Google' : 'Sign Up with Google' }
+         { 'Login with Google' }
       </Button>
-      <Button
-        mode="text"
-        uppercase={false}
-        onPress={switchToAuth}
-      >
-        { isSignIn ? `Don't have an Account?` : 'Already have an account?'}
-      </Button>
+
     </SafeAreaView>
   );
 };

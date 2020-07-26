@@ -6,38 +6,40 @@ import { YesNoResponse } from "../profile/contents";
 import {UserContext} from '../../context';
 import firebase from "firebase";
 
-export const SuicideIdeationProfile = ({ navigation }: any) => {
-  const [anySuicideThought, SetSuicideThought] = useState("");
-
+export const SuicideIdeationNextProfile = ({ navigation }: any) => {
+  const [anySuicidePlan, SetAnySuicidePlan] = useState("");
+  const [anySuicideAttempt, SetAnySuicideAttempt] = useState("");
 
   const {userName} = React.useContext(UserContext);
 
   const onSubmit = () => {
     if (
-      anySuicideThought == "") {
+      anySuicidePlan == "" ||
+      anySuicideAttempt == ""
+    ) {
       alert("Incomplete Information");
     } else {
       const userData = {
-        anySuicideThought: anySuicideThought
+        anySuicidePlan: anySuicidePlan,
+        anySuicideAttempt: anySuicideAttempt,
       };
 
       firebase
         .database()
         .ref(userName + "/MentalProfile/SuicideIdeationProfile")
         .set(userData);
-        if(anySuicideThought=="Yes" ){
-          navigation.navigate("SuicidalIdeationNextProfile");
-        }
-        else{
-          navigation.navigate("Profile");
-        }
+      navigation.navigate("SuicidalIdeationHelp");
     }
   };
 
-  const checkSetSuicideThought = (value: any) => {
-    SetSuicideThought(value);
+
+  const checkSetAnySuicidePlan = (value: any) => {
+    SetAnySuicidePlan(value);
   };
 
+  const checkSetAnySuicideAttempt = (value: any) => {
+    SetAnySuicideAttempt(value);
+  };
 
   return (
     <>
@@ -46,10 +48,19 @@ export const SuicideIdeationProfile = ({ navigation }: any) => {
         <Appbar.Content title="Suicide Ideation Information" />
       </Appbar.Header>
       <ScrollView style={{ margin: 12 }}>
-        <Headline>আপনি কি আত্মহত্যার কথা ভাবেন?</Headline>
+        <Headline>
+          আত্মহত্যার করার কোন পরিকল্পনা করেছিলেন?
+        </Headline>
         <RadioButtonGroup
           options={YesNoResponse}
-          onSelect={checkSetSuicideThought}
+          onSelect={checkSetAnySuicidePlan}
+        />
+        <Headline>
+          আগে কখনো আত্মহত্যা করার চেষ্টা করেছিলেন কি?
+        </Headline>
+        <RadioButtonGroup
+          options={YesNoResponse}
+          onSelect={checkSetAnySuicideAttempt}
         />
         <Button onPress={onSubmit} mode="contained"> Submit </Button>
       </ScrollView>

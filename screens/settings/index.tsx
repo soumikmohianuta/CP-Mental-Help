@@ -4,7 +4,9 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { HelpCenterScreen } from '../help-center';
+import {PrivacyScreen} from '../privacy';
 import { AboutScreen } from '../about';
+import {AuthContext} from '../../context';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -15,12 +17,14 @@ export const SettingsNavigation = () => {
         <Screen name="Settings" component={SettingsScreen} />
         <Screen name="HelpCenter" component={HelpCenterScreen} />
         <Screen name="About" component={AboutScreen} />
+        <Screen name="Privacy" component={PrivacyScreen} />
       </Navigator>
     </NavigationContainer>
   );
 }
 
 export const SettingsScreen = ({ navigation }: any) => {
+  const {signOut} = React.useContext(AuthContext);
   return (
     <>
       <Appbar.Header>
@@ -35,6 +39,7 @@ export const SettingsScreen = ({ navigation }: any) => {
         <Drawer.Item
           icon="label"
           label="Privacy"
+          onPress={() => navigation.navigate('Privacy')}
         />
         <Drawer.Item
           icon="equal"
@@ -45,6 +50,7 @@ export const SettingsScreen = ({ navigation }: any) => {
         <Drawer.Item
           icon="logout"
           label="Log out"
+          onPress={() =>signOut()}
         />
       </ScrollView>
     </>

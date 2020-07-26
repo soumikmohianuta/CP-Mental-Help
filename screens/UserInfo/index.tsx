@@ -10,6 +10,8 @@ import {
   Text,
   TextInput,
   Button,
+  Headline,
+  Appbar
 } from "react-native-paper";
 import { RadioButtonGroup } from "../../components/radio-button-group";
 import {
@@ -18,26 +20,24 @@ import {
   CurrentLocation,
 } from "./contents";
 import firebase from "firebase";
-import { useSelector } from "react-redux";
+import {saveItem, checkItemExists} from '../../storage';
+import {AuthContext, UserContext} from '../../context';
 
-export const UserInfo = () => {
+export const UserInfo = ({route}:any) => {
   const { control, handleSubmit, errors } = useForm();
-
+  const {signIn} = React.useContext(AuthContext);
   const [ErrorMsg, SetErrorMsg] = useState("Not a valid Age");
   const [age, SetAge] = useState(0);
   const [sex, SetSex] = useState("");
   const [maritalStatus, SetMaritalStatus] = useState("");
   const [address, SetAddress] = useState("");
-
-  const userID = useSelector((state: any) => state.loginReducer.userId);
-  const eMail = useSelector((state: any) => state.loginReducer.email);
-
+  const { curUser } = route.params;
   const onSubmit = () => {
     if (ErrorMsg != "" || sex == "" || maritalStatus == "" || address == "") {
       alert("Incomplete Information");
     } else {
       const userData = {
-        Email: eMail,
+        Email: curUser.user.uid,
         Age: age,
         Sex: sex,
         maritalStatus: maritalStatus,
@@ -46,9 +46,10 @@ export const UserInfo = () => {
 
       firebase
         .database()
-        .ref("DemoGraphy/" + userID)
+        .ref(curUser.user.uid+"/DemoGraphy")
         .set(userData);
-      // saveUserData();
+        signIn(curUser);
+
     }
   };
 
@@ -76,38 +77,36 @@ export const UserInfo = () => {
   };
 
   return (
-    <SafeAreaView>
-      <ScrollView>
-        <Text>• বয়স </Text>
+      <ScrollView style={{ margin: 12 }}>
+        <Headline> বয়স </Headline>
         <Controller
           as={TextInput}
           control={control}
           name="age"
           onChange={(args) => renderError(args[0].nativeEvent.text)}
           rules={{ required: true }}
-          defaultValue="0"
+          defaultValue=""
           placeholder="Age"
         />
-        <Text>• লিঙ্গ </Text>
+        <Headline> লিঙ্গ </Headline>
         <RadioButtonGroup
           options={SexCategory}
           onSelect={checkSetSex}
         />
 
-        <Text>• বৈবাহিক অবস্থা </Text>
+        <Headline> বৈবাহিক অবস্থা </Headline>
         <RadioButtonGroup
           options={MaritalStatus}
           onSelect={CheckSetMaritalStatus}
         />
-        <Text>
-          • আপনি বর্তমানে কোন বিভাগে অবস্থান করছেন?{" "}
-        </Text>
+        <Headline>
+           আপনি বর্তমানে কোন বিভাগে অবস্থান করছেন?
+        </Headline>
         <RadioButtonGroup
           options={CurrentLocation}
           onSelect={CheckSetAddress}
         />
-        <Button onPress={onSubmit}> Submit </Button>
+        <Button onPress={onSubmit}mode="contained">  Submit </Button>
       </ScrollView>
-   </SafeAreaView>
   );
 };
