@@ -11,20 +11,25 @@ import {
   TextInput,
   Button,
   Headline,
-  Appbar
+  Appbar,
+  ProgressBar,
+  Subheading,
+  Colors,
+  ActivityIndicator
 } from "react-native-paper";
 import { RadioButtonGroup } from "../../components/radio-button-group";
 import {
-  SexCategory,
+  questions,
   MaritalStatus,
   CurrentLocation,
 } from "./contents";
 import firebase from "firebase";
-import {saveItem, checkItemExists} from '../../storage';
+import {storeUserInfo} from '../../storage';
 import {AuthContext, UserContext} from '../../context';
 
-export const UserInfo = ({route}:any) => {
-  const { control, handleSubmit, errors } = useForm();
+export const UserInfo = ({ route,navigation }: any) => {
+  const NUMBER_OF_QUESTIONS = questions.length;
+  const [count, setCount] = useState<number>(0);
   const {signIn} = React.useContext(AuthContext);
   const [ErrorMsg, SetErrorMsg] = useState("Not a valid Age");
   const [age, SetAge] = useState(0);
@@ -32,10 +37,14 @@ export const UserInfo = ({route}:any) => {
   const [maritalStatus, SetMaritalStatus] = useState("");
   const [address, SetAddress] = useState("");
   const { curUser } = route.params;
-  const onSubmit = () => {
-    if (ErrorMsg != "" || sex == "" || maritalStatus == "" || address == "") {
-      alert("Incomplete Information");
-    } else {
+
+  const [showSubmit, setShowSubmit] = useState<boolean>(false);
+  const [currentAnswers, setCurrentAnswers] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async() => {
+      alert(age);
+    setLoading(true);
       const userData = {
         Email: curUser.user.uid,
         Age: age,
@@ -43,70 +52,143 @@ export const UserInfo = ({route}:any) => {
         maritalStatus: maritalStatus,
         address: address,
       };
-
+      await storeUserInfo(userData);
       firebase
         .database()
         .ref(curUser.user.uid+"/DemoGraphy")
         .set(userData);
+
         signIn(curUser);
 
-    }
+        setLoading(false);
   };
 
   const renderError = (curAge: any) => {
-    if (isNaN(curAge)) {
-      SetErrorMsg("Enter a Number");
-    } else if (10 > Number(curAge) || 100 < Number(curAge)) {
-      SetErrorMsg("Not a valid Age");
+    if (curAge < 10 || curAge>100) {
+      SetErrorMsg("সঠিক বয়স প্রদান করুন");
+      setShowSubmit(false);
     } else {
-      SetAge(curAge);
       SetErrorMsg("");
+      SetAge(curAge);
+      setShowSubmit(true);
     }
   };
 
-  const checkSetSex = (value: any) => {
-    SetSex(value);
-  };
+  const handlePrevious = () => {
+    if(count==1){
+        setCurrentAnswers(sex);
+    }
+    else if(count==2){
+        setCurrentAnswers(maritalStatus);
+    }
+    else{
+        setCurrentAnswers(address);
+    }
+    setCount(count - 1);
+    setShowSubmit(false);
+  }
 
-  const CheckSetMaritalStatus = (value: any) => {
-    SetMaritalStatus(value);
-  };
 
-  const CheckSetAddress = (value: any) => {
-    SetAddress(value);
-  };
+  if (loading) {
+    return <ActivityIndicator />;
+  }
+
+  const onAnswerSelect = (value: string) => {
+      if(count==0){
+            SetSex(value);
+      }
+      else if(count==1){
+            SetMaritalStatus(value);
+      }
+      else{
+            SetAddress(value);
+      }
+        setCount(count + 1);
+    }
+  
 
   return (
-      <ScrollView style={{ margin: 12 }}>
-        <Headline> বয়স </Headline>
-        <Controller
-          as={TextInput}
-          control={control}
-          name="age"
-          onChange={(args) => renderError(args[0].nativeEvent.text)}
-          rules={{ required: true }}
-          defaultValue=""
-          placeholder="Age"
-        />
-        <Headline> লিঙ্গ </Headline>
-        <RadioButtonGroup
-          options={SexCategory}
-          onSelect={checkSetSex}
-        />
-
-        <Headline> বৈবাহিক অবস্থা </Headline>
-        <RadioButtonGroup
-          options={MaritalStatus}
-          onSelect={CheckSetMaritalStatus}
-        />
-        <Headline>
-           আপনি বর্তমানে কোন বিভাগে অবস্থান করছেন?
-        </Headline>
-        <RadioButtonGroup
-          options={CurrentLocation}
-          onSelect={CheckSetAddress}
-        />
-        <Button onPress={onSubmit}mode="contained">  Submit </Button>
+    <> 
+    <Appbar.Header>
+      <Appbar.BackAction onPress={() => navigation.navigate('SignIn')}  />
+      <Appbar.Content title="ব্যক্তিগত তথ্যাবলী" />
+    </Appbar.Header>
+    <ScrollView style={{ margin: 12 }}>
+    <Subheading style={{  marginTop: 12, marginBottom: 12 }}> QUESTIONS {count + 1} of {NUMBER_OF_QUESTIONS}</Subheading>
+      <ProgressBar
+        progress={(count + 1) / NUMBER_OF_QUESTIONS}
+        color={Colors.red800}
+        style={{ marginBottom: 24 }}
+      />
+      {
+        questions.map((item: any, index: number) => {
+          return index != count ?
+            null
+            :
+            <>
+              <Headline
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: 80,
+                }}
+              >
+                  {item.question}
+              </Headline>
+              {count === NUMBER_OF_QUESTIONS - 1 ? 
+               <TextInput
+               onChangeText={text => renderError(text)}
+               defaultValue=""
+               placeholder="বয়স" 
+               keyboardType = "number-pad"
+             /> 
+             :
+              <RadioButtonGroup
+                options={item.answers}
+                onSelect={onAnswerSelect}
+                defaultValue={currentAnswers}
+              />}    
+            
+            </>
+        })
+      }
+      
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginTop: 12
+        }}
+      >
+          <Button
+            onPress={handlePrevious}
+            disabled={count === 0}
+            mode="outlined"
+          >
+            Previous
+          </Button>
+          {
+            showSubmit && count === NUMBER_OF_QUESTIONS - 1 ?
+            <Button onPress={handleSubmit} mode="contained"> Submit </Button>
+            : null
+          }
+        </View> 
+        {
+           count === NUMBER_OF_QUESTIONS - 1 ?
+         
+            <Text
+            style={{
+            color:Colors.red800,
+            marginTop: 12
+            }} 
+        >
+            {ErrorMsg}
+      </Text>:null
+    }
       </ScrollView>
+
+ 
+      </>
   );
 };

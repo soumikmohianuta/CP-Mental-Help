@@ -22,14 +22,10 @@ export const MaritalStatus = [
     value: 'Unmarried'
   },
   {
-    label: 'বিধবা',
-    value: 'Widowed (Female)'
+    label: 'বিধবা/বিপত্নিক',
+    value: 'Widowed'
   },
-{
-    label: 'বিপত্নিক',
-    value: 'Widowed (Male)'
-  },
-{
+  {
     label: 'তালাকপ্রাপ্ত',
     value: 'Divorced'
   }
@@ -74,67 +70,28 @@ export const CurrentLocation = [
   }
 ]
 
-export const SymptomPresentSelf = [
+
+
+
+
+
+export const questions = [
   {
-    label: 'হ্যাঁ',
-    value: 'Yes'
+    question: 'লিঙ্গ',
+    answers: SexCategory,
   },
   {
-    label: 'না',
-    value: 'No'
-  }  
+    question: 'বৈবাহিক অবস্থা',
+    answers: MaritalStatus,
+  },
+  {
+    question: 'আপনি বর্তমানে কোন বিভাগে অবস্থান করছেন?',
+    answers: CurrentLocation,
+  },
+  {
+    question: 'বয়স',
+    answers: [],
+  }
 ]
-
-export const SymptomPresenetOthers = [
-  {
-    label: 'হ্যাঁ',
-    value: 'Yes'
-  },
-  {
-    label: 'না',
-    value: 'No'
-  }  
-]
-
-
-export const MentalHealthProblemBeforeCorona = [
-  {
-    label: 'হ্যাঁ',
-    value: 'Yes'
-  },
-  {
-    label: 'না',
-    value: 'No'
-  }  
-]
-
-
-export const KindofTreatment = [
-  {
-    label: 'হ্যাঁ (ঔষধ চিকিৎসা)',
-    value: 'Yes (Medicinal Treatment)'
-  },
-  {
-    label: 'হ্যাঁ (কাউন্সিলিং সেবা)',
-    value: 'Yes (Counselling Service)'
-  },
-  {
-    label: 'না',
-    value: 'No'
-  },  
-]
-
-export const MentalHealthProblemAfterCorona = [
-  {
-    label: 'হ্যাঁ',
-    value: 'Yes'
-  },
-  {
-    label: 'না',
-    value: 'No'
-  }  
-]
-
-
 
 

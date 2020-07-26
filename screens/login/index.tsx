@@ -12,29 +12,20 @@ import {AuthContext, UserContext} from '../../context';
 import {checkUserInfoExists} from '../../services/firebase';
 
 const { Navigator, Screen } = createStackNavigator();
+
+
 export const AuthStackScreen = () => {
   return (
     <NavigationContainer>
-      <Navigator>
-        <Screen
-          name="SignIn"
-          component={SignInScreen}
-         options={{ title: "" }}
-       />
-       <Screen
-         name="Consent"
-         component={ConsentScreen}
-         options={{ title: "Consent" }}
-       />
-       <Screen
-         name="UserInfo"
-         component={UserInfo}
-         options={{ title: "User Info" }}
-       />
+      <Navigator headerMode="none">
+        <Screen name="SignIn" component={SignInScreen} />
+        <Screen name="Consent" component={ConsentScreen}/>
+        <Screen name="UserInfo" component={UserInfo} />
       </Navigator>
     </NavigationContainer>
   );
-};
+}
+
 
 const socialMediaButtonStyle = {
   margin: 12,
@@ -60,7 +51,13 @@ export const SignInScreen = ({ navigation }: any) => {
       const data =  await signUpFacebook();
       onLoginSuccess(data);
     } catch(e) {
-      alert(e);
+      console.log(e.toString());
+      if(e.toString().includes("An account already exists with the same email address")){
+        alert("এই ই-মেইল দিয়ে আপনার আরেকটি প্রোফাইল রয়েছে");
+      }
+      else{
+        alert("লগ-ইন সফল হয়নি");
+      }
     }
   }
 
@@ -69,8 +66,12 @@ export const SignInScreen = ({ navigation }: any) => {
       const data =  await signUpGoogle();
       onLoginSuccess(data);
     } catch(e) {
-      alert(e);
-      //alert('Google auth error');
+      if(e.toString().includes("An account already exists with the same email address")){
+        alert("এই ই-মেইল দিয়ে আপনার আরেকটি প্রোফাইল রয়েছে");
+      }
+      else{
+        alert("লগ-ইন সফল হয়নি");
+      }
     }
   }
 
@@ -95,7 +96,7 @@ export const SignInScreen = ({ navigation }: any) => {
         style={socialMediaButtonStyle}
         onPress={handleFacebookAuth}
       >
-        { 'Login with Facebook' }
+        { 'Continue with Facebook' }
       </Button>
       <Button
         icon="google"
@@ -105,7 +106,7 @@ export const SignInScreen = ({ navigation }: any) => {
         style={socialMediaButtonStyle}
         onPress={handleGoogleAuth}
       >
-         { 'Login with Google' }
+         { 'Continue with Google' }
       </Button>
 
     </SafeAreaView>

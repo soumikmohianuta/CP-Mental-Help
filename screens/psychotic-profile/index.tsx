@@ -38,7 +38,7 @@ export const PsychoticProfile = ({ navigation }: any) => {
         anyAbnoramality == "Yes" ||
         anyFeeling == "Yes"){
 
-          navigation.navigate("HelpCenterPPScreen");
+          navigation.navigate("PsychoticHelp");
          
         }
         else{

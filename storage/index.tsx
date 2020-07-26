@@ -69,3 +69,28 @@ export const saveItem = async (key:string, value:string) => {
     return currentContext;
   }
   
+  export const storeUserInfo = async (userData:any) => {
+
+    await saveItem('userAge',userData.Age);
+    await saveItem('userSex',userData.Sex);
+    await saveItem('userMaritalStatus',userData.maritalStatus);
+    await saveItem('userAddress',userData.address);
+  }
+
+  export const getUserInfo = async() => {
+  
+    var userAgeInstorages = await getItem('userAge');
+    var userSexInStore = await getItem('userSex');
+    var userMaritalStatusInstore = await getItem('userMaritalStatus');
+    var userAddressInstore = await getItem('userAddress');
+    var userEmailInstore = await getItem('email');
+    const currentUserInfo = {
+    
+      userAge: userAgeInstorages,
+      userSex: userSexInStore,
+      userMaritalStatus: userMaritalStatusInstore,
+      userAddress:userAddressInstore,
+      userEmail:userEmailInstore
+    }
+    return currentUserInfo;
+  }
