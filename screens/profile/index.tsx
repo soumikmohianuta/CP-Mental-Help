@@ -48,7 +48,6 @@ export const ProfileScreenStack = () => {
         <Screen name="CoronaProfile" component={CoronaProfile}/>
         <Screen name="PsychoticProfile" component={PsychoticProfile} />
         <Screen name="SuicidalIdeationProfile" component={SuicideIdeationProfile} />
-        <Screen name="SuicidalIdeationNextProfile" component={SuicideIdeationNextProfile} />
         <Screen name="DomesticViolenceProfile" component={DomesticViolenceProfile} />
         <Screen name="PsychoticHelp" component={HelpCenterPPScreen} />
         <Screen name="SuicidalIdeationHelp" component={HelpCenterSIScreen} />
