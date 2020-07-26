@@ -8,7 +8,6 @@ import { CoronaProfile } from '../corona-profile';
 import { PsychoticProfile } from '../psychotic-profile';
 import {HelpCenterPPScreen} from '../psychotic-profile/helpPP'
 import { SuicideIdeationProfile } from '../suicide-ideation';
-import {SuicideIdeationNextProfile} from '../suicide-ideation/nextProfile';
 import { HelpCenterSIScreen } from '../suicide-ideation/helpSI';
 import { DomesticViolenceProfile } from '../domestic-violence';
 import {HelpCenterDVScreen} from '../domestic-violence/helpDV';
