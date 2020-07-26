@@ -1,10 +1,11 @@
 import React from 'react';
 import { Appbar, Card, List } from 'react-native-paper';
-import { helplines } from './content';
+import { helplines } from './contents';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Linking, Platform } from 'react-native';
 
 export const HelpCenterPPScreen = ({ navigation }: any) => {
+  var MentalProfileState = 1;
   const dialCall = (number: string, commType: string) => {
     if (commType === 'whatsapp') {
       Linking.openURL(`whatsapp://send?text=Hello&phone=${number}`);
@@ -17,7 +18,7 @@ export const HelpCenterPPScreen = ({ navigation }: any) => {
   return (
     <>
       <Appbar.Header>
-        <Appbar.BackAction onPress={() => navigation.navigate('Profile')}  />
+        <Appbar.BackAction onPress={() => navigation.navigate('Profile',{MentalProfileState})}  />
         <Appbar.Content title="Help Center" />
       </Appbar.Header>
       <ScrollView>

@@ -32,3 +32,36 @@ export const helplines = [
       }],
     },
   ]
+
+
+
+
+  export const YesNoResponse = [
+    {
+      label: 'হ্যাঁ',
+      value: 'Yes'
+    },
+    {
+      label: 'না',
+      value: 'No'
+    }  
+  ]
+
+    
+    
+    
+    export const questions = [
+      {
+        question: 'আপনি কি আত্মহত্যার কথা ভাবেন?',
+        answers: YesNoResponse,
+      },
+      {
+        question: 'আত্মহত্যার করার কোন পরিকল্পনা করেছিলেন?',
+        answers: YesNoResponse,
+      },
+      {
+        question: 'আগে কখনো আত্মহত্যা করার চেষ্টা করেছিলেন কি?',
+        answers: YesNoResponse,
+      }
+  
+    ]

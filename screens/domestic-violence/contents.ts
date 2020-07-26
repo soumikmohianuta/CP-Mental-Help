@@ -16,3 +16,20 @@ export const helplines = [
       }],
     },
   ]
+
+
+  export const YesNoResponse = [
+    {
+      label: 'হ্যাঁ',
+      value: 'Yes'
+    },
+    {
+      label: 'না',
+      value: 'No'
+    }  
+  ]
+
+    
+    
+    
+    export const question = "আপনি কি ঘরোয়া সহিংসতার স্বীকার?"; 

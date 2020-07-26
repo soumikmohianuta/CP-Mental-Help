@@ -59,7 +59,7 @@ export const ProfileScreenStack = () => {
   );
 }
 
-export const ProfileScreen = ({ navigation }: any) => {
+export const ProfileScreen = ({ route,navigation }: any) => {
   const [basicInformation, setBasicInformation] = useState<any>({});
   const [sexInfo, setSexInfo] = useState("");
   const [addressinfo, setAddressinfo] = useState("");
@@ -76,7 +76,10 @@ export const ProfileScreen = ({ navigation }: any) => {
     }
  
   }
-
+  if(route.params != null){
+    MENTAL_HEALTH_PROFILE_SECTIONS[route.params.MentalProfileState].iconName = 'check';
+  }
+  
   useEffect(() => {
     const getPersonalData = async () => {
       try {
@@ -88,7 +91,7 @@ export const ProfileScreen = ({ navigation }: any) => {
         setProfileState(profileState);
         setBasicInformation(data);
       } catch(e) {
-        alert('Get Personal Data Error');
+        alert('ব্যক্তিগত তথ্য দেখানো যাচ্ছে না');
       } finally {
         setLoading(false);
       }

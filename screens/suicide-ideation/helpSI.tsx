@@ -1,6 +1,6 @@
 import React from 'react';
 import { Appbar, Card, List } from 'react-native-paper';
-import { helplines } from './content';
+import { helplines } from './contents';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Linking, Platform } from 'react-native';
 
@@ -13,11 +13,11 @@ export const HelpCenterSIScreen = ({ navigation }: any) => {
     `tel:${number}` : `telprompt:${number}`;
     Linking.openURL(phoneNumber);
   };
-
+  var MentalProfileState = 2;
   return (
     <>
       <Appbar.Header>
-        <Appbar.BackAction onPress={() => navigation.navigate('Profile')}  />
+        <Appbar.BackAction onPress={() => navigation.navigate("Profile",{MentalProfileState})}  />
         <Appbar.Content title="Help Center" />
       </Appbar.Header>
       <ScrollView>

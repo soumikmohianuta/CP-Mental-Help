@@ -1,33 +1,56 @@
 import React, { useState } from "react";
-import { ScrollView } from "react-native";
-import { Headline, Button, Appbar } from "react-native-paper";
+import { useForm, Controller } from "react-hook-form";
+import {
+  View,
+  ScrollView,
+  Image,
+  SafeAreaView,
+} from "react-native";
+import {
+  Text,
+  TextInput,
+  Button,
+  Headline,
+  Appbar,
+  ProgressBar,
+  Subheading,
+  Colors,
+  ActivityIndicator
+} from "react-native-paper";
 import { RadioButtonGroup } from "../../components/radio-button-group";
-import { YesNoResponse, KindofTreatment } from "../profile/contents";
+import {
+  questions,
+} from "./contents";
 import firebase from "firebase";
-import {UserContext} from '../../context';
+import {storeUserInfo} from '../../storage';
+import {AuthContext, UserContext} from '../../context';
+
 export const PsychoticProfile = ({ navigation }: any) => {
+  const NUMBER_OF_QUESTIONS = questions.length;
+  const [count, setCount] = useState<number>(0);
+
   const [anyHarmByOther, SetAnyHarmByOther] = useState("");
   const [anyControlByOther, SetAnyControlByOther] = useState("");
   const [anyAbnoramality, SetAnyAbnoramality] = useState("");
   const [anyFeeling, SetAnyFeeling] = useState("");
+  
+
   const {userName} = React.useContext(UserContext);
 
-  const onSubmit = () => {
-    if (
-      anyHarmByOther == "" ||
-      anyControlByOther == "" ||
-      anyAbnoramality == "" ||
-      anyFeeling == ""
-    ) {
-      alert("Incomplete Information");
-    } else {
-      const userData = {
-        anyHarmByOther: anyHarmByOther,
-        anyControlByOther: anyControlByOther,
-        anyAbnoramality: anyAbnoramality,
-        anyFeeling: anyFeeling,
-      };
+  const [showSubmit, setShowSubmit] = useState<boolean>(false);
+  const [currentAnswers, setCurrentAnswers] = useState("");
+  const [loading, setLoading] = useState(false);
 
+  const handleSubmit = async() => {
+
+    setLoading(true);
+    const userData = {
+      anyHarmByOther: anyHarmByOther,
+      anyControlByOther: anyControlByOther,
+      anyAbnoramality: anyAbnoramality,
+      anyFeeling: anyFeeling,
+    };
+      try{
       firebase
         .database()
         .ref(userName+"/MentalProfile/PsychoticProfile")
@@ -39,71 +62,127 @@ export const PsychoticProfile = ({ navigation }: any) => {
         anyFeeling == "Yes"){
 
           navigation.navigate("PsychoticHelp");
-         
         }
         else{
-          navigation.navigate("Profile");
+          var MentalProfileState = 1;
+          navigation.navigate("Profile",{MentalProfileState});
         }
+      }
+      catch{
+        alert('সাবমিট করা যাচ্ছে না');
+    } 
+
+      setLoading(false);
+  };
+
+
+
+  const handlePrevious = () => {
+    if(count==1){
+        setCurrentAnswers(anyHarmByOther);
     }
-  };
+    else if(count==2){
+        setCurrentAnswers(anyControlByOther);
+    }
+    else {
+        setCurrentAnswers(anyAbnoramality);
+    }
+    setCount(count - 1);
+    setShowSubmit(false);
+  }
 
-  const checkSetAnyHarmByOther = (value: any) => {
-    SetAnyHarmByOther(value);
-  };
 
-  const checkSetAnyControlByOther = (value: any) => {
-    SetAnyControlByOther(value);
-  };
+  if (loading) {
+    return <ActivityIndicator />;
+  }
 
-  const checkSetAnyAbnoramality = (value: any) => {
-    SetAnyAbnoramality(value);
-  };
+  const onAnswerSelect = (value: string) => {
+      setCurrentAnswers("");
+      if(count==0){
+        SetAnyHarmByOther(value);
+            setCount(count + 1);
+      }
+      else if(count==1){
+        SetAnyControlByOther(value);
+        setCount(count + 1);
+      }
+    
+      else if(count==2){
+        SetAnyAbnoramality(value);
+        setCount(count + 1);
+      }
 
-  const checkSetSetAnyFeeling = (value: any) => {
-    SetAnyFeeling(value);
-  };
+    else{
+        SetAnyFeeling(value);
+        setShowSubmit(true);
+    }
+
+    }
+  
 
   return (
-    <>
-      <Appbar.Header>
-        <Appbar.BackAction onPress={() => navigation.navigate('Profile')}  />
-        <Appbar.Content title="Psychotic Information" />
-      </Appbar.Header>
-      <ScrollView style={{ margin: 12 }}>
-        <Headline>
-          আপনার কি মনে হয় মানুষ ইচ্ছাকৃত ভাবে আপনার ক্ষতি করতে চাচ্ছে অথবা
-          আপনার বিরুদ্ধে ষড়যন্ত্র করছে?
-        </Headline>
-        <RadioButtonGroup
-          options={YesNoResponse}
-          onSelect={checkSetAnyHarmByOther}
-        />
-        <Headline>
-          আপনার কি মনে হয় কোন কিছু বা অন্য কোন ব্যক্তি আপনার চিন্তাগুলোকে
-          সরাসরি নিয়ন্ত্রণ করছে?
-        </Headline>
-        <RadioButtonGroup
-          options={YesNoResponse}
-          onSelect={checkSetAnyControlByOther}
-        />
-        <Headline>
-          আপনার কি এরকম মনে হয় যে অস্বাভাবিক কিছু একটা ঘটছে, তবে অন্য কেউ
-          বিশ্বাস করছে না?
-        </Headline>
-        <RadioButtonGroup
-          options={YesNoResponse}
-          onSelect={checkSetAnyAbnoramality}
-        />
-        <Headline>
-          আপনি কি এমন কিছু দেখতে, শুনতে বা অনুভব করতে পারেন যেটা অন্য কেউ
-          পারেনা?
-        </Headline>
-        <RadioButtonGroup
-          options={YesNoResponse}
-          onSelect={checkSetSetAnyFeeling}
-        />
-        <Button onPress={onSubmit} mode="contained"> Submit </Button>
+    <> 
+    <Appbar.Header>
+      <Appbar.BackAction onPress={() => navigation.navigate('Profile')}  />
+      <Appbar.Content title="গুরুতর সমস্যা সম্পর্কীয়" />
+    </Appbar.Header>
+    <ScrollView style={{ margin: 12 }}>
+    <Subheading style={{  marginTop: 12, marginBottom: 12 }}> QUESTIONS {count + 1} of {NUMBER_OF_QUESTIONS}</Subheading>
+      <ProgressBar
+        progress={(count + 1) / NUMBER_OF_QUESTIONS}
+        color={Colors.red800}
+        style={{ marginBottom: 24 }}
+      />
+      {
+        questions.map((item: any, index: number) => {
+          return index != count ?
+            null
+            :
+            <>
+              <Headline
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: 120,
+                }}
+              >
+                  {item.question}
+              </Headline>
+              <RadioButtonGroup
+                options={item.answers}
+                onSelect={onAnswerSelect}
+                defaultValue={currentAnswers}
+              />   
+            
+            </>
+        })
+      }
+      
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginTop: 12
+        }}
+      >
+          <Button
+            onPress={handlePrevious}
+            disabled={count === 0}
+            mode="outlined"
+          >
+            Previous
+          </Button>
+          {
+            showSubmit && count === NUMBER_OF_QUESTIONS - 1 ?
+            <Button onPress={handleSubmit} mode="contained"> Submit </Button>
+            : null
+          }
+        </View> 
+
       </ScrollView>
-    </>
+
+ 
+      </>
   );
 };

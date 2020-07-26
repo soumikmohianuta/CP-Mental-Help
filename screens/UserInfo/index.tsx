@@ -43,7 +43,6 @@ export const UserInfo = ({ route,navigation }: any) => {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async() => {
-      alert(age);
     setLoading(true);
       const userData = {
         Email: curUser.user.uid,
@@ -52,15 +51,21 @@ export const UserInfo = ({ route,navigation }: any) => {
         maritalStatus: maritalStatus,
         address: address,
       };
-      await storeUserInfo(userData);
+
+      try{
       firebase
         .database()
         .ref(curUser.user.uid+"/DemoGraphy")
         .set(userData);
-
+        await storeUserInfo(userData);
         signIn(curUser);
 
         setLoading(false);
+      }
+      catch{
+          alert('সাবমিট করা যাচ্ছে না');
+      }
+
   };
 
   const renderError = (curAge: any) => {

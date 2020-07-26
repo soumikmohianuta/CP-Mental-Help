@@ -1,33 +1,52 @@
 import React, { useState } from "react";
-import { ScrollView } from "react-native";
-import { Headline, Button, Appbar } from "react-native-paper";
+import { useForm, Controller } from "react-hook-form";
+import {
+  View,
+  ScrollView,
+  Image,
+  SafeAreaView,
+} from "react-native";
+import {
+  Text,
+  TextInput,
+  Button,
+  Headline,
+  Appbar,
+  ProgressBar,
+  Subheading,
+  Colors,
+  ActivityIndicator
+} from "react-native-paper";
 import { RadioButtonGroup } from "../../components/radio-button-group";
-import { YesNoResponse, KindofTreatment } from "../profile/contents";
+import {
+  questions,
+} from "./contents";
 import firebase from "firebase";
-import {UserContext} from '../../context';
+import {storeUserInfo} from '../../storage';
+import {AuthContext, UserContext} from '../../context';
+
 export const CoronaProfile = ({ navigation }: any) => {
+  const NUMBER_OF_QUESTIONS = questions.length;
+  const [count, setCount] = useState<number>(0);
+
   const [anySymptom, SetAnySymptom] = useState("");
-  const [anyRelativeWithSymptom, SetAnyRelativeWithSymptom] = useState(
-    ""
-  );
+  const [anyRelativeWithSymptom, SetAnyRelativeWithSymptom] = useState("");
   const [anyPrevSymptom, SetAnyPrevSymptom] = useState("");
   const [anyMentalHelp, SetAnyMentalHelp] = useState("");
   const [anyAfterSymptom, SetAnyAfterSymptom] = useState("");
   const [anyAfterMentalhelp, SetAnyAfterMentalhelp] = useState("");
+  
 
   const {userName} = React.useContext(UserContext);
-  const onSubmit = () => {
-    if (
-      anySymptom == "" ||
-      anyRelativeWithSymptom == "" ||
-      anyPrevSymptom == "" ||
-      anyMentalHelp == "" ||
-      anyAfterSymptom == "" ||
-      anyAfterMentalhelp == ""
-    ) {
-      alert("Incomplete Information");
-    } else {
-      const userData = {
+
+  const [showSubmit, setShowSubmit] = useState<boolean>(false);
+  const [currentAnswers, setCurrentAnswers] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async() => {
+
+    setLoading(true);
+    const userData = {
         anySymptom: anySymptom,
         anyRelativeWithSymptom: anyRelativeWithSymptom,
         anyPrevSymptom: anyPrevSymptom,
@@ -35,94 +54,145 @@ export const CoronaProfile = ({ navigation }: any) => {
         anyAfterSymptom: anyAfterSymptom,
         anyAfterMentalhelp: anyAfterMentalhelp,
       };
-
+      try{
       firebase
         .database()
         .ref(userName+"/MentalProfile/CoronaProfile")
         .set(userData);
-      navigation.navigate("Profile");
+      var MentalProfileState = 0;
+      navigation.navigate("Profile",{MentalProfileState});
+      }
+
+     catch{
+          alert('সাবমিট করা যাচ্ছে না');
+      } 
+      setLoading(false);
+  };
+
+
+
+  const handlePrevious = () => {
+    if(count==1){
+        setCurrentAnswers(anySymptom);
     }
-  };
+    else if(count==2){
+        setCurrentAnswers(anyRelativeWithSymptom);
+    }
+    else if(count==3){
+        setCurrentAnswers(anyPrevSymptom);
+    }
+    else if(count==4){
+        setCurrentAnswers(anyMentalHelp);
+    }
+    else {
+        setCurrentAnswers(anyAfterSymptom);
+    }
+    setCount(count - 1);
+    setShowSubmit(false);
+  }
 
-  const checkSetAnySymptom = (value: any) => {
-    SetAnySymptom(value);
-  };
 
-  const checkSetAnyRelativeWithSymptom = (value: any) => {
-    SetAnyRelativeWithSymptom(value);
-  };
+  if (loading) {
+    return <ActivityIndicator />;
+  }
 
-  const checkSetAnyPrevSymptom = (value: any) => {
-    SetAnyPrevSymptom(value);
-  };
+  const onAnswerSelect = (value: string) => {
+      setCurrentAnswers("");
+      if(count==0){
+            SetAnySymptom(value);
+            setCount(count + 1);
+      }
+      else if(count==1){
+        SetAnyRelativeWithSymptom(value);
+        setCount(count + 1);
+      }
+    
+      else if(count==2){
+        SetAnyRelativeWithSymptom(value);
+        setCount(count + 1);
+      }
+    
+    else if(count==3){
+        SetAnyMentalHelp(value);
+        setCount(count + 1);
+    }
 
-  const checkSetAnyMentalHelp = (value: any) => {
-    SetAnyMentalHelp(value);
-  };
+    else if(count==4){
+        SetAnyAfterSymptom(value);
+        setCount(count + 1);
+    }
 
-  const checkSetAnyAfterSymptom = (value: any) => {
-    SetAnyAfterSymptom(value);
-  };
+    else{
+        SetAnyAfterMentalhelp(value);
+        setShowSubmit(true);
+    }
 
-  const checkSetAnyAfterMentalhelp = (value: any) => {
-    SetAnyAfterMentalhelp(value);
-  };
+    }
+  
 
   return (
-    <>
-      <Appbar.Header>
-        <Appbar.BackAction onPress={() => navigation.navigate('Profile')}  />
-        <Appbar.Content title="Corona Information" />
-      </Appbar.Header>
-      <ScrollView style={{ margin: 12 }}>
-        <Headline>
-          করোনায় আক্রান্ত রোগীর লক্ষন (জ্বর, সর্দি, কাশি ইত্যাদি) আপনার
-          মধ্যে বিদ্যমান?
-        </Headline>
-        <RadioButtonGroup
-          options={YesNoResponse}
-          onSelect={checkSetAnySymptom}
-        />
-        <Headline>
-          করোনায় আক্রান্ত রোগীর লক্ষন (জ্বর, সর্দি, কাশি ইত্যাদি) আপনার
-          কাছের মানুষদের মধ্যে বিদ্যমান?
-        </Headline>
-        <RadioButtonGroup
-          options={YesNoResponse}
-          onSelect={checkSetAnyRelativeWithSymptom}
-        />
-        <Headline>
-          করোনা পরিস্থিতি উদ্ভুত হওয়ার পূর্বে আপনার কি কোনও মানসিক
-          স্বাস্থ্য সমস্যা দেখা দিয়েছিল?
-        </Headline>
-        <RadioButtonGroup
-          options={YesNoResponse}
-          onSelect={checkSetAnyPrevSymptom}
-        />
-        <Headline>
-          যদি হ্যাঁ হয় তাহলে সেজন্য কি কোন চিকিৎসা নিয়েছিলেন?
-        </Headline>
-        <RadioButtonGroup
-          options={KindofTreatment}
-          onSelect={checkSetAnyMentalHelp}
-        />
-        <Headline>
-          করোনা পরিস্থিতি উদ্ভুত হওয়ার পরে/ এই পরিস্থিতির কারণে আপনার কি
-          কোনও মানসিক স্বাস্থ্য সমস্যা দেখা দিয়েছে?
-        </Headline>
-        <RadioButtonGroup
-          options={YesNoResponse}
-          onSelect={checkSetAnyAfterSymptom}
-        />
-        <Headline>
-          যদি হ্যাঁ হয় তাহলে সেজন্য কি কোন চিকিৎসা নিয়েছিলেন?
-        </Headline>
-        <RadioButtonGroup
-          options={KindofTreatment}
-          onSelect={checkSetAnyAfterMentalhelp}
-        />
-        <Button onPress={onSubmit} mode="contained"> Submit </Button>
+    <> 
+    <Appbar.Header>
+      <Appbar.BackAction onPress={() => navigation.navigate('Profile')}  />
+      <Appbar.Content title="করোনা সম্পর্কীয়" />
+    </Appbar.Header>
+    <ScrollView style={{ margin: 12 }}>
+    <Subheading style={{  marginTop: 12, marginBottom: 12 }}> QUESTIONS {count + 1} of {NUMBER_OF_QUESTIONS}</Subheading>
+      <ProgressBar
+        progress={(count + 1) / NUMBER_OF_QUESTIONS}
+        color={Colors.red800}
+        style={{ marginBottom: 24 }}
+      />
+      {
+        questions.map((item: any, index: number) => {
+          return index != count ?
+            null
+            :
+            <>
+              <Headline
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: 120,
+                }}
+              >
+                  {item.question}
+              </Headline>
+              <RadioButtonGroup
+                options={item.answers}
+                onSelect={onAnswerSelect}
+                defaultValue={currentAnswers}
+              />   
+            
+            </>
+        })
+      }
+      
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginTop: 12
+        }}
+      >
+          <Button
+            onPress={handlePrevious}
+            disabled={count === 0}
+            mode="outlined"
+          >
+            Previous
+          </Button>
+          {
+            showSubmit && count === NUMBER_OF_QUESTIONS - 1 ?
+            <Button onPress={handleSubmit} mode="contained"> Submit </Button>
+            : null
+          }
+        </View> 
+
       </ScrollView>
-    </>
+
+ 
+      </>
   );
 };
