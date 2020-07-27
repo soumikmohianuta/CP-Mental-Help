@@ -8,9 +8,8 @@ import { GHQMeasureScreen } from '../GHQ-measure';
 import { NavigationContainer } from '@react-navigation/native';
 import { Appbar } from 'react-native-paper';
 import { PSSMeasureScreen } from '../PSS-measure';
-import { PSSHistoryScreen } from '../PSS-history';
+import { ScaleHistoryViewScreen } from '../scale-history-view';
 import{ AnxietyScaleMeasureScreen } from '../anxiety-scale-measure';
-import { AnxietyScaleHistoryScreen } from '../anxiety-scale-history';
 import { MentalHealthScoreViewScreen } from '../mental-health-score-view';
 import { MentalHealthExerciseScreen } from '../mental-health-exercises';
 
@@ -25,11 +24,10 @@ export const HomePageStack = () => {
         <Screen name="MentalHealthMeasureList" component={MentalHealthMeasureListScreen} />
         <Screen name="GHQMeasure" component={GHQMeasureScreen} />
         <Screen name="PSSMeasure" component={PSSMeasureScreen} />
-        <Screen name="PSSHistory" component={PSSHistoryScreen} />
         <Screen name="AnxietyScaleMeasure" component={AnxietyScaleMeasureScreen} />
-        <Screen name="AnxietyScaleHistory" component={AnxietyScaleHistoryScreen} />
         <Screen name="MentalHealthScoreView" component={MentalHealthScoreViewScreen} />
         <Screen name="MentalHealthExercise" component={MentalHealthExerciseScreen} />
+        <Screen name="ScaleHistoryView" component={ScaleHistoryViewScreen} />
       </Navigator>
     </NavigationContainer>
   );

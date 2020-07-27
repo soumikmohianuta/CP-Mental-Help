@@ -6,8 +6,8 @@ import { ScrollView } from 'react-native-gesture-handler';
 export const MentalHealthMeasureListScreen = ({
   navigation
  }: any) => {
-  const onNextScreen = (screenName: string) => {
-    navigation.navigate(screenName);
+  const onNextScreen = (scale: string) => {
+    navigation.navigate('ScaleHistoryView', { scale });
   }
 
   return (
@@ -23,7 +23,7 @@ export const MentalHealthMeasureListScreen = ({
             description,
             image,
             testRoute,
-            historyRoute,
+            scale,
           }, index) => (
             <Card elevation={5} style={{ margin: 12, borderRadius: 5 }} key={index}>
               <Card.Title title={title} />
@@ -32,10 +32,10 @@ export const MentalHealthMeasureListScreen = ({
                 <Paragraph>{description}</Paragraph>
               </Card.Content>
               <Card.Actions style={{ justifyContent: 'flex-end' }}>
-                <Button onPress={() => onNextScreen(historyRoute)}>
+                <Button onPress={() => onNextScreen(scale)}>
                   See History
                 </Button>
-                <Button onPress={() => onNextScreen(testRoute)}>
+                <Button onPress={() => navigation.navigate(testRoute)}>
                   Take test
                 </Button>
               </Card.Actions>
