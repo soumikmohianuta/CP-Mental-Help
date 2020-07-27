@@ -99,7 +99,7 @@ export const SignInScreen = ({ navigation }: any) => {
         style={socialMediaButtonStyle}
         onPress={handleFacebookAuth}
       >
-        { isSignIn? 'Continue with Facebook' : 'Sing Up with Facebook'}
+        { isSignIn? 'Continue with Facebook' : 'Sign Up with Facebook'}
       </Button>
       <Button
         icon="google"
@@ -109,7 +109,7 @@ export const SignInScreen = ({ navigation }: any) => {
         style={socialMediaButtonStyle}
         onPress={handleGoogleAuth}
       >
-         { isSignIn? 'Continue with Facebook' : 'Sing Up with Facebook'}
+         { isSignIn? 'Continue with Google' : 'Sign Up with Google'}
       </Button>
       <Button
         mode="text"
