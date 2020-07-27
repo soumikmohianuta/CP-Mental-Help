@@ -9,9 +9,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { Appbar } from 'react-native-paper';
 import { PSSMeasureScreen } from '../PSS-measure';
 import { PSSHistoryScreen } from '../PSS-history';
-import { PSSScoreViewScreen } from '../PSS-score-view';
 import{ AnxietyScaleMeasureScreen } from '../anxiety-scale-measure';
 import { AnxietyScaleHistoryScreen } from '../anxiety-scale-history';
+import { MentalHealthScoreViewScreen } from '../mental-health-score-view';
+import { MentalHealthExerciseScreen } from '../mental-health-exercises';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -24,10 +25,11 @@ export const HomePageStack = () => {
         <Screen name="MentalHealthMeasureList" component={MentalHealthMeasureListScreen} />
         <Screen name="GHQMeasure" component={GHQMeasureScreen} />
         <Screen name="PSSMeasure" component={PSSMeasureScreen} />
-        <Screen name="PSSScoreView" component={PSSScoreViewScreen} />
         <Screen name="PSSHistory" component={PSSHistoryScreen} />
         <Screen name="AnxietyScaleMeasure" component={AnxietyScaleMeasureScreen} />
         <Screen name="AnxietyScaleHistory" component={AnxietyScaleHistoryScreen} />
+        <Screen name="MentalHealthScoreView" component={MentalHealthScoreViewScreen} />
+        <Screen name="MentalHealthExercise" component={MentalHealthExerciseScreen} />
       </Navigator>
     </NavigationContainer>
   );
@@ -41,7 +43,7 @@ export const HomeScreen = ({
     if (isPreStartSurveyEnabled) {
       navigation.navigate('MentalHealthRating');
     } else {
-      navigation.navigate('MentalHealthMeasureList');
+      navigation.navigate('MentalHealthScoreView', { score: '10', scale: 'pss' });
     }
   }
 

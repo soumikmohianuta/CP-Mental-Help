@@ -69,7 +69,6 @@ export default function App() {
  
 
   React.useEffect(() =>{
-
     const checkUser = async () => {
       var userNameInstorages = await getItem('userName');
       if(userNameInstorages != null && userNameInstorages != 'none'){
@@ -86,7 +85,7 @@ export default function App() {
   if (isLoading)
     return <ActivityIndicator />;
 
-  if (userName=="none" ){
+  if (userName=="none" ) {
     return (
       <ThemeProvider>   
         <AuthContext.Provider value={authContext}> 
@@ -96,17 +95,15 @@ export default function App() {
         </AuthContext.Provider>
       </ThemeProvider>
     );
+  }
 
-  }
-  else {
   return (
-      <ThemeProvider>           
-         <AuthContext.Provider value={authContext}> 
-          <UserContext.Provider value={curUserContext}> 
-            {<HomeNavigation/>}
-            </UserContext.Provider> 
-          </AuthContext.Provider>
-      </ThemeProvider>
-     );
-  }
+    <ThemeProvider>           
+      <AuthContext.Provider value={authContext}> 
+      <UserContext.Provider value={curUserContext}> 
+        {<HomeNavigation/>}
+        </UserContext.Provider> 
+      </AuthContext.Provider>
+    </ThemeProvider>
+    );
 }

@@ -68,7 +68,7 @@ export const ProfileScreen = ({ route,navigation }: any) => {
 
   const setProfileState= async (profileState:any) =>{
     for (var i = 0; i < profileState.length; i++) {
-      if (profileState[i]){
+      if (profileState[i]) {
         MENTAL_HEALTH_PROFILE_SECTIONS[i].iconName = 'check';
       }
     }
