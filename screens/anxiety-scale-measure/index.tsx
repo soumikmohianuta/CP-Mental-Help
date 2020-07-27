@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Appbar } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
 import { questions } from './content';
 import { QuestionForm } from '../../components/question-form';
 import { setMentalHealthScore } from '../../services/firebase';
+import { UserContext } from '../../context';
+import { SCALE_NAME } from '../../utils/constants';
 
 export const AnxietyScaleMeasureScreen = ({ navigation }: any) => {
+  const { userName: userId } = useContext(UserContext);
+  
   const handleSubmit = (score: number) => {
-    // TODO: userId should be fetched from local storage
-    setMentalHealthScore('2', 'anxiety_scale', score);
-    navigation.navigate('MentalHealthMeasureList');
+    setMentalHealthScore(userId, SCALE_NAME.ANXIETY, score);
+    navigation.navigate('MentalHealthScoreView', { score, scale: SCALE_NAME.ANXIETY });
   }
 
   return (
