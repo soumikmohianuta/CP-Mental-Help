@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Appbar, List } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
 import { resources as staticResources } from './content';
 import { getMentalHealthExcercise, setMentalHealthExcercise, markExcerciseAsDone } from '../../services/firebase';
+import { UserContext } from '../../context';
 
 const mapResources = (list: any) => {
   return staticResources.reduce((acc, item) => {
@@ -18,11 +19,12 @@ export const MentalHealthExerciseScreen = ({ route, navigation }: any) => {
   const [expanded, setExpanded] = useState(true);
   const [exerciseList, setExerciseList] = useState([]);
   const [resources, setResources] = useState([]);
+  const { userName: userId } = useContext(UserContext);
   const { navigateTo } = route.params;
 
   useEffect(() => {
     const fetchMentalHealthExercise = async () => {
-      const list = await getMentalHealthExcercise('1');
+      const list = await getMentalHealthExcercise(userId);
       setResourceAndList(list);
     }
     fetchMentalHealthExercise();
@@ -33,7 +35,7 @@ export const MentalHealthExerciseScreen = ({ route, navigation }: any) => {
       ...exerciseList,
       [item.content_id]: 1,
     }
-    await markExcerciseAsDone('1', item.content_id);
+    await markExcerciseAsDone(userId, item.content_id);
     setResourceAndList(newList);
   }
 

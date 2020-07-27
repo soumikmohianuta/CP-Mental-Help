@@ -1,15 +1,16 @@
 import React from 'react';
 import { DataTable, Text } from 'react-native-paper';
+import { getLevelByScore } from '../../utils/scale';
 
 const dateFormat = (date: any) => {
   return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
 }
 
-export const HistoryTable = ({  history, scaleLevel }: any) => {
+export const HistoryTable = ({  history, scale }: any) => {
   const data = Object.keys(history).map((key: string) => ({
     date: dateFormat(new Date(Number(key))),
     score: history[key],
-    level: scaleLevel.find(sl => (history[key] <= sl.maxRange)).name,
+    level: getLevelByScore(scale, history[key]),
   }));
 
   return (

@@ -43,7 +43,7 @@ export const HomeScreen = ({
     if (isPreStartSurveyEnabled) {
       navigation.navigate('MentalHealthRating');
     } else {
-      navigation.navigate('MentalHealthScoreView', { score: '10', scale: 'pss' });
+      navigation.navigate('MentalHealthMeasureList');
     }
   }
 

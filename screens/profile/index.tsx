@@ -3,7 +3,7 @@ import { List, Card, ActivityIndicator, Appbar } from 'react-native-paper';
 import { ScrollView } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { fetchPersonalData,getProfileState } from '../../services/firebase';
+import { getProfileState } from '../../services/firebase';
 import { CoronaProfile } from '../corona-profile';
 import { PsychoticProfile } from '../psychotic-profile';
 import {HelpCenterPPScreen} from '../psychotic-profile/helpPP'

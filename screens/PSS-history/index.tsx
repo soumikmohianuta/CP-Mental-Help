@@ -3,26 +3,13 @@ import { Appbar } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
 import { getMentalHealthScore } from '../../services/firebase';
 import { HistoryTable } from '../../components/history-table';
-
-const SCALE_LEVEL = [
-  {
-    name: 'Low',
-    maxRange: 13,
-  },
-  {
-    name: 'Moderate',
-    maxRange: 26,
-  },
-  {
-    name: 'High Percieved',
-    maxRange: 40,
-  }];
+import { SCALE_NAME } from '../../utils/constants';
 
 export const PSSHistoryScreen = ({ navigation }: any) => {
   const [history, setHistory] = useState([]);
   useEffect(() => {
     const getPSSHistory = async () => {
-      const pssHistory = await getMentalHealthScore('2', 'pss');
+      const pssHistory = await getMentalHealthScore('2', SCALE_NAME.PSS);
       setHistory(pssHistory);
     };
     getPSSHistory();
@@ -36,7 +23,7 @@ export const PSSHistoryScreen = ({ navigation }: any) => {
       <ScrollView style={{ margin: 12 }}>
         <HistoryTable
           history={history}
-          scaleLevel={SCALE_LEVEL}
+          scaleLevel={SCALE_NAME.PSS}
         />
       </ScrollView>
     </>
