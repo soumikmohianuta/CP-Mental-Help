@@ -48,7 +48,7 @@ export const MentalHealthScoreViewScreen = ({ route, navigation }: any) => {
                 }}>
         <Headline> আপনার {scaleName} পরিমাণঃ 
         </Headline>
-        <Headline style={{ color: 'red' }}>{scaleLevel}</Headline>
+        <Headline style={{ color: 'red' }}> {scaleLevel} মাত্রা</Headline>
         </View>
 
         <ScoreCard

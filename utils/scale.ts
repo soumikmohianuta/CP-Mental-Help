@@ -36,7 +36,7 @@ export const ANXIETY_SCALE_LEVEL = [
     maxRange: 54,
   },
   {
-    name: "মাঝামাঝি",
+    name: "মাঝারি", 
     maxRange: 66,
   },
   {
