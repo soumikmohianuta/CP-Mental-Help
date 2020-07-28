@@ -32,6 +32,7 @@ const socialMediaButtonStyle = {
 };
 
 export const SignInScreen = ({ navigation }: any) => {
+  const [isSignIn, setIsSignIn] = useState(true);
   const {signIn} = React.useContext(AuthContext);
   const onLoginSuccess = (curUser: any) => {
     const checkUser = async () => {
@@ -48,7 +49,7 @@ export const SignInScreen = ({ navigation }: any) => {
 
   const handleFacebookAuth = async () => {
     try {
-      const data =  await signUpFacebook();
+      const data =  isSignIn? await signInFacebook() :await signUpFacebook();
       onLoginSuccess(data);
     } catch(e) {
       console.log(e.toString());
@@ -63,18 +64,20 @@ export const SignInScreen = ({ navigation }: any) => {
 
   const handleGoogleAuth = async () => {
     try {
-      const data =  await signUpGoogle();
+      const data = isSignIn? await signInGoogle(): await signUpGoogle();
       onLoginSuccess(data);
     } catch(e) {
       if(e.toString().includes("An account already exists with the same email address")){
         alert("এই ই-মেইল দিয়ে আপনার আরেকটি প্রোফাইল রয়েছে");
       }
       else{
-        alert("লগ-ইন সফল হয়নি");
+       // alert(e);
       }
     }
   }
-
+  const switchToAuth = () => {
+    setIsSignIn(!isSignIn);
+  }
 
 
   return (
@@ -96,7 +99,7 @@ export const SignInScreen = ({ navigation }: any) => {
         style={socialMediaButtonStyle}
         onPress={handleFacebookAuth}
       >
-        { 'Continue with Facebook' }
+        { isSignIn? 'Continue with Facebook' : 'Sign Up with Facebook'}
       </Button>
       <Button
         icon="google"
@@ -106,9 +109,15 @@ export const SignInScreen = ({ navigation }: any) => {
         style={socialMediaButtonStyle}
         onPress={handleGoogleAuth}
       >
-         { 'Continue with Google' }
+         { isSignIn? 'Continue with Google' : 'Sign Up with Google'}
       </Button>
-
+      <Button
+        mode="text"
+        uppercase={false}
+        onPress={switchToAuth}
+      >
+        { isSignIn ? `Don't have an Account?` : 'Already have an account?'}
+      </Button>
     </SafeAreaView>
   );
 };

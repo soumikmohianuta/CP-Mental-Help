@@ -3,18 +3,17 @@ import firebase from "firebase";
 
 export const signInGoogle = async () => {
   await GoogleSignIn.askForPlayServicesAsync();
-  const { type } = await GoogleSignIn.signInAsync();
-  const data = GoogleSignIn.GoogleAuthentication.prototype.toJSON();
-
+  const { type,user } = await GoogleSignIn.signInAsync();
+ //const data = GoogleSignIn.GoogleAuthentication.prototype.toJSON();
   if (type === "success") {
     await firebase
       .auth()
       .setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-      const keys = Object.keys(data);
-    //alert(data.clientId);  
+      
+    
     const credential = firebase.auth.GoogleAuthProvider.credential(
-      data.idToken,
-      data.accessToken
+      user.auth.idToken,
+      user.auth.accessToken
     );
     const googleProfileData = await firebase
       .auth()
