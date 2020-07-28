@@ -41,10 +41,6 @@ export const ANXIETY_SCALE_LEVEL = [
   },
   {
     name: "তীব্র",
-    maxRange: 77,
-  },
-  {
-    name: "অত্যধিক",
     maxRange: 135,
   },
 ];
