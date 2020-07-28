@@ -19,7 +19,7 @@ export const AnxietyScaleMeasureScreen = ({ navigation }: any) => {
     <>
       <Appbar.Header>
         <Appbar.BackAction onPress={() => navigation.navigate('MentalHealthMeasureList')}  />
-        <Appbar.Content title="Anxiety Scale" />
+        <Appbar.Content title="দুশ্চিতা নির্ণয়" />
       </Appbar.Header>
       <ScrollView style={{ margin: 12 }}>
         <QuestionForm

@@ -1,37 +1,46 @@
 import { SCALE_NAME } from "./constants";
 
-export const GHQ_SCALE_LEVEL = [];
+export const GHQ_SCALE_LEVEL = [
+  {
+    name: "সাধারণ",
+    maxRange: 4,
+  },
+  {
+    name: "মাঝামাঝি",
+    maxRange: 9,
+  },
+  {
+    name: "তীব্র",
+    maxRange: 12,
+  },
+];
 
 export const PSS_SCALE_LEVEL = [
   {
-    name: "Low",
+    name: "সাধারণ",
     maxRange: 13,
   },
   {
-    name: "Moderate",
+    name: "মাঝামাঝি",
     maxRange: 26,
   },
   {
-    name: "High Percieved",
+    name: "তীব্র",
     maxRange: 40,
   },
 ];
 
 export const ANXIETY_SCALE_LEVEL = [
   {
-    name: "Mild anxiety",
+    name: "সাধারণ",
     maxRange: 54,
   },
   {
-    name: "Moderate anxiety",
+    name: "মাঝামাঝি",
     maxRange: 66,
   },
   {
-    name: "Severe anxiety",
-    maxRange: 77,
-  },
-  {
-    name: "Profound anxiety",
+    name: "তীব্র",
     maxRange: 135,
   },
 ];
