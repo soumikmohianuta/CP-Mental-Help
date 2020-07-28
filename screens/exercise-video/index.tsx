@@ -24,7 +24,7 @@ export const ExerciseVideoScreen = ({ route, navigation }: any) => {
   }
 
   const handlePrevious = () => {
-    setError('');
+    setError(undefined);
     setReady(false);
     navigation.navigate('ExerciseVideo', { exercise: resources[order - 1]});
   }
@@ -89,13 +89,17 @@ export const ExerciseVideoScreen = ({ route, navigation }: any) => {
           >
             Previous
           </Button>
-          <Button
-            onPress={handleNext}
-            disabled={!completed}
-            mode="outlined"
-          > 
-            Next
-          </Button>
+          {
+            order != resources.length - 1 && 
+              <Button
+                onPress={handleNext}
+                disabled={!completed}
+                mode="outlined"
+              > 
+                Next
+              </Button>
+          }
+          
         </View>
       </ScrollView>
     </>
