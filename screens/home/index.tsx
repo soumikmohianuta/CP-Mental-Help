@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { MentalHealthMeasureCard } from './mental-health-measure-card';
 import { MentalHealthRatingScreen } from '../mental-health-rating';
@@ -12,6 +12,9 @@ import { ScaleHistoryViewScreen } from '../scale-history-view';
 import{ AnxietyScaleMeasureScreen } from '../anxiety-scale-measure';
 import { MentalHealthScoreViewScreen } from '../mental-health-score-view';
 import { MentalHealthExerciseScreen } from '../mental-health-exercises';
+import { MentalExcerciseCard } from './mental-excercise-measure-card';
+import {HelpCenterCard} from './help-center-card';
+import { HelpCenterScreen } from '../help-center';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -28,6 +31,7 @@ export const HomePageStack = () => {
         <Screen name="MentalHealthScoreView" component={MentalHealthScoreViewScreen} />
         <Screen name="MentalHealthExercise" component={MentalHealthExerciseScreen} />
         <Screen name="ScaleHistoryView" component={ScaleHistoryViewScreen} />
+        <Screen name="HelpCenter" component={HelpCenterScreen} />
       </Navigator>
     </NavigationContainer>
   );
@@ -44,7 +48,15 @@ export const HomeScreen = ({
       navigation.navigate('MentalHealthMeasureList');
     }
   }
+  const handleExcercise = () => {
+    navigation.navigate('MentalHealthExercise', { navigateTo: 'Home'});
 
+  }
+
+  const handleEmergencyContact = () => {
+    navigation.navigate('HelpCenter');
+
+  }
   return (
     <>
       <Appbar.Header>
@@ -55,6 +67,22 @@ export const HomeScreen = ({
           onStartClick={handleStart}
           onHistoryClick={handleStart}
         />
+        <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'space-evenly',
+          marginTop: 12
+        }}
+      >
+         <MentalExcerciseCard
+          onStartClick={handleExcercise}
+        />
+        <HelpCenterCard
+          onStartClick={handleEmergencyContact}
+        />
+
+        </View>
       </ScrollView>
     </>
   );

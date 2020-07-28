@@ -17,7 +17,7 @@ export const HelpCenterScreen = ({ navigation }: any) => {
   return (
     <>
       <Appbar.Header>
-        <Appbar.BackAction onPress={() => navigation.navigate('Settings')}  />
+        <Appbar.BackAction onPress={() => navigation.navigate('Home')}  />
         <Appbar.Content title="Help Center" />
       </Appbar.Header>
       <ScrollView>

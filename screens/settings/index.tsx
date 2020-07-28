@@ -3,7 +3,6 @@ import { Drawer, Appbar, Divider } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { HelpCenterScreen } from '../help-center';
 import {PrivacyScreen} from '../privacy';
 import { AboutScreen } from '../about';
 import {AuthContext} from '../../context';
@@ -15,7 +14,6 @@ export const SettingsNavigation = () => {
     <NavigationContainer>
       <Navigator headerMode="none">
         <Screen name="Settings" component={SettingsScreen} />
-        <Screen name="HelpCenter" component={HelpCenterScreen} />
         <Screen name="About" component={AboutScreen} />
         <Screen name="Privacy" component={PrivacyScreen} />
       </Navigator>
@@ -40,11 +38,6 @@ export const SettingsScreen = ({ navigation }: any) => {
           icon="label"
           label="Privacy"
           onPress={() => navigation.navigate('Privacy')}
-        />
-        <Drawer.Item
-          icon="equal"
-          label="Help Center (Emergency Contact)"
-          onPress={() => navigation.navigate('HelpCenter')}
         />
         <Divider />
         <Drawer.Item
