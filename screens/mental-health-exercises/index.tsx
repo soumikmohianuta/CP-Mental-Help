@@ -31,12 +31,9 @@ export const MentalHealthExerciseScreen = ({ route, navigation }: any) => {
   }, []);
 
   const onClick = async (item: any) => {
-    const newList = {
-      ...exerciseList,
-      [item.content_id]: 1,
-    }
-    await markExcerciseAsDone(userId, item.content_id);
-    setResourceAndList(newList);
+    navigation.navigate('ExerciseVideo', {
+      exercise: item
+    })
   }
 
   const setResourceAndList = (list: any) => {

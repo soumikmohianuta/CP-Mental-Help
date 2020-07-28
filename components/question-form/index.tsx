@@ -100,14 +100,14 @@ export const QuestionForm = ({
             <Button onPress={handleSubmit} mode="contained"> Submit </Button>
             : null
           }
-        </View>
-        <Button
-          onPress={handleSkip}
-          mode="text"
-          uppercase={false}
-        >
-          Skip the test
-        </Button>
+      </View>
+      <Button
+        onPress={handleSkip}
+        mode="text"
+        uppercase={false}
+      >
+        Skip the test
+      </Button>
     </>
   )
 }
