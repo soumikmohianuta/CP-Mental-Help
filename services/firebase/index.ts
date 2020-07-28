@@ -1,5 +1,6 @@
 import firebase from "firebase";
 
+
 export const fetchPersonalData = async (userId: string) => {
   const snapshot = await firebase
     .database()
@@ -8,11 +9,10 @@ export const fetchPersonalData = async (userId: string) => {
   const data = snapshot.val();
   return (
     data && {
-      age: data.Age,
-      sex: data.Sex,
-      maritalStatus: data.maritalStatus,
-      address: data.address,
-      email: data.Email,
+      userAge: data.Age,
+      userSex: data.Sex,
+      userMaritalStatus: data.maritalStatus,
+      userAddress: data.address
     }
   );
 };

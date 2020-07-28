@@ -3,7 +3,7 @@ import { List, Card, ActivityIndicator, Appbar } from 'react-native-paper';
 import { ScrollView } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { getProfileState } from '../../services/firebase';
+import { getProfileState,fetchPersonalData } from '../../services/firebase';
 import { CoronaProfile } from '../corona-profile';
 import { PsychoticProfile } from '../psychotic-profile';
 import {HelpCenterPPScreen} from '../psychotic-profile/helpPP'
@@ -64,7 +64,7 @@ export const ProfileScreen = ({ route,navigation }: any) => {
   const [maritalInfo, setMaritalInfo] = useState("");
   const [loading, setLoading] = useState(true);
 
-  const {userName} = React.useContext(UserContext);
+  const {userName, email} = React.useContext(UserContext);
 
   const setProfileState= async (profileState:any) =>{
     for (var i = 0; i < profileState.length; i++) {
@@ -81,7 +81,7 @@ export const ProfileScreen = ({ route,navigation }: any) => {
   useEffect(() => {
     const getPersonalData = async () => {
       try {
-        const data = await getUserInfo();
+        const data = await fetchPersonalData(userName);
         const profileState = await getProfileState(userName);
         setSexInfo(SexMapper.get(data.userSex)|| '');
         setMaritalInfo(MaritalStatusMapper.get(data.userMaritalStatus)|| '');
@@ -128,7 +128,7 @@ export const ProfileScreen = ({ route,navigation }: any) => {
             />
             <List.Item
               title="ই-মেইল"
-              description={basicInformation.userEmail}
+              description={email}
             />
           </Card.Content>
         </Card>
