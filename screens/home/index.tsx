@@ -15,6 +15,7 @@ import { MentalHealthExerciseScreen } from '../mental-health-exercises';
 import { MentalExcerciseCard } from './mental-excercise-measure-card';
 import {HelpCenterCard} from './help-center-card';
 import { HelpCenterScreen } from '../help-center';
+import { ExerciseVideoScreen } from '../exercise-video';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -31,6 +32,7 @@ export const HomePageStack = () => {
         <Screen name="MentalHealthScoreView" component={MentalHealthScoreViewScreen} />
         <Screen name="MentalHealthExercise" component={MentalHealthExerciseScreen} />
         <Screen name="ScaleHistoryView" component={ScaleHistoryViewScreen} />
+        <Screen name="ExerciseVideo" component={ExerciseVideoScreen} />
         <Screen name="HelpCenter" component={HelpCenterScreen} />
       </Navigator>
     </NavigationContainer>
