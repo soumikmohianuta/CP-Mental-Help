@@ -16,9 +16,9 @@ export const HistoryTable = ({ history, scale }: any) => {
   return (
     <DataTable>
       <DataTable.Header>
-        <DataTable.Title>Date</DataTable.Title>
-        <DataTable.Title>Score</DataTable.Title>
-        <DataTable.Title>Level</DataTable.Title>
+        <DataTable.Title>তারিখ</DataTable.Title>
+        <DataTable.Title>স্কোর</DataTable.Title>
+        <DataTable.Title>মাত্রা</DataTable.Title>
       </DataTable.Header>
       {
         history && Object.keys(history).length ?
@@ -29,7 +29,7 @@ export const HistoryTable = ({ history, scale }: any) => {
               <DataTable.Cell>{item.level}</DataTable.Cell>
             </DataTable.Row>
           ))
-        : <Text> No data found </Text>
+        : <Text> আপনি এখনো পরিমাপ করেননি </Text>
       }
   </DataTable>
   )

@@ -48,7 +48,7 @@ export const HomeScreen = ({
   return (
     <>
       <Appbar.Header>
-        <Appbar.Content title="Home" />
+        <Appbar.Content title="মুল পাতা" /> 
       </Appbar.Header>
       <ScrollView>
         <MentalHealthMeasureCard

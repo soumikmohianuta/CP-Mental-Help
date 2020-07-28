@@ -14,7 +14,7 @@ export const MentalHealthMeasureListScreen = ({
     <>
       <Appbar.Header>
         <Appbar.BackAction onPress={() => navigation.navigate('Home')}  />
-        <Appbar.Content title="Measure Mental Health" />
+        <Appbar.Content title="মানসিক স্বাস্থ্যের পরিমাপ" />
       </Appbar.Header>
       <ScrollView>
       {
@@ -33,10 +33,10 @@ export const MentalHealthMeasureListScreen = ({
               </Card.Content>
               <Card.Actions style={{ justifyContent: 'flex-end' }}>
                 <Button onPress={() => onNextScreen(scale)}>
-                  See History
+                  পূর্ণ স্কোর
                 </Button>
                 <Button onPress={() => navigation.navigate(testRoute)}>
-                  Take test
+                  টেস্ট করুন
                 </Button>
               </Card.Actions>
             </Card>

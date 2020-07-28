@@ -4,12 +4,14 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { getMentalHealthScore } from '../../services/firebase';
 import { HistoryTable } from '../../components/history-table';
 import { UserContext } from '../../context';
+import { SCALE_NAME_MAP } from '../../utils/constants';
 
 export const ScaleHistoryViewScreen = ({ route, navigation }: any) => {
   const [history, setHistory] = useState([]);
   const { userName: userId } = useContext(UserContext);
 
   const { scale } = route.params;
+  const scaleName =  SCALE_NAME_MAP.get(scale);
   useEffect(() => {
     const getHistory = async () => {
       const historyData = await getMentalHealthScore(userId, scale);
@@ -21,7 +23,7 @@ export const ScaleHistoryViewScreen = ({ route, navigation }: any) => {
     <>
       <Appbar.Header>
         <Appbar.BackAction onPress={() => navigation.navigate('MentalHealthMeasureList')}  />
-        <Appbar.Content title={`আপনার ${scale} স্কেলের ইতিহাস`} />
+        <Appbar.Content title={`আপনার ${scaleName} ইতিহাস`} />
       </Appbar.Header>
       <ScrollView style={{ margin: 12 }}>
         <HistoryTable
