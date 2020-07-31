@@ -53,8 +53,12 @@ export const checkUserInfoExists = async (userId: string) => {
   return checkValue;
 };
 
-export const setUserData = async (ref: string, data: any) => {
-  firebase.database().ref(ref).set(data);
+export const setUserData = async (userID: string, data: any) => {
+  firebase.database().ref(`${userID}/${Date.now()}`).set(data);
+};
+
+export const setMentalState = async (userID: string, data: any) => {
+  firebase.database().ref(`${userID}/mentalstate/${Date.now()}`).set(data);
 };
 
 export const setMentalHealthScore = async (
@@ -87,4 +91,45 @@ export const getMentalHealthExcercise = async (userId: string) => {
     .ref(`${userId}/mental_health_excercises`)
     .once("value");
   return snapshot.val();
+};
+
+
+export const checkMentalEvaluationExists = async (userId: string) => {
+  var profileState = false;
+  const snapshot = await firebase
+    .database()
+    .ref(userId)
+    .once("value");
+  if (snapshot.val() !== null) {
+    if (snapshot.val().MentalState) {
+      profileState = true;
+    }
+  }
+
+  return profileState;
+};
+
+export const checkMentalExaminationExists = async (userId: string) => {
+  var profileState = [false, false, false,false];
+  const snapshot = await firebase
+    .database()
+    .ref(userId)
+    .once("value");
+  if (snapshot.val() !== null) {
+    if (snapshot.val().ghq) {
+      profileState[0] = true;
+    }
+    if (snapshot.val().pss) {
+      profileState[1] = true;
+    }
+    if (snapshot.val().anxiety) {
+      profileState[2] = true;
+    }
+    if (snapshot.val().mentalstate) {
+      profileState[3] = true;
+    }
+
+  }
+
+  return profileState;
 };

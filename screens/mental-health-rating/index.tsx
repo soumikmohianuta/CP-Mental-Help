@@ -13,16 +13,18 @@ import {
 
 import { questionnaires } from "./contents";
 import { View, Dimensions } from "react-native";
-import { setUserData } from "../../services/firebase";
+import { setMentalState } from "../../services/firebase";
 import CircularPicker from "../../components/circle-picker";
-
+import {setPreSurvey} from '../../storage';
+import {UserContext} from '../../context';
 const NUMBER_OF_QUESTIONS = 5;
 
-export const MentalHealthRatingScreen = ({ navigation, onFinish }: any) => {
+export const MentalHealthRatingScreen = ({ route, navigation }: any) => {
   const [answers, setAnswers] = useState([0, 0, 0, 0, 0]);
   const [currentAnswer, setCurrentAnswer] = useState(0);
   const [count, setCount] = useState(0);
-
+  const { navigateTo } = route.params;
+  const {userName} = React.useContext(UserContext);
   const handleSlideComplete = (ans: any) => {
     setCurrentAnswer(parseInt(ans, 10) + 1);
   };
@@ -30,10 +32,9 @@ export const MentalHealthRatingScreen = ({ navigation, onFinish }: any) => {
   const handleNext = async () => {
     if (count === NUMBER_OF_QUESTIONS - 1) {
       // TODO: usrId will be retrieved from auth token
-      await setUserData(`/mental-health-rating/${1}`, {
-        answers
-      });
-      onFinish && onFinish("MentalHealthMeasureList");
+      await setMentalState(userName,answers);
+      await setPreSurvey();
+      navigation.navigate(navigateTo)
     } else {
       const newAnswers = [...answers];
       newAnswers[count] = currentAnswer;

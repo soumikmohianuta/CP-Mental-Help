@@ -33,7 +33,7 @@ const defaultAuthContext = {
     
     userName: '',
     displayName:'',
-    email:'',
+    email:''
   }
 
 export const AuthContext = React.createContext(defaultAuthContext);

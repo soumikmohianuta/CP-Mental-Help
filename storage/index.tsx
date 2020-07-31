@@ -38,21 +38,34 @@ export const saveItem = async (key:string, value:string) => {
        const value = await AsyncStorage.getItem(key);
        
        if (value != null){
-            return "true";
+            return true;
        }
     } catch (error) {
       // Error retrieving data
       console.log(error.message);
     }
-    return "false";
+    return false;
   }
 
-
+  export const setPreSurvey = async () => {
+    await saveItem('preSurvey',"Done");
+  }
+  export const checkPreSurveyRequires = async () => {
+    var preSurvey = await getItem('preSurvey');
+    if (preSurvey=="NA"){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+  
   export const storeUserContext = async (curUser:any) => {
 
     await saveItem('userName',curUser.user.uid);
     await saveItem('displayname',curUser.user.displayName);
     await saveItem('email',curUser.user.email);
+    await saveItem('preSurvey',"NA");
   }
   
   export const getContextFromStorage = async() => {

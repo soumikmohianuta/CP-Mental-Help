@@ -63,6 +63,9 @@ export default function App() {
         setUsername("none");
         setIsLoading(false);
       },
+      setLoading: async () =>{
+        setIsLoading(true);
+      },
     }
   },[]);
 

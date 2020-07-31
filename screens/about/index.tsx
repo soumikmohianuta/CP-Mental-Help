@@ -15,8 +15,8 @@ export const AboutScreen = ({ navigation }: any) => {
         <Card elevation={5} style={{ margin: 12, borderRadius: 5 }}>
           <Card.Title title='About us' />
           <Card.Content>
-            <Paragraph>{about.block1}</Paragraph>
-            <Paragraph>{about.block2}</Paragraph>
+            <Paragraph style={{textAlign: 'justify', marginBottom: 10}}>{about.block1}</Paragraph>
+            <Paragraph style={{textAlign: 'justify', marginBottom: 10}}>{about.block2}</Paragraph>
           </Card.Content>
         </Card>
       </ScrollView>

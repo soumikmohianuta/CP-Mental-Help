@@ -1,130 +1,183 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { PanResponder, View, Dimensions } from 'react-native'
-import Svg, { Path, Circle, G, Text } from 'react-native-svg'
+import React, { useRef, useState } from 'react';
+import { PanResponder, View } from 'react-native';
+import Svg, {
+  Circle, G, LinearGradient, Path, Defs, Stop,
+} from 'react-native-svg';
 
-type PercentageCircleProps = any;
+const { PI, cos, sin, atan2 } = Math;
 
-function polarToCartesian(angle: number, dialRadius: number, btnRadius: number) {
-  let r = dialRadius;
-  let hC = dialRadius + btnRadius;
-  let a = (angle-90) * Math.PI / 180.0;
+const calculateAngle = (pos: number, radius: number) => {
+  const startAngle = ((2 * PI) - (PI * -0.5));
+  const endAngle = (PI + (PI * pos));
 
-  let x = hC + (r * Math.cos(a));
-  let y = hC + (r * Math.sin(a));
-  return {x,y};
-}
+  const x1 = -radius * cos(startAngle);
+  const y1 = -radius * sin(startAngle);
 
-function cartesianToPolar(x: number, y: number, dialRadius: number, btnRadius: number) {
-  let hC = dialRadius + btnRadius;
+  const x2 = -radius * cos(endAngle);
+  const y2 = -radius * sin(endAngle);
 
-  if (x === 0) {
-    return y > hC ? 0 : 180;
+  return { x1, y1, x2, y2 };
+};
+
+const calculateRealPos = (x: number, y: number, radius: number, strokeWidth: number) => ({
+  endX: x + radius + strokeWidth / 2,
+  endY: y + radius + strokeWidth / 2,
+});
+
+const calculateMovement = (x: number, y: number, radius: number, strokeWidth: number) => {
+  const cx = ((x + strokeWidth) / radius) - PI / 2;
+  const cy = -(((y + strokeWidth) / radius) - PI / 2);
+
+  let pos = -atan2(cy, cx) / PI;
+  if (pos < -0.5) {
+    pos += 2;
   }
-  else if (y === 0) {
-    return x>hC ? 90 : 270;
-  }
-  else {
-    return (Math.round((Math.atan((y-hC)/(x-hC)))*180/Math.PI) +
-      (x>hC ? 90 : 270));
-  }
-}
 
-function getValue(angle: number, min: number, max: number) {
-  return Math.round(angle * (max - min) / 359);
-}
+  return pos;
+};
 
-function getAngle(value: number, min: number, max: number) {
-  return value * 359 / (max - min) ;
-}
+const percentToPos = (percent: number) => (2 / 100 * percent) - 0.5;
+const posToPercent = (pos: number) => 100 * (pos + 0.5) / 2;
 
-export const PercentageCircle = (props: PercentageCircleProps) => {
-  const {
-    xCenter =  Dimensions.get('window').width/2,
-    yCenter = Dimensions.get('window').height/2,
-    min = 0,
-    max = 359,
-    dialRadius = 130,
-    btnRadius = 15,
-    strokeColor = '#ddd',
-    strokeWidth = 5,
-    fillColor = 'none',
-    meterColor = '#ba262b',
-    dialWidth = 5,
-    textSize = 10,
-    textColor = '#fff',
-    value,
-  } = props;
+const selectGradient = (gradients: number, pos: number) => {
+  const current = posToPercent(pos);
+  let selected: number = 0;
 
-  const [angle, setAngle] = useState(getAngle(value, min, max));
-  const [mount, setMount] = useState(false);
-  const panResponder = useRef<any>();
-
-  useEffect(() => {
-    if (!mount) {
-      panResponder.current =  PanResponder.create({
-        onStartShouldSetPanResponder: (e,gs) => true,
-        onStartShouldSetPanResponderCapture: (e,gs) => true,
-        onMoveShouldSetPanResponder: (e,gs) => true,
-        onMoveShouldSetPanResponderCapture: (e,gs) => true,
-        onPanResponderMove: (e,gs) => {
-          let xOrigin = xCenter - (dialRadius + btnRadius);
-          let yOrigin = yCenter - (dialRadius + btnRadius);
-          let polarAngle = cartesianToPolar(gs.moveX-xOrigin, gs.moveY-yOrigin, dialRadius, btnRadius);
-          let newAngle = 0;
-          if (polarAngle <= 0) {
-            newAngle = min;
-          } else if (polarAngle >= 359) {
-            newAngle = max;
-          } else {
-            newAngle = polarAngle;
-          }
-        }
-      }); 
-      setMount(true);
+  for (const [key] of Object.entries(gradients)) {
+    if (key as unknown as number > selected && key as unknown as number < current) {
+      selected = key as unknown as number;
     }
-  }, []);
-
-  useEffect(() => {
-    setAngle(getAngle(value, min, max))
-  }, [value]);
-
-  let width = (dialRadius + btnRadius) * 2;
-  let startCoord = polarToCartesian(0, dialRadius, btnRadius);
-  let endCoord = polarToCartesian(angle, dialRadius, btnRadius);
-
-  if (!mount) {
-    return null;
   }
+
+  return gradients[selected];
+};
+
+const PercentageCircle = ({
+  size,
+  strokeWidth = 15,
+  defaultPos = 0,
+  steps = [],
+  gradients = {
+    0: ['rgb(255, 97, 99)', 'rgb(247, 129, 119)'],
+  },
+  backgroundColor = 'rgb(231, 231, 231)',
+  stepColor = 'rgba(0, 0, 0, 0.2)',
+  borderColor = 'rgb(255, 255, 255)',
+  children,
+  onChange,
+}: any) => {
+  const [pos, setPos] = useState(percentToPos(defaultPos));
+  const circle = useRef(null);
+
+  const padding = 8;
+  const radius = (size - strokeWidth) / 2 - padding;
+  const center = (radius + strokeWidth / 2);
+
+  const gradient = selectGradient(gradients, pos);
+
+  if (steps) {
+    steps = steps.map((p) => {
+      const pos = percentToPos(p);
+      const { x2, y2 } = calculateAngle(pos, radius);
+      const { endX: x, endY: y } = calculateRealPos(x2, y2, radius, strokeWidth);
+      return { x, y, p };
+    });
+  }
+
+  const { x1, y1, x2, y2 } = calculateAngle(pos, radius);
+  const { endX, endY } = calculateRealPos(x2, y2, radius, strokeWidth);
+
+  const goToPercent = (p) => {
+    const newPos = percentToPos(p);
+    setPos(newPos);
+    onChange(posToPercent(newPos));
+  }
+
+  const pan = PanResponder.create({
+    onMoveShouldSetPanResponder: () => true,
+    onMoveShouldSetPanResponderCapture: () => true,
+    // onPanResponderMove: (_, { moveX, moveY }) => {
+    //   circle.current.measure((x, y, width, height, px, py) => {
+    //     const newPos = calculateMovement(moveX - px, moveY - py, radius, strokeWidth);
+    //     /**
+    //      * @TODO
+    //      */
+    //     if ((newPos < -0.3 && pos > 1.3)
+    //       || (newPos > 1.3 && pos < -0.3)) {
+    //       return;
+    //     }
+    //     setPos(newPos);
+    //     onChange(posToPercent(newPos));
+    //   });
+    // }
+  });
+
+  const d = `
+    M ${x2.toFixed(3)} ${y2.toFixed(3)}
+    A ${radius} ${radius}
+    ${(pos < 0.5) ? '1' : '0'} ${(pos > 0.5) ? '1' : '0'} 0
+    ${x1.toFixed(3)} ${y1.toFixed(3)}
+  `;
 
   return (
     <Svg
-      width={width}
-      height={width}>
-      <Circle r={dialRadius}
-        cx={width/2}
-        cy={width/2}
-        stroke={strokeColor}
-        strokeWidth={strokeWidth}
-        fill={fillColor}/>
-
-      <Path stroke={meterColor}
-        strokeWidth={dialWidth}
-        fill='none'
-        d={`M${startCoord.x} ${startCoord.y} A ${dialRadius} ${dialRadius} 0 ${angle > 180 ? 1:0} 1 ${endCoord.x} ${endCoord.y}`}/>
-
-      <G x={endCoord.x-btnRadius} y={endCoord.y-btnRadius}>
-        <Circle r={btnRadius}
-          cx={btnRadius}
-          cy={btnRadius}
-          fill={meterColor}
-          {...panResponder.current.panHandlers}/>
-        <Text x={btnRadius}
-          y={btnRadius+(textSize/2)}
-          fontSize={textSize}
-          fill={textColor}
-          textAnchor="middle"
-        >{getValue(angle, min, max) +''}</Text>
+      height={size}
+      width={size}
+      ref={circle}
+      style={{ marginLeft: 'auto', marginRight: 'auto' }}
+    >
+      <Defs>
+        <LinearGradient id="grad" x1="0" y1="0" x2="100%" y2="0">
+          <Stop offset="0" stopColor={gradient[0]} />
+          <Stop offset="1" stopColor={gradient[1]} />
+        </LinearGradient>
+      </Defs>
+      <G transform={{ translate: `${strokeWidth / 2 + radius + padding}, ${strokeWidth / 2 + radius + padding}` }}>
+        <Circle
+          r={radius}
+          strokeWidth={strokeWidth}
+          fill="transparent"
+          stroke={backgroundColor}
+        />
+        <Path
+          d={d}
+          strokeWidth={strokeWidth}
+          stroke={`url(#grad)`}
+          fill="none"
+        />
       </G>
+      <G transform={{ translate: `${center + padding}, ${strokeWidth / 2 + padding}` }}>
+        <Circle r={(strokeWidth) / 2} fill={backgroundColor} />
+      </G>
+      {steps && steps.map((step: number, index: number) => (
+        <G transform={{ translate: `${step.x + padding}, ${step.y + padding}` }} key={index}>
+          <Circle
+            r={(strokeWidth / 2.5) / 2}
+            fill={stepColor}
+            strokeWidth="12"
+            onPress={() => goToPercent(step.p)}
+          />
+        </G>
+      ))}
+      <G transform={{ translate: `${endX + padding}, ${endY + padding}` }} {...pan.panHandlers}>
+        <Circle
+          r={(strokeWidth) / 2 + (padding / 2)}
+          fill={gradient[1]}
+          stroke={borderColor}
+          strokeWidth={padding / 1.5}
+        />
+      </G>
+      {children && (
+        <View style={{
+            height: size,
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+          <View>{children}</View>
+        </View>
+      )}
     </Svg>
   );
 }
+
+export default PercentageCircle;

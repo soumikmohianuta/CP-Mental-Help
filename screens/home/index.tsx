@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { View, ScrollView } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { MentalHealthMeasureCard } from './mental-health-measure-card';
@@ -6,17 +7,24 @@ import { MentalHealthRatingScreen } from '../mental-health-rating';
 import { MentalHealthMeasureListScreen } from '../mental-health-measure-list';
 import { GHQMeasureScreen } from '../GHQ-measure';
 import { NavigationContainer } from '@react-navigation/native';
-import { Appbar } from 'react-native-paper';
+import { Appbar,Card,Button,Text,ActivityIndicator } from 'react-native-paper';
 import { PSSMeasureScreen } from '../PSS-measure';
 import { ScaleHistoryViewScreen } from '../scale-history-view';
 import{ AnxietyScaleMeasureScreen } from '../anxiety-scale-measure';
 import { MentalHealthScoreViewScreen } from '../mental-health-score-view';
 import { MentalHealthExerciseScreen } from '../mental-health-exercises';
-import { MentalExcerciseCard } from './mental-excercise-measure-card';
-import {HelpCenterCard} from './help-center-card';
 import { HelpCenterScreen } from '../help-center';
 import { ExerciseVideoScreen } from '../exercise-video';
+import {ExcerciseStatusScreen} from '../mental-health-exercises/excercise-status';
+import {checkPreSurveyRequires} from '../../storage';
+import CircularProgress from '../../components/percentage-circle';
+import { getMentalHealthExcercise } from '../../services/firebase';
+import {UserContext} from '../../context';
+import {excerCisePercentage} from '../../utils/exercise';
 
+const HelpCenterImage = require('./assets/help.jpg');
+const MentalStateImage = require('./assets/help.jpg');
+const MentalExcerciseImage = require('./assets/mentalexcercise.png');
 const { Navigator, Screen } = createStackNavigator();
 
 export const HomePageStack = () => {
@@ -34,30 +42,76 @@ export const HomePageStack = () => {
         <Screen name="ScaleHistoryView" component={ScaleHistoryViewScreen} />
         <Screen name="ExerciseVideo" component={ExerciseVideoScreen} />
         <Screen name="HelpCenter" component={HelpCenterScreen} />
+        <Screen name="ExcerciseStatus" component={ExcerciseStatusScreen} />
       </Navigator>
     </NavigationContainer>
   );
 }
 
-export const HomeScreen = ({
-  navigation,
-}: any) => {
-  const handleStart = () => {
-    const isPreStartSurveyEnabled = false;
-    if (isPreStartSurveyEnabled) {
-      navigation.navigate('MentalHealthRating');
-    } else {
-      navigation.navigate('MentalHealthMeasureList');
-    }
+export const HomeScreen = ({navigation}: any) => {
+
+  const [loading, setLoading] = useState(true);
+
+  const [currentAnswer, setCurrentAnswer] = useState(0);
+  const [isProgesAvailable, setIsProgesAvailable] = useState(true);
+  const {userName} = React.useContext(UserContext);
+
+
+   useFocusEffect(
+    React.useCallback( () => {
+      const getPersonalData = async () => {
+        setLoading(true);
+        try {
+          const curlist = await getMentalHealthExcercise(userName);
+          var totalCompleted = excerCisePercentage(curlist); 
+          
+     
+          if(totalCompleted==0){
+            setCurrentAnswer(totalCompleted);
+            setIsProgesAvailable(false);
+          }
+          else{
+            setCurrentAnswer(totalCompleted);
+            setIsProgesAvailable(true);
+          }
+        } catch(e) {
+          setIsProgesAvailable(false);
+        }
+        finally{
+          setLoading(false);
+        } 
+      };
+      getPersonalData();
+    }, [])
+  );
+  const handleStart = async () => {
+        var presurveyRequire = await checkPreSurveyRequires();
+        if (presurveyRequire) {
+          
+          navigation.navigate('MentalHealthRating', { navigateTo: 'MentalHealthMeasureList'});
+        } 
+        else {
+          navigation.navigate('MentalHealthMeasureList');
+        }
   }
   const handleExcercise = () => {
-    navigation.navigate('MentalHealthExercise', { navigateTo: 'Home'});
+    navigation.navigate('ExcerciseStatus');
 
   }
 
-  const handleEmergencyContact = () => {
+  const onHelpCenterClick = () => {
     navigation.navigate('HelpCenter');
 
+  }
+
+  
+  const onMentalHealthStateClick = () => {
+    navigation.navigate('MentalHealthRating', { navigateTo: 'Home'});
+
+  }
+
+  if (loading) {
+    return <ActivityIndicator />;
   }
   return (
     <>
@@ -67,8 +121,16 @@ export const HomeScreen = ({
       <ScrollView>
         <MentalHealthMeasureCard
           onStartClick={handleStart}
-          onHistoryClick={handleStart}
         />
+
+      <Card>
+          <Card.Title title="আপনার মানসিক অবস্থার মূল্যায়ন" /> 
+          <Card.Cover source={HelpCenterImage} />
+          <Card.Actions>
+           <Button onPress={onMentalHealthStateClick}>নিজেকে যাচাই করুন</Button>
+          </Card.Actions>
+      </Card>
+
         <View
         style={{
           flex: 1,
@@ -77,12 +139,31 @@ export const HomeScreen = ({
           marginTop: 12
         }}
       >
-         <MentalExcerciseCard
-          onStartClick={handleExcercise}
-        />
-        <HelpCenterCard
-          onStartClick={handleEmergencyContact}
-        />
+      <Card>
+          <Card.Title title="মানসিক স্বাস্থ্য" />
+          {isProgesAvailable? <CircularProgress
+                size={180}
+                defaultPos={currentAnswer}
+              >
+                <Text style={{ fontSize: 55}}>
+                  {currentAnswer}%
+                </Text>
+              </CircularProgress> :  <Card.Cover source={MentalExcerciseImage} />}
+          <Card.Actions>
+       
+        <Button onPress={handleExcercise}>অনুশীলনীগুলো দেখে আসুন</Button>
+      </Card.Actions>
+
+        </Card>
+
+
+        <Card>
+          <Card.Title title="Help Center" />
+          <Card.Cover source={MentalStateImage} />
+          <Card.Actions>
+          <Button onPress={onHelpCenterClick}>এখানে ক্লিক করুন</Button>
+          </Card.Actions>
+        </Card>
 
         </View>
       </ScrollView>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { SafeAreaView, View } from "react-native";
-import { Button, Avatar } from "react-native-paper";
+import { Button, Avatar,ActivityIndicator } from "react-native-paper";
 import { createStackNavigator } from "@react-navigation/stack";
 import { UserInfo } from "../UserInfo";
 import { ConsentScreen } from "../Consent";
@@ -32,6 +32,7 @@ const socialMediaButtonStyle = {
 };
 
 export const SignInScreen = ({ navigation }: any) => {
+  const [loading, setLoading] = useState(false);
   const [isSignIn, setIsSignIn] = useState(true);
   const {signIn} = React.useContext(AuthContext);
   const onLoginSuccess = (curUser: any) => {
@@ -48,10 +49,12 @@ export const SignInScreen = ({ navigation }: any) => {
   };
 
   const handleFacebookAuth = async () => {
+    setLoading(true);
     try {
       const data =  isSignIn? await signInFacebook() :await signUpFacebook();
       onLoginSuccess(data);
     } catch(e) {
+      setLoading(false);
       console.log(e.toString());
       if(e.toString().includes("An account already exists with the same email address")){
         alert("এই ই-মেইল দিয়ে আপনার আরেকটি প্রোফাইল রয়েছে");
@@ -63,10 +66,12 @@ export const SignInScreen = ({ navigation }: any) => {
   }
 
   const handleGoogleAuth = async () => {
+    setLoading(true);
     try {
       const data = isSignIn? await signInGoogle(): await signUpGoogle();
       onLoginSuccess(data);
     } catch(e) {
+      setLoading(false);
       if(e.toString().includes("An account already exists with the same email address")){
         alert("এই ই-মেইল দিয়ে আপনার আরেকটি প্রোফাইল রয়েছে");
       }
@@ -79,7 +84,9 @@ export const SignInScreen = ({ navigation }: any) => {
     setIsSignIn(!isSignIn);
   }
 
-
+  if (loading) {
+    return <ActivityIndicator />;
+  }
   return (
     <SafeAreaView style={{ marginTop: 60 }}>
       <View
