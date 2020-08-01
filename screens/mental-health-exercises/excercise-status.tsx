@@ -1,47 +1,50 @@
 import React, { useEffect, useState } from 'react';
-import { List, Card, ActivityIndicator, Appbar, Button, Headline } from 'react-native-paper';
-import { ScrollView } from 'react-native';
+import { List, Card, ActivityIndicator, Appbar, Button, Headline, Paragraph,Text } from 'react-native-paper';
+import { ScrollView, View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { checkMentalExaminationExists } from '../../services/firebase';
-import { CoronaProfile } from '../corona-profile';
-import { PsychoticProfile } from '../psychotic-profile';
-import {HelpCenterPPScreen} from '../psychotic-profile/helpPP'
-import { SuicideIdeationProfile } from '../suicide-ideation';
-import { HelpCenterSIScreen } from '../suicide-ideation/helpSI';
-import { DomesticViolenceProfile } from '../domestic-violence';
-import {HelpCenterDVScreen} from '../domestic-violence/helpDV';
 import {UserContext} from '../../context';
 import {getUserInfo} from '../../storage';
 import {exerciseStatusToContentMap,MENTAL_HEALTH_STATUS_TITLE,MENTAL_HEALTH_JUDGE_SECTIONS } from './content';
 import { getMentalHealthExcercise } from '../../services/firebase';
 import { isExcerciseTaken } from '../../utils/exercise';
+import CircularProgress from '../../components/percentage-circle';
 const { Navigator, Screen } = createStackNavigator();
 
 
-
-export const ExcerciseStatusScreen = ({navigation }: any) => {
+export const ExcerciseStatusScreen = ({route, navigation }: any) => {
   const [mentalStateTitle, SetmentalStateTitle] = useState("");
   const [loading, setLoading] = useState(true);
   const [isExcersieOn, setIsExcersieOn] = useState(false);
   const [content,SetContent]  = useState(exerciseStatusToContentMap['disabled']);
   const {userName} = React.useContext(UserContext);
+  const { progressStaus } = route.params;
+  const { isProgess } = route.params;
+  const setProfileState= async (mentalExamState:any) =>{
 
-  const setProfileState= async (profileState:any) =>{
-    for (var i = 0; i < profileState.length-1; i++) {
-      if (profileState[i]) {
-        MENTAL_HEALTH_JUDGE_SECTIONS[i].iconName = 'check';
-      }
-    }
+    MENTAL_HEALTH_JUDGE_SECTIONS[0].iconName =  mentalExamState.ghq ?'check':'cancel';
+    MENTAL_HEALTH_JUDGE_SECTIONS[1].iconName =  mentalExamState.pss ?'check':'cancel';
+    MENTAL_HEALTH_JUDGE_SECTIONS[2].iconName =  mentalExamState.anxiety ?'check':'cancel';
+
     // profileState[3] indicates if healthStatus Ever done or not
-    if(profileState[3]){
+    if(mentalExamState.mentalstatemeasure){
         SetmentalStateTitle(MENTAL_HEALTH_STATUS_TITLE.done.title);
-
-        if(profileState[0] || profileState[1]  || profileState[2] ){
+      // Check any scale is complete or not
+        if(mentalExamState.ghq || mentalExamState.pss  || mentalExamState.anxiety ){
             setIsExcersieOn(true);
             const curlist = await getMentalHealthExcercise(userName);
-            const excersiseStatus = isExcerciseTaken(curlist);
-            SetContent(exerciseStatusToContentMap[excersiseStatus]);
+            if(progressStaus==0){
+              SetContent(exerciseStatusToContentMap['never']);
+            }
+            else if(progressStaus==100){
+              SetContent(exerciseStatusToContentMap['completed']);
+            }
+            else{
+              SetContent(exerciseStatusToContentMap['inprogress']);
+            }
+            // const excersiseStatus = isExcerciseTaken(curlist);
+            // SetContent(exerciseStatusToContentMap[excersiseStatus]);
         }
     }
     else{
@@ -85,17 +88,23 @@ export const ExcerciseStatusScreen = ({navigation }: any) => {
         <Appbar.Content title="মানসিক স্বাস্থ্য পরিমাপের অবস্থা" />
       </Appbar.Header>
       <ScrollView>
-      
-        <Card elevation={5} style={{ margin: 12, borderRadius: 5 }}>
+      {
+        isProgess? <CircularProgress
+        size={180}
+        defaultPos={progressStaus}
+      >
+        <Text style={{ fontSize: 55}}>
+          {progressStaus}%
+        </Text>
+      </CircularProgress> :  <Headline style={{ margin: 12, borderRadius: 5,marginTop: 25 }}>{content.title}</Headline>
+      }
+      <Card elevation={5} style={{ margin: 12, borderRadius: 5 }}>
           <Card.Title title="আপনার মানসিক অবস্থার মূল্যায়ন" />
-          <Card.Content>
-                <List.Item
-                  title={mentalStateTitle}
-                  onPress={() => { navigation.navigate('MentalHealthRating', { navigateTo: 'ExcerciseStatus'});}}
-                />
-          </Card.Content>
-        </Card>
-        
+          <Card.Actions>
+              <Button onPress={() => { navigation.navigate('MentalHealthRating', { navigateTo: 'Home'});}}>{mentalStateTitle}</Button>
+            </Card.Actions>
+      </Card>
+
 
         <Card elevation={5} style={{ margin: 12, borderRadius: 5 }}>
           <Card.Title title="মানসিক স্বাস্থ্য পরীক্ষণের অবস্থা" />
@@ -111,10 +120,10 @@ export const ExcerciseStatusScreen = ({navigation }: any) => {
             }
           </Card.Content>
         </Card>
-        <Headline style={{ margin: 12, borderRadius: 5 }}>{content.title}</Headline>
+
         { isExcersieOn?
             <>
-            <Button mode="contained" onPress={onStart}> {content.buttonText}</Button>
+            <Button style={{ margin: 12, borderRadius: 5,marginTop: 25 }} mode="contained" onPress={onStart}> {content.buttonText}</Button>
           </> : null 
         }
       </ScrollView>

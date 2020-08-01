@@ -10,3 +10,4 @@ export const SCALE_NAME_MAP = new Map(
   ['pss', 'মানসিক চাপের'],
   ['anxiety', 'দুশ্চিন্তার']])
 
+export const coronaVideoID = "MreOgt1-Z5w";

@@ -59,8 +59,14 @@ export const CoronaProfile = ({ navigation }: any) => {
         .database()
         .ref(userName+"/MentalProfile/CoronaProfile")
         .set(userData);
-      var MentalProfileState = 0;
-      navigation.navigate("Profile",{MentalProfileState});
+        if(anySymptom=="Yes"|| anyRelativeWithSymptom=="Yes"){
+          navigation.navigate("CoronaExcercise");
+        }
+        else{
+          var MentalProfileState = 0;
+          navigation.navigate("Profile",{MentalProfileState});
+        }
+
       }
 
      catch{

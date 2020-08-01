@@ -14,7 +14,7 @@ import {HelpCenterDVScreen} from '../domestic-violence/helpDV';
 import {UserContext} from '../../context';
 import {getUserInfo} from '../../storage';
 import {SexMapper,MaritalStatusMapper,CurrentLocationMapper} from './contents';
-
+import {CoronaExerciseVideoScreen} from '../corona-profile/corona-excercise';
 const { Navigator, Screen } = createStackNavigator();
 
 var MENTAL_HEALTH_PROFILE_SECTIONS = [
@@ -52,6 +52,7 @@ export const ProfileScreenStack = () => {
         <Screen name="PsychoticHelp" component={HelpCenterPPScreen} />
         <Screen name="SuicidalIdeationHelp" component={HelpCenterSIScreen} />
         <Screen name="DomesticViolenceHelp" component={HelpCenterDVScreen} />
+        <Screen name="CoronaExcercise" component={CoronaExerciseVideoScreen}/>
       </Navigator>
     </NavigationContainer>
   );

@@ -21,6 +21,7 @@ import CircularProgress from '../../components/percentage-circle';
 import { getMentalHealthExcercise } from '../../services/firebase';
 import {UserContext} from '../../context';
 import {excerCisePercentage} from '../../utils/exercise';
+import {getHomeProgressRequire} from '../../storage';
 
 const HelpCenterImage = require('./assets/help.jpg');
 const MentalStateImage = require('./assets/help.jpg');
@@ -61,29 +62,37 @@ export const HomeScreen = ({navigation}: any) => {
     React.useCallback( () => {
       const getPersonalData = async () => {
         setLoading(true);
-        try {
-          const curlist = await getMentalHealthExcercise(userName);
-          var totalCompleted = excerCisePercentage(curlist); 
+        //To prevent each time updating from internet
+        var isUpdateRequire =await getHomeProgressRequire();
+        if(isUpdateRequire){
+          try {
+
+            const curlist = await getMentalHealthExcercise(userName);
+            var totalCompleted = excerCisePercentage(curlist); 
           
-     
-          if(totalCompleted==0){
-            setCurrentAnswer(totalCompleted);
+            // if no progress done show cover
+            if(totalCompleted==0){
+              setCurrentAnswer(totalCompleted);
+              setIsProgesAvailable(false);
+            }
+            // if stated watching show progress 
+
+            else{
+              setCurrentAnswer(totalCompleted);
+              setIsProgesAvailable(true);
+          
+            }
+          } 
+          catch(e) {
             setIsProgesAvailable(false);
           }
-          else{
-            setCurrentAnswer(totalCompleted);
-            setIsProgesAvailable(true);
-          }
-        } catch(e) {
-          setIsProgesAvailable(false);
-        }
-        finally{
-          setLoading(false);
-        } 
-      };
+        };
+        setLoading(false);
+      }
       getPersonalData();
     }, [])
   );
+
   const handleStart = async () => {
         var presurveyRequire = await checkPreSurveyRequires();
         if (presurveyRequire) {
@@ -95,7 +104,7 @@ export const HomeScreen = ({navigation}: any) => {
         }
   }
   const handleExcercise = () => {
-    navigation.navigate('ExcerciseStatus');
+    navigation.navigate('ExcerciseStatus', { progressStaus: currentAnswer, isProgess:isProgesAvailable});
 
   }
 

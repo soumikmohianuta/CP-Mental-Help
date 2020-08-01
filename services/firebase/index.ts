@@ -110,23 +110,23 @@ export const checkMentalEvaluationExists = async (userId: string) => {
 };
 
 export const checkMentalExaminationExists = async (userId: string) => {
-  var profileState = [false, false, false,false];
+  var profileState = {ghq:false, pss:false, anxiety:false,mentalstatemeasure:false};
   const snapshot = await firebase
     .database()
     .ref(userId)
     .once("value");
   if (snapshot.val() !== null) {
     if (snapshot.val().ghq) {
-      profileState[0] = true;
+      profileState.ghq = true;
     }
     if (snapshot.val().pss) {
-      profileState[1] = true;
+      profileState.pss = true;
     }
     if (snapshot.val().anxiety) {
-      profileState[2] = true;
+      profileState.anxiety = true;
     }
     if (snapshot.val().mentalstate) {
-      profileState[3] = true;
+      profileState.mentalstatemeasure = true;
     }
 
   }

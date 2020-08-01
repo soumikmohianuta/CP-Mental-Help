@@ -6,6 +6,7 @@ import YouTube from 'react-native-youtube';
 import { markExcerciseAsDone } from '../../services/firebase';
 import { UserContext } from '../../context';
 import { resources } from '../mental-health-exercises/content';
+import {setHomeProgressRequire} from  '../../storage';
 
 export const ExerciseVideoScreen = ({ route, navigation }: any) => {
   const { exercise } = route.params;
@@ -20,6 +21,7 @@ export const ExerciseVideoScreen = ({ route, navigation }: any) => {
     if (e.state === 'ended') {
       await markExcerciseAsDone(userId, content_id);
       setCompleted(true);
+      setHomeProgressRequire(true);
     }
   }
 
@@ -29,6 +31,7 @@ export const ExerciseVideoScreen = ({ route, navigation }: any) => {
     navigation.navigate('ExerciseVideo', { exercise: resources[order - 1]});
   }
   const handleNext = () => {
+    setHomeProgressRequire(true);
     // TODO: Go to rating and taking test page.
   }
 

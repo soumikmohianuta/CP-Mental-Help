@@ -60,12 +60,33 @@ export const saveItem = async (key:string, value:string) => {
     }
   }
   
+
+  export const setHomeProgressRequire = async (isRequired:boolean) => {
+    if (isRequired){
+      await saveItem('progressUpdated',"Yes");
+    }
+    else{
+      await saveItem('progressUpdated',"No");
+    }
+  }
+
+  export const getHomeProgressRequire = async () => {
+    var valueInStore = await getItem('progressUpdated');
+    if (valueInStore=="Yes"){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
   export const storeUserContext = async (curUser:any) => {
 
     await saveItem('userName',curUser.user.uid);
     await saveItem('displayname',curUser.user.displayName);
     await saveItem('email',curUser.user.email);
     await saveItem('preSurvey',"NA");
+    await setHomeProgressRequire(true);
   }
   
   export const getContextFromStorage = async() => {
@@ -73,6 +94,7 @@ export const saveItem = async (key:string, value:string) => {
     var userNameInstorages = await getItem('userName');
     var displayNameInStore = await getItem('displayName');
     var emailNameInstore = await getItem('email');
+    await setHomeProgressRequire(true);
     const currentContext = {
     
       userName: userNameInstorages,
