@@ -2,14 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { List, Card, ActivityIndicator, Appbar, Button, Headline, Paragraph,Text } from 'react-native-paper';
 import { ScrollView, View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
 import { checkMentalExaminationExists } from '../../services/firebase';
 import {UserContext} from '../../context';
-import {getUserInfo} from '../../storage';
 import {exerciseStatusToContentMap,MENTAL_HEALTH_STATUS_TITLE,MENTAL_HEALTH_JUDGE_SECTIONS } from './content';
-import { getMentalHealthExcercise } from '../../services/firebase';
-import { isExcerciseTaken } from '../../utils/exercise';
-import CircularProgress from '../../components/percentage-circle';
 import {setVideoRating} from '../../services/firebase';
 import { resources } from '../mental-health-exercises/content';
 import { Rating } from 'react-native-ratings';
@@ -24,11 +19,8 @@ export const ExcerciseStateScreen = ({route, navigation }: any) => {
 
   const [mentalStateTitle, SetmentalStateTitle] = useState(MENTAL_HEALTH_STATUS_TITLE['done']);
   const [loading, setLoading] = useState(true);
-  const [isExcersieOn, setIsExcersieOn] = useState(false);
   const [content,SetContent]  = useState(exerciseStatusToContentMap['disabled']);
   const {userName} = React.useContext(UserContext);
-  const { progressStaus } = route.params;
-  const { isProgess } = route.params;
   const [rateVal, setRateVal] = useState(3);
   const setProfileState= async (mentalExamState:any) =>{
 
@@ -80,7 +72,7 @@ export const ExcerciseStateScreen = ({route, navigation }: any) => {
         <Appbar.Content title="মানসিক স্বাস্থ্য পরিমাপের অবস্থা" />
       </Appbar.Header>
       <ScrollView>
-  <Paragraph> {name} ভিডিওটি সম্পর্কে আপনার মতামত দিন </Paragraph>
+    <Paragraph>  ভিডিওটি সম্পর্কে আপনার মতামত দিন </Paragraph>
       <Rating
             showRating
             onFinishRating={(rating:number) =>ratingDone(rating)}
@@ -90,7 +82,7 @@ export const ExcerciseStateScreen = ({route, navigation }: any) => {
       <Card elevation={5} style={{ margin: 12, borderRadius: 5 }}>
           <Card.Title title="আপনার মানসিক অবস্থার মূল্যায়ন" />
           <Card.Actions>
-              <Button onPress={() => { navigation.navigate('MentalHealthRating', { navigateTo: 'Home'});}}>{mentalStateTitle}</Button>
+              <Button onPress={() => { navigation.navigate('MentalHealthRating', { navigateTo: 'Home'});}}>{mentalStateTitle.title}</Button>
             </Card.Actions>
       </Card>
 
