@@ -7,8 +7,8 @@ import { checkMentalExaminationExists } from '../../services/firebase';
 import {UserContext} from '../../context';
 import {getUserInfo} from '../../storage';
 import {exerciseStatusToContentMap,MENTAL_HEALTH_STATUS_TITLE,MENTAL_HEALTH_JUDGE_SECTIONS } from './content';
-import { getMentalHealthExcercise } from '../../services/firebase';
-import { isExcerciseTaken } from '../../utils/exercise';
+import { setMentalInitialExcercise } from '../../services/firebase';
+import { isExcerciseTaken, getExerciseList } from '../../utils/exercise';
 import CircularProgress from '../../components/percentage-circle';
 const { Navigator, Screen } = createStackNavigator();
 
@@ -33,7 +33,7 @@ export const ExcerciseStatusScreen = ({route, navigation }: any) => {
       // Check any scale is complete or not
         if(mentalExamState.ghq || mentalExamState.pss  || mentalExamState.anxiety ){
             setIsExcersieOn(true);
-            const curlist = await getMentalHealthExcercise(userName);
+            //const curlist = await getMentalHealthExcercise(userName);
             if(progressStaus==0){
               SetContent(exerciseStatusToContentMap['never']);
             }
@@ -59,11 +59,11 @@ export const ExcerciseStatusScreen = ({route, navigation }: any) => {
     const getPersonalData = async () => {
       try {
         const mentalExamState = await checkMentalExaminationExists(userName);
+        await setMentalInitialExcercise(userName, getExerciseList());
         setProfileState(mentalExamState);
  
-
-
-      } catch(e) {
+      } 
+      catch(e) {
         alert('ব্যক্তিগত তথ্য দেখানো যাচ্ছে না');
       } finally {
         setLoading(false);

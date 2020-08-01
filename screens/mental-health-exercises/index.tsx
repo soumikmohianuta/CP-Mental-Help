@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Appbar, List } from 'react-native-paper';
+import { Appbar, List,ActivityIndicator } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
 import { resources as staticResources } from './content';
 import { getMentalHealthExcercise, setMentalHealthExcercise, markExcerciseAsDone } from '../../services/firebase';
@@ -21,12 +21,23 @@ export const MentalHealthExerciseScreen = ({ route, navigation }: any) => {
   const [resources, setResources] = useState([]);
   const { userName: userId } = useContext(UserContext);
   const { navigateTo } = route.params;
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchMentalHealthExercise = async () => {
+      try{
+      setLoading(true);
       const list = await getMentalHealthExcercise(userId);
       setResourceAndList(list);
+      setLoading(false);
+ 
     }
+    catch{
+      setLoading(false);
+      alert("আপনার অগ্রগতি দেখানো যাচ্ছে না");
+    }
+  }
+  
     fetchMentalHealthExercise();
   }, []);
 
@@ -40,7 +51,9 @@ export const MentalHealthExerciseScreen = ({ route, navigation }: any) => {
     setExerciseList(list);
     setResources(mapResources(list));
   }
-
+  if (loading) {
+    return <ActivityIndicator />;
+  }
   return (
     <>
       <Appbar.Header>

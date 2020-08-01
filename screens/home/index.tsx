@@ -23,9 +23,10 @@ import {UserContext} from '../../context';
 import {excerCisePercentage} from '../../utils/exercise';
 import {getHomeProgressRequire} from '../../storage';
 import {ExcerciseStateScreen} from '../exercise-video/excercise-state';
-const HelpCenterImage = require('./assets/help.jpg');
-const MentalStateImage = require('./assets/help.jpg');
-const MentalExcerciseImage = require('./assets/mentalexcercise.png');
+
+const HelpCenterImage = require('./assets/help.png');
+const MentalStateImage = require('./assets/evaluate.jpeg');
+const MentalExcerciseImage = require('./assets/mentalexcercise.jpeg');
 const { Navigator, Screen } = createStackNavigator();
 
 export const HomePageStack = () => {
@@ -135,7 +136,7 @@ export const HomeScreen = ({navigation}: any) => {
 
       <Card>
           <Card.Title title="আপনার মানসিক অবস্থার মূল্যায়ন" /> 
-          <Card.Cover source={HelpCenterImage} />
+          <Card.Cover source={MentalStateImage} />
           <Card.Actions>
            <Button onPress={onMentalHealthStateClick}>নিজেকে যাচাই করুন</Button>
           </Card.Actions>
@@ -169,9 +170,9 @@ export const HomeScreen = ({navigation}: any) => {
 
         <Card>
           <Card.Title title="Help Center" />
-          <Card.Cover source={MentalStateImage} />
+          <Card.Cover source={HelpCenterImage} />
           <Card.Actions>
-          <Button onPress={onHelpCenterClick}>এখানে ক্লিক করুন</Button>
+          <Button onPress={onHelpCenterClick}>মানসিক সাহায্যের জন্য</Button>
           </Card.Actions>
         </Card>
 

@@ -63,16 +63,9 @@ export const ExcerciseStateScreen = ({route, navigation }: any) => {
   }, []);
 
   const onStart = async () => {
-    var nextItem = order+1;
-    var item = resources[0];
-    
-    for (var i = 0; i < resources.length; i++) {
-        if(resources[i].order = nextItem){
-             item = resources[i];
-        }
-    }
+
     navigation.navigate('ExerciseVideo', {
-        exercise: item
+        exercise: resources[order + 1]
       })
   }
 

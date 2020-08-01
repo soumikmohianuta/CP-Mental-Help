@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button, Card } from 'react-native-paper';
-const Image = require('../assets/judgeYourself.jpg');
+const Image = require('../assets/examine.jpeg');
 export const MentalHealthMeasureCard = ({ onStartClick, onHistoryClick, rating }: any) => {
 
   return (

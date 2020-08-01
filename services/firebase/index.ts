@@ -81,6 +81,21 @@ export const getMentalHealthScore = async (userId: string, scale: string) => {
   return snapshot.val();
 };
 
+
+export const setMentalInitialExcercise = async (userId: string,  list: any) => {
+  const snapshot = await firebase
+    .database()
+    .ref(userId)
+    .once("value");
+    if (snapshot.val() !== null) {
+      if (!snapshot.val().mental_health_excercises) {
+        firebase.database().ref(`${userId}/mental_health_excercises/`).set(list);
+    }
+  }
+
+
+  };
+  
 export const setMentalHealthExcercise = async (
   userId: string,
   list: any,
