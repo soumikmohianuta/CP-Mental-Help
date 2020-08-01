@@ -22,7 +22,7 @@ import { getMentalHealthExcercise } from '../../services/firebase';
 import {UserContext} from '../../context';
 import {excerCisePercentage} from '../../utils/exercise';
 import {getHomeProgressRequire} from '../../storage';
-
+import {ExcerciseStateScreen} from '../exercise-video/excercise-state';
 const HelpCenterImage = require('./assets/help.jpg');
 const MentalStateImage = require('./assets/help.jpg');
 const MentalExcerciseImage = require('./assets/mentalexcercise.png');
@@ -44,6 +44,7 @@ export const HomePageStack = () => {
         <Screen name="ExerciseVideo" component={ExerciseVideoScreen} />
         <Screen name="HelpCenter" component={HelpCenterScreen} />
         <Screen name="ExcerciseStatus" component={ExcerciseStatusScreen} />
+        <Screen name="ExcerciseStateScreen" component={ExcerciseStateScreen}/>
       </Navigator>
     </NavigationContainer>
   );

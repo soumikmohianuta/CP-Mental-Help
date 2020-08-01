@@ -61,6 +61,12 @@ export const setMentalState = async (userID: string, data: any) => {
   firebase.database().ref(`${userID}/mentalstate/${Date.now()}`).set(data);
 };
 
+export const setVideoRating = async (
+  userId: string,
+  videoID: string,
+  score: number
+) => firebase.database().ref(`${userId}/rating/${videoID}`).set(score);
+
 export const setMentalHealthScore = async (
   userId: string,
   scale: string,

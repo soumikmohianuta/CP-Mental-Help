@@ -32,7 +32,9 @@ export const ExerciseVideoScreen = ({ route, navigation }: any) => {
   }
   const handleNext = () => {
     setHomeProgressRequire(true);
-    // TODO: Go to rating and taking test page.
+    navigation.navigate('ExcerciseStateScreen', {
+      exercise: exercise
+    })
   }
 
   return (
