@@ -108,7 +108,10 @@ export const UserInfo = ({ route,navigation }: any) => {
       else{
             SetAddress(value);
       }
+      setTimeout(() => {
         setCount(count + 1);
+      }, 250);
+
     }
   
 

@@ -13,7 +13,10 @@ export const ConsentScreen = ({ route,navigation }: any) => {
 
       const CheckConsent = (value: any) => {
         if (value != "Yes" ) {
-          navigation.navigate("SignIn");
+          setTimeout(() => {
+            navigation.navigate("SignIn");
+          }, 250);
+         
   
           } 
         else {

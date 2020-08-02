@@ -44,6 +44,7 @@ export const SignInScreen = ({ navigation }: any) => {
       else{
           navigation.navigate("Consent", {curUser});
       }
+      setLoading(false);
     };
     checkUser();
   };
