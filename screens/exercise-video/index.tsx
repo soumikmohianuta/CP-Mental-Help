@@ -1,24 +1,25 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext,useRef } from 'react';
 import { View } from 'react-native';
 import { Appbar, Text, Button, ActivityIndicator } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
-import YouTube from 'react-native-youtube';
 import { markExcerciseAsDone } from '../../services/firebase';
 import { UserContext } from '../../context';
 import { resources } from '../mental-health-exercises/content';
 import {setHomeProgressRequire} from  '../../storage';
-
+import YoutubePlayer from 'react-native-youtube-iframe';
 export const ExerciseVideoScreen = ({ route, navigation }: any) => {
   const { exercise } = route.params;
   const { videoId, name, content_id, order } = exercise;
   const { userName: userId } = useContext(UserContext);
-
+  const playerRef = useRef(null);
   const [ready, setReady] = useState(false);
-  const [completed, setCompleted] = useState(false);
+  const [completed, setCompleted] = useState(true);
   const [error, setError] = useState();
-
+  const [playing, setPlaying] = useState(true);
   const onChangeState = async (e: any) => {
-    if (e.state === 'ended') {
+
+    if (e=='ended') {
+      console.log(e.state)
       await markExcerciseAsDone(userId, content_id);
       setCompleted(true);
       setHomeProgressRequire(true);
@@ -33,7 +34,7 @@ export const ExerciseVideoScreen = ({ route, navigation }: any) => {
   const handleNext = () => {
     setHomeProgressRequire(true);
     navigation.navigate('ExcerciseStateScreen', {
-      exercise: exercise
+      exercise: resources[order]
     })
   }
 
@@ -60,18 +61,18 @@ export const ExerciseVideoScreen = ({ route, navigation }: any) => {
                 animating={true}
               />
           }
-          <YouTube
-            videoId={videoId}
-            play
-            onReady={() => setReady(true)}
-            onChangeState={(e: any) => onChangeState(e)}
-            onChangeQuality={() => {}}
-            onError={e => setError(e)}
-            style={{
-                alignSelf: 'stretch',
-                height: 350,
-                display: ready ? 'flex' : 'none'
-            }}
+          <YoutubePlayer
+               ref={playerRef}
+              height={350}
+              width={400}
+              videoId={videoId}
+              play={playing}
+              onChangeState={(e: any) => onChangeState(e)}
+              onReady={() => setReady(true)}
+              onError={(e: any) => setError(e)}
+              onPlaybackQualityChange={() => {}}
+              volume={50}
+              playbackRate={1}
           />
         </View>
         {

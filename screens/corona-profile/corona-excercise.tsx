@@ -1,15 +1,16 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext,useRef } from 'react';
 import { View } from 'react-native';
 import { Appbar, Text, Button, ActivityIndicator } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
-import YouTube from 'react-native-youtube';
+import YoutubePlayer from 'react-native-youtube-iframe';
 import {coronaVideoID} from '../../utils/constants';
 
 export const CoronaExerciseVideoScreen = ({ route, navigation }: any) => {
 
   const [ready, setReady] = useState(false);
   const [error, setError] = useState();
-
+  const [playing, setPlaying] = useState(true);
+  const playerRef = useRef(null);
   var MentalProfileState = 0;
  
 
@@ -37,17 +38,18 @@ export const CoronaExerciseVideoScreen = ({ route, navigation }: any) => {
                 animating={true}
               />
           }
-          <YouTube
-            videoId={coronaVideoID}
-            play
-            onReady={() => setReady(true)}
-            onChangeQuality={() => {}}
-            onError={e => setError(e)}
-            style={{
-                alignSelf: 'stretch',
-                height: 350,
-                display: ready ? 'flex' : 'none'
-            }}
+          <YoutubePlayer
+               ref={playerRef}
+              height={350}
+              width={400}
+              videoId={coronaVideoID}
+              play={playing}
+              onReady={() => setReady(true)}
+              onError={(e: any) => setError(e)}
+              onPlaybackQualityChange={() => {}}
+              volume={50}
+              playbackRate={1}
+          />
           />
         </View>
         {

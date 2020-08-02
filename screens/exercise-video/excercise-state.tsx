@@ -19,7 +19,7 @@ export const ExcerciseStateScreen = ({route, navigation }: any) => {
 
   const [mentalStateTitle, SetmentalStateTitle] = useState(MENTAL_HEALTH_STATUS_TITLE['done']);
   const [loading, setLoading] = useState(true);
-  const [content,SetContent]  = useState(exerciseStatusToContentMap['disabled']);
+  const [ratingShow,SetRatingShow]  = useState(true);
   const {userName} = React.useContext(UserContext);
   const [rateVal, setRateVal] = useState(3);
   const setProfileState= async (mentalExamState:any) =>{
@@ -34,7 +34,8 @@ export const ExcerciseStateScreen = ({route, navigation }: any) => {
   }
 
   const ratingSubmit= () =>{
-    setVideoRating(userName,videoId,rateVal); 
+    setVideoRating(userName,content_id,rateVal); 
+    SetRatingShow(false);
   }
 
   useEffect(() => {
@@ -72,12 +73,16 @@ export const ExcerciseStateScreen = ({route, navigation }: any) => {
         <Appbar.Content title="মানসিক স্বাস্থ্য পরিমাপের অবস্থা" />
       </Appbar.Header>
       <ScrollView>
-    <Paragraph>  ভিডিওটি সম্পর্কে আপনার মতামত দিন </Paragraph>
-      <Rating
-            showRating
-            onFinishRating={(rating:number) =>ratingDone(rating)}
-            />
-      <Button style={{ margin: 12, borderRadius: 5,marginTop: 25 }} mode="contained" onPress={ratingSubmit}>রেটিং সাবমিট করুন</Button>
+    <Paragraph>  { ratingShow?  'ভিডিওটি সম্পর্কে আপনার মতামত দিন': 'আপনার মতামতের জন্য ধন্যবাদ' } </Paragraph>
+
+     
+      <Card elevation={5} style={{ margin: 12, borderRadius: 5 }}>
+          <Card.Title title={ ratingShow?  'ভিডিওটি সম্পর্কে আপনার মতামত দিন': 'আপনার মতামতের জন্য ধন্যবাদ' } />
+          <Card.Content>
+                {ratingShow ? <Rating onFinishRating={(rating:number) =>ratingDone(rating)} />  :null}
+                {ratingShow ?  <Button style={{ margin: 12, borderRadius: 5,marginTop: 25 }} mode="contained" onPress={ratingSubmit}>রেটিং সাবমিট করুন</Button> :null}
+            </Card.Content>
+      </Card>
 
       <Card elevation={5} style={{ margin: 12, borderRadius: 5 }}>
           <Card.Title title="আপনার মানসিক অবস্থার মূল্যায়ন" />
