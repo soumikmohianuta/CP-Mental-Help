@@ -13,7 +13,7 @@ export const ExerciseVideoScreen = ({ route, navigation }: any) => {
   const { userName: userId } = useContext(UserContext);
   const playerRef = useRef(null);
   const [ready, setReady] = useState(false);
-  const [completed, setCompleted] = useState(true);
+  const [completed, setCompleted] = useState(false);
   const [error, setError] = useState();
   const [playing, setPlaying] = useState(true);
   const onChangeState = async (e: any) => {
@@ -63,8 +63,8 @@ export const ExerciseVideoScreen = ({ route, navigation }: any) => {
           }
           <YoutubePlayer
                ref={playerRef}
-              height={350}
-              width={400}
+              height={450}
+              width={450}
               videoId={videoId}
               play={playing}
               onChangeState={(e: any) => onChangeState(e)}
