@@ -96,13 +96,18 @@ export const SuicideIdeationProfile = ({ navigation }: any) => {
           setShowSubmit(true);
         }
         else{
-          setCount(count + 1); 
+          setShowSubmit(false);
+          setTimeout(() => {
+            setCount(count + 1);
+          }, 250);
         }
       }
            
       else if(count==1){
         SetAnySuicidePlan(value);
-        setCount(count + 1);
+        setTimeout(() => {
+          setCount(count + 1);
+        }, 250);
       }
 
     else{

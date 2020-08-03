@@ -101,13 +101,13 @@ export const QuestionForm = ({
             : null
           }
       </View>
-      <Button
+      {/* <Button
         onPress={handleSkip}
         mode="text"
         uppercase={false}
       >
         Skip the test
-      </Button>
+      </Button> */}
     </>
   )
 }

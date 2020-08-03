@@ -23,10 +23,12 @@ import {UserContext} from '../../context';
 import {excerCisePercentage} from '../../utils/exercise';
 import {getHomeProgressRequire} from '../../storage';
 import {ExcerciseStateScreen} from '../exercise-video/excercise-state';
+import {GetingStartedScreen} from '../getting-started';
 
 const HelpCenterImage = require('./assets/help.png');
 const MentalStateImage = require('./assets/evaluate.jpeg');
 const MentalExcerciseImage = require('./assets/mentalexcercise.jpeg');
+const QlifeImage = require('../../Images/QLife.png');
 const { Navigator, Screen } = createStackNavigator();
 
 export const HomePageStack = () => {
@@ -46,6 +48,7 @@ export const HomePageStack = () => {
         <Screen name="HelpCenter" component={HelpCenterScreen} />
         <Screen name="ExcerciseStatus" component={ExcerciseStatusScreen} />
         <Screen name="ExcerciseStateScreen" component={ExcerciseStateScreen}/>
+        <Screen name="GetingStartedScreen" component={GetingStartedScreen}/>
       </Navigator>
     </NavigationContainer>
   );
@@ -121,6 +124,11 @@ export const HomeScreen = ({navigation}: any) => {
 
   }
 
+  const onGettingStarted = () => {
+    navigation.navigate('GetingStartedScreen');
+
+  }
+
   if (loading) {
     return <ActivityIndicator />;
   }
@@ -133,15 +141,29 @@ export const HomeScreen = ({navigation}: any) => {
         <MentalHealthMeasureCard
           onStartClick={handleStart}
         />
-
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'space-evenly',
+          marginTop: 12
+        }}
+      >
       <Card>
-          <Card.Title title="আপনার মানসিক অবস্থার মূল্যায়ন" /> 
+          <Card.Title title="মানসিক মূল্যায়ন" /> 
           <Card.Cover source={MentalStateImage} />
           <Card.Actions>
-           <Button onPress={onMentalHealthStateClick}>নিজেকে যাচাই করুন</Button>
+           <Button onPress={onMentalHealthStateClick}>নিজেকে মূল্যায়ন করুন</Button>
           </Card.Actions>
       </Card>
-
+      <Card>
+          <Card.Title title="ব্যবহার নির্দেশিকা" /> 
+          <Card.Cover source={QlifeImage} />
+          <Card.Actions>
+           <Button onPress={onGettingStarted}>কিভাবে অ্যাপ ব্যবহার করবেন</Button>
+          </Card.Actions>
+      </Card>
+      </View>
         <View
         style={{
           flex: 1,
@@ -172,7 +194,7 @@ export const HomeScreen = ({navigation}: any) => {
           <Card.Title title="Help Center" />
           <Card.Cover source={HelpCenterImage} />
           <Card.Actions>
-          <Button onPress={onHelpCenterClick}>মানসিক সাহায্যের জন্য</Button>
+          <Button onPress={onHelpCenterClick}>প্রয়োজনে মানসিক সাহায্য পেতে</Button> 
           </Card.Actions>
         </Card>
 

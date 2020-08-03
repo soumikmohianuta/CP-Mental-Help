@@ -5,21 +5,20 @@ import { ScrollView } from 'react-native-gesture-handler';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import {coronaVideoID} from '../../utils/constants';
 
-export const CoronaExerciseVideoScreen = ({ route, navigation }: any) => {
+export const GetingStartedScreen = ({navigation }: any) => {
 
   const [ready, setReady] = useState(false);
   const [error, setError] = useState();
   const [playing, setPlaying] = useState(true);
   const playerRef = useRef(null);
-  var MentalProfileState = 0;
  
 
 
   return (
     <>
       <Appbar.Header>
-        <Appbar.BackAction onPress={() =>  navigation.navigate("Profile",{MentalProfileState})}  />
-        <Appbar.Content title="করোনাজয়ীর ইন্টারভিউ" />
+        <Appbar.BackAction onPress={() =>  navigation.navigate("Home")}  />
+        <Appbar.Content title="ব্যবহার নির্দেশিকা" />
       </Appbar.Header>
       <ScrollView style={{ margin: 12, marginTop: 32 }}>
         <View style={{ height: 370 }}>
@@ -50,6 +49,7 @@ export const CoronaExerciseVideoScreen = ({ route, navigation }: any) => {
               volume={50}
               playbackRate={1}
           />
+   
         </View>
         {
           error ?

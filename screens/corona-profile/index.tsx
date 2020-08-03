@@ -106,33 +106,31 @@ export const CoronaProfile = ({ navigation }: any) => {
       setCurrentAnswers("");
       if(count==0){
             SetAnySymptom(value);
-            setCount(count + 1);
       }
       else if(count==1){
         SetAnyRelativeWithSymptom(value);
-        setCount(count + 1);
       }
     
       else if(count==2){
         SetAnyRelativeWithSymptom(value);
-        setCount(count + 1);
       }
     
     else if(count==3){
         SetAnyMentalHelp(value);
-        setCount(count + 1);
     }
 
     else if(count==4){
         SetAnyAfterSymptom(value);
-        setCount(count + 1);
     }
+
 
     else{
         SetAnyAfterMentalhelp(value);
         setShowSubmit(true);
     }
-
+    setTimeout(() => {
+      setCount(count + 1);
+    }, 250);
     }
   
 

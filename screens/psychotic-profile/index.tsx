@@ -100,22 +100,22 @@ export const PsychoticProfile = ({ navigation }: any) => {
       setCurrentAnswers("");
       if(count==0){
         SetAnyHarmByOther(value);
-            setCount(count + 1);
       }
       else if(count==1){
         SetAnyControlByOther(value);
-        setCount(count + 1);
       }
     
       else if(count==2){
         SetAnyAbnoramality(value);
-        setCount(count + 1);
       }
 
     else{
         SetAnyFeeling(value);
         setShowSubmit(true);
     }
+    setTimeout(() => {
+      setCount(count + 1);
+    }, 250);
 
     }
   

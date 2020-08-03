@@ -52,7 +52,7 @@ export const MentalHealthRatingScreen = ({ route, navigation }: any) => {
     <>
       <Appbar.Header>
         <Appbar.BackAction onPress={() => navigation.navigate('Home')}  />
-        <Appbar.Content title="How's you feeling?" />
+        <Appbar.Content title="আপনি কেমন অনুভব করছেন?" />
       </Appbar.Header>
       <View style={{ margin: 12, marginTop: 32 }}>
         <Subheading style={{ marginBottom: 12 }}> QUESTIONS {count + 1} of {NUMBER_OF_QUESTIONS}</Subheading>
