@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Appbar, Text,ActivityIndicator, Paragraph } from 'react-native-paper';
-import { ScrollView } from 'react-native-gesture-handler';
+import { Appbar, Text,ActivityIndicator, Paragraph, Headline } from 'react-native-paper';
+import {
+  View,  ScrollView} from "react-native";
 import { getMentalHealthScore } from '../../services/firebase';
 import { HistoryTable } from '../../components/history-table';
 import { UserContext } from '../../context';
@@ -54,10 +55,20 @@ export const ScaleHistoryViewScreen = ({ route, navigation }: any) => {
     const getHistory = async () => {
       try{
       const historyData = await getMentalHealthScore(userId, scale);
-      const historylatest = getLatestFive(historyData);
-      getLatestFive(historylatest);
-      setHistory(historylatest);
-      setLineData(historylatest);
+      console.log(historyData);
+      if(historyData!=null){
+        if (Object.keys(historyData).length>5){
+         const historylatest = getLatestFive(historyData);
+          getLatestFive(historylatest);
+          setHistory(historylatest);
+         setLineData(historylatest);
+        }
+        else{
+          getLatestFive(historyData);
+          setHistory(historyData);
+         setLineData(historyData);
+        }
+      }
 
       }
       catch{
@@ -79,9 +90,9 @@ export const ScaleHistoryViewScreen = ({ route, navigation }: any) => {
         <Appbar.BackAction onPress={() => navigation.navigate('MentalHealthMeasureList')}  />
         <Appbar.Content title={`আপনার ${scaleName} ইতিহাস`} />
       </Appbar.Header>
-      <ScrollView style={{ margin: 12 }}>
-        <Paragraph>আপনার মানসিক অবস্থার গ্রাফ</Paragraph>
-      <LineChart
+      <ScrollView style={{ margin: 12} }>
+        {labelData.length>1 &&<Headline>আপনার মানসিক অবস্থার গ্রাফ</Headline>}
+      {labelData.length>1 && <LineChart
           data={{
           labels: labelData,
           datasets: [{data:valueData}]
@@ -105,17 +116,33 @@ export const ScaleHistoryViewScreen = ({ route, navigation }: any) => {
         stroke: "#c62828"
       }
     }}
+  
       bezier
       style={{
        marginVertical: 8,
         borderRadius: 16
      }}
+    
     />
-    <Paragraph>{socreLabelText}</Paragraph>
-        <HistoryTable
+  }
+     {labelData.length>0 ? <Paragraph>{socreLabelText}</Paragraph>:
+     <>
+     <View style={{
+          flex: 1, 
+          alignItems: 'center',
+          justifyContent: 'center', 
+        }}>
+
+     <Headline> আপনি এখনো পরিমাপ করেননি </Headline>
+     </View>
+     </>}
+     
+     
+     {labelData.length>1 &&<HistoryTable
           history={history}
           scale={scale}
         />
+        }
       </ScrollView>
     </>
   )

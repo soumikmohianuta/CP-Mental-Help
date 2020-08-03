@@ -1,5 +1,5 @@
 import React from 'react';
-import { DataTable, Text } from 'react-native-paper';
+import { DataTable, Paragraph,Text } from 'react-native-paper';
 import { getLevelByScore } from '../../utils/scale';
 
 const dateFormat = (date: any) => {
@@ -28,8 +28,8 @@ export const HistoryTable = ({ history, scale }: any) => {
               <DataTable.Cell>{item.score}</DataTable.Cell>
               <DataTable.Cell>{item.level}</DataTable.Cell>
             </DataTable.Row>
-          ))
-        : <Text> আপনি এখনো পরিমাপ করেননি </Text>
+          )):null
+        
       }
   </DataTable>
   )
