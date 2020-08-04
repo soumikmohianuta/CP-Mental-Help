@@ -23,8 +23,8 @@ export const resources = [
     {
     name: "করোনায় আক্রান্ত হলে পারিপার্শ্বিক অবস্থার সাথে খাপ খাওয়ানোয় উপায়",
     type: "video",
-    videoId: "",
-    content_id: '2W6P5Sag63w',
+    videoId: "2W6P5Sag63w",
+    content_id: 'corona_surrounding',
     order: 3,
   },
       {

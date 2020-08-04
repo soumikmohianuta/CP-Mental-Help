@@ -13,16 +13,21 @@ export const ExerciseVideoScreen = ({ route, navigation }: any) => {
   const { userName: userId } = useContext(UserContext);
   const playerRef = useRef(null);
   const [ready, setReady] = useState(false);
-  const [completed, setCompleted] = useState(false);
+  //const [completed, setCompleted] = useState(false);
   const [error, setError] = useState();
   const [playing, setPlaying] = useState(true);
+  
   const onChangeState = async (e: any) => {
 
     if (e=='ended') {
       console.log(e.state)
       await markExcerciseAsDone(userId, content_id);
-      setCompleted(true);
+      // setCompleted(true);
       setHomeProgressRequire(true);
+      navigation.navigate('ExcerciseStateScreen', {
+        exercise: resources[order]
+      })
+     // setCompleted(false);
     }
   }
 
@@ -36,6 +41,7 @@ export const ExerciseVideoScreen = ({ route, navigation }: any) => {
     navigation.navigate('ExcerciseStateScreen', {
       exercise: resources[order]
     })
+    setCompleted(false);
   }
 
   return (
@@ -45,7 +51,7 @@ export const ExerciseVideoScreen = ({ route, navigation }: any) => {
         <Appbar.Content title={name} />
       </Appbar.Header>
       <ScrollView style={{ margin: 12, marginTop: 32 }}>
-        <View style={{ height: 370 }}>
+        <View style={{ height: 450 , alignItems: 'center'}}>
           {
             !ready &&
               <ActivityIndicator
@@ -56,6 +62,7 @@ export const ExerciseVideoScreen = ({ route, navigation }: any) => {
                   top: 50,
                   bottom: 0,
                   alignItems: 'center',
+                  flexDirection: 'column',
                   justifyContent: 'center'
                 }}
                 animating={true}
@@ -64,7 +71,7 @@ export const ExerciseVideoScreen = ({ route, navigation }: any) => {
           <YoutubePlayer
                ref={playerRef}
               height={450}
-              width={450}
+              width={380}
               videoId={videoId}
               play={playing}
               onChangeState={(e: any) => onChangeState(e)}
@@ -95,7 +102,7 @@ export const ExerciseVideoScreen = ({ route, navigation }: any) => {
           >
             Previous
           </Button>
-          {
+          {/* {
             order != resources.length - 1 && 
               <Button
                 onPress={handleNext}
@@ -105,7 +112,7 @@ export const ExerciseVideoScreen = ({ route, navigation }: any) => {
                 Next
               </Button>
           }
-          
+           */}
         </View>
       </ScrollView>
     </>

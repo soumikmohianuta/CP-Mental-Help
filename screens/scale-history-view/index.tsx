@@ -91,8 +91,8 @@ export const ScaleHistoryViewScreen = ({ route, navigation }: any) => {
         <Appbar.Content title={`আপনার ${scaleName} ইতিহাস`} />
       </Appbar.Header>
       <ScrollView style={{ margin: 12} }>
-        {labelData.length>1 &&<Headline>আপনার মানসিক অবস্থার গ্রাফ</Headline>}
-      {labelData.length>1 && <LineChart
+        {labelData.length>0 &&<Headline>আপনার মানসিক অবস্থার গ্রাফ</Headline>}
+      {labelData.length>0 && <LineChart
           data={{
           labels: labelData,
           datasets: [{data:valueData}]
@@ -138,7 +138,7 @@ export const ScaleHistoryViewScreen = ({ route, navigation }: any) => {
      </>}
      
      
-     {labelData.length>1 &&<HistoryTable
+     {labelData.length>0 &&<HistoryTable
           history={history}
           scale={scale}
         />

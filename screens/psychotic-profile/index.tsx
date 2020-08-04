@@ -113,9 +113,11 @@ export const PsychoticProfile = ({ navigation }: any) => {
         SetAnyFeeling(value);
         setShowSubmit(true);
     }
-    setTimeout(() => {
-      setCount(count + 1);
-    }, 250);
+    if(count<3){
+      setTimeout(() => {
+       setCount(count + 1);
+       }, 250);
+      }
 
     }
   

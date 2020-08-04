@@ -128,9 +128,11 @@ export const CoronaProfile = ({ navigation }: any) => {
         SetAnyAfterMentalhelp(value);
         setShowSubmit(true);
     }
-    setTimeout(() => {
-      setCount(count + 1);
-    }, 250);
+    if(count<5){
+      setTimeout(() => {
+       setCount(count + 1);
+       }, 250);
+      }
     }
   
 
