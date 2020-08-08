@@ -61,11 +61,31 @@ export const setMentalState = async (userID: string, data: any) => {
   firebase.database().ref(`${userID}/mentalstate/${Date.now()}`).set(data);
 };
 
+
+export const isRaingRequire = async (userId: string, videoID:string) => {
+  const snapshot = await firebase
+    .database()
+    .ref(`${userId}/rating/${videoID}`)
+    .once("value");
+  if (snapshot.val() !== null) {
+      return false;
+
+  }
+  else{
+    return true;
+  }
+};
+
+
 export const setVideoRating = async (
   userId: string,
   videoID: string,
-  score: number
-) => firebase.database().ref(`${userId}/rating/${videoID}`).set(score);
+  score: number,
+  commnentText:string
+) => {
+  firebase.database().ref(`${userId}/rating/${videoID}/rating`).set(score);
+  firebase.database().ref(`${userId}/rating/${videoID}/comment`).set(commnentText);
+}
 
 export const setMentalHealthScore = async (
   userId: string,

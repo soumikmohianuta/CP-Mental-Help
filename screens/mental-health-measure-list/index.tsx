@@ -14,7 +14,7 @@ export const MentalHealthMeasureListScreen = ({
     <>
       <Appbar.Header>
         <Appbar.BackAction onPress={() => navigation.navigate('Home')}  />
-        <Appbar.Content title="মানসিক স্বাস্থ্যের পরিমাপ" />
+        <Appbar.Content title="মানসিক স্বাস্থ্য যাচাই" />
       </Appbar.Header>
       <ScrollView>
       {

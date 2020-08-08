@@ -15,7 +15,6 @@ import { questionnaires } from "./contents";
 import { View, Dimensions } from "react-native";
 import { setMentalState } from "../../services/firebase";
 import CircularPicker from "../../components/circle-picker";
-import {setPreSurvey} from '../../storage';
 import {UserContext} from '../../context';
 const NUMBER_OF_QUESTIONS = 5;
 
@@ -29,12 +28,27 @@ export const MentalHealthRatingScreen = ({ route, navigation }: any) => {
     setCurrentAnswer(parseInt(ans, 10) + 1);
   };
 
+  const findScore=(dataArr:any)=>{ 
+    var total = 0;
+    for(var i = 0; i < dataArr.length; i++) {
+      total += dataArr[i];
+    }
+   var avg = total / dataArr.length;
+   return Math.round( avg );
+  }
+
   const handleNext = async () => {
     if (count === NUMBER_OF_QUESTIONS - 1) {
       // TODO: usrId will be retrieved from auth token
+      try{
       await setMentalState(userName,answers);
-      await setPreSurvey();
-      navigation.navigate(navigateTo)
+      var score = findScore(answers);
+      navigation.navigate('MentalRatingScoreViewScreen', { score});    
+      }
+      catch{
+        alert('সাবমিট করা যাচ্ছে না');
+    }
+
     } else {
       const newAnswers = [...answers];
       newAnswers[count] = currentAnswer;
@@ -42,6 +56,7 @@ export const MentalHealthRatingScreen = ({ route, navigation }: any) => {
       setCurrentAnswer(newAnswers[count + 1]);
       setCount(count + 1);
     }
+
   };
   const handleBack = () => {
     setCurrentAnswer(answers[count - 1]);
@@ -52,7 +67,7 @@ export const MentalHealthRatingScreen = ({ route, navigation }: any) => {
     <>
       <Appbar.Header>
         <Appbar.BackAction onPress={() => navigation.navigate('Home')}  />
-        <Appbar.Content title="আপনি কেমন অনুভব করছেন?" />
+        <Appbar.Content title="মানসিক স্বাস্থ্য মূল্যায়ন" />
       </Appbar.Header>
       <View style={{ margin: 12, marginTop: 32 }}>
         <Subheading style={{ marginBottom: 12 }}> QUESTIONS {count + 1} of {NUMBER_OF_QUESTIONS}</Subheading>

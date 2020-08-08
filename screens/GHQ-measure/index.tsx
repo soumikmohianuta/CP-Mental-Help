@@ -10,9 +10,14 @@ import { SCALE_NAME } from '../../utils/constants';
 export const GHQMeasureScreen = ({ navigation }: any) => {
   const { userName: userId } = useContext(UserContext);
   
-  const handleSubmit = (score: number) => {
-    setMentalHealthScore(userId, SCALE_NAME.GHQ, score);
-    navigation.navigate('MentalHealthScoreView', { score, scale: SCALE_NAME.GHQ });
+  const handleSubmit = async(score: number) => {
+    try{
+      await setMentalHealthScore(userId, SCALE_NAME.GHQ, score);
+      navigation.navigate('MentalHealthScoreView', { score, scale: SCALE_NAME.GHQ });
+      }
+      catch{
+        alert('সাবমিট করা যাচ্ছে না');
+      }
   }
 
   return (

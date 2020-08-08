@@ -26,12 +26,12 @@ export const SettingsScreen = ({ navigation }: any) => {
   return (
     <>
       <Appbar.Header>
-        <Appbar.Content title="Settings" />
+        <Appbar.Content title="সেটিংস" />
       </Appbar.Header>
       <ScrollView style={{ marginTop: 12, marginBottom: 12}}>
         <Drawer.Item
           icon="archive"
-          label="About Us"
+          label="About Us" 
           onPress={() => navigation.navigate('About')}
         />
         <Drawer.Item

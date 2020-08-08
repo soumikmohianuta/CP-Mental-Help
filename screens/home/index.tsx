@@ -16,19 +16,18 @@ import { MentalHealthExerciseScreen } from '../mental-health-exercises';
 import { HelpCenterScreen } from '../help-center';
 import { ExerciseVideoScreen } from '../exercise-video';
 import { ExcerciseStatusScreen } from '../mental-health-exercises/excercise-status';
-import { checkPreSurveyRequires } from '../../storage';
-import CircularProgress from '../../components/percentage-circle';
-import { getMentalHealthExcercise } from '../../services/firebase';
 import { UserContext } from '../../context';
-import { excerCisePercentage } from '../../utils/exercise';
-import { getHomeProgressRequire } from '../../storage';
 import { ExcerciseStateScreen } from '../exercise-video/excercise-state';
 import { GetingStartedScreen } from '../getting-started';
+import { checkMentalExaminationExists } from '../../services/firebase';
+import {MentalRatingScoreViewScreen} from '../mental-health-rating/rating-score';
 
 const HelpCenterImage = require('./assets/help.png');
 const MentalStateImage = require('./assets/evaluate.jpeg');
 const MentalExcerciseImage = require('./assets/mentalexcercise.jpeg');
 const QlifeImage = require('../../Images/QLife.png');
+const ExamineImage = require('./assets/examine.png');
+
 const { Navigator, Screen } = createStackNavigator();
 
 export const HomePageStack = () => {
@@ -49,6 +48,7 @@ export const HomePageStack = () => {
         <Screen name="ExcerciseStatus" component={ExcerciseStatusScreen} />
         <Screen name="ExcerciseStateScreen" component={ExcerciseStateScreen} />
         <Screen name="GetingStartedScreen" component={GetingStartedScreen} />
+        <Screen name="MentalRatingScoreViewScreen" component={MentalRatingScoreViewScreen} />
       </Navigator>
     </NavigationContainer>
   );
@@ -56,61 +56,37 @@ export const HomePageStack = () => {
 
 export const HomeScreen = ({ navigation }: any) => {
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  const [currentAnswer, setCurrentAnswer] = useState(0);
-  const [isProgesAvailable, setIsProgesAvailable] = useState(true);
   const { userName } = React.useContext(UserContext);
 
 
-  useFocusEffect(
-    React.useCallback(() => {
-      const getPersonalData = async () => {
-        setLoading(true);
-        //To prevent each time updating from internet
-        var isUpdateRequire = await getHomeProgressRequire();
-        if (isUpdateRequire) {
-          try {
 
-            const curlist = await getMentalHealthExcercise(userName);
-            var totalCompleted = excerCisePercentage(curlist);
-
-            // if no progress done show cover
-            if (totalCompleted == 0) {
-              setCurrentAnswer(totalCompleted);
-              setIsProgesAvailable(false);
-            }
-            // if stated watching show progress 
-
-            else {
-              setCurrentAnswer(totalCompleted);
-              setIsProgesAvailable(true);
-
-            }
-          }
-          catch (e) {
-            setIsProgesAvailable(false);
-          }
-        };
-        setLoading(false);
-      }
-      getPersonalData();
-    }, [])
-  );
 
   const handleStart = async () => {
-    var presurveyRequire = await checkPreSurveyRequires();
-    if (presurveyRequire) {
 
-      navigation.navigate('MentalHealthRating', { navigateTo: 'MentalHealthMeasureList' });
-    }
-    else {
-      navigation.navigate('MentalHealthMeasureList');
-    }
+      navigation.navigate('MentalHealthRating', { navigateTo: 'Home' });
+    
   }
-  const handleExcercise = () => {
-    navigation.navigate('ExcerciseStatus', { progressStaus: currentAnswer, isProgess: isProgesAvailable });
+  const handleExcercise = async () => {
+    try {
+      const mentalExamState = await checkMentalExaminationExists(userName);
+      console.log(mentalExamState);
+      if (mentalExamState.mentalstatemeasure) {
+        if (mentalExamState.ghq || mentalExamState.pss || mentalExamState.anxiety) {
 
+          navigation.navigate('MentalHealthExercise', { navigateTo: 'Home' });
+        }
+      }
+      else {
+        navigation.navigate('ExcerciseStatus');
+
+      }
+    }
+    catch{
+      alert("ব্যক্তিগত তথ্য দেখানো যাচ্ছে না")
+    }
+    
   }
 
   const onHelpCenterClick = () => {
@@ -118,11 +94,6 @@ export const HomeScreen = ({ navigation }: any) => {
 
   }
 
-
-  const onMentalHealthStateClick = () => {
-    navigation.navigate('MentalHealthRating', { navigateTo: 'Home' });
-
-  }
 
   const onGettingStarted = () => {
     navigation.navigate('GetingStartedScreen');
@@ -135,67 +106,35 @@ export const HomeScreen = ({ navigation }: any) => {
   return (
     <>
       <Appbar.Header>
-        <Appbar.Content title="মুল পাতা" />
+        <Appbar.Content title="হোম পেজ" />
       </Appbar.Header>
       <ScrollView>
-        <TouchableHighlight  onPress={handleStart} underlayColor="#ba262b"
-          style={{
-            flex: 1,
-            marginTop: 6
-          }}
-        >
-          <MentalHealthMeasureCard
-            onStartClick={handleStart}
-          />
-        </TouchableHighlight >
-
-
-        <View
+      <View
           style={{
             flex: 2,
             flexDirection: 'row',
-            justifyContent: 'space-between',
+            justifyContent: 'space-evenly',
             marginTop: 12
           }}
         >
-          <TouchableHighlight onPress={onMentalHealthStateClick} underlayColor="#ba262b"
+          <TouchableHighlight onPress={handleStart} underlayColor="#ba262b"
             style={{
               flex: 1,
+              marginTop: 6,
               marginLeft: 10,
               marginRight: 5
             }}
           >
             <Card>
-              <Card.Title title="মানসিক মূল্যায়ন" />
-              <Card.Cover source={MentalStateImage} />
-              <Card.Actions>
-                <Button onPress={onMentalHealthStateClick}>নিজেকে মূল্যায়ন করুন</Button>
-              </Card.Actions>
-            </Card>
-          </TouchableHighlight>
-
-          <TouchableHighlight onPress={onGettingStarted} underlayColor="#ba262b"
-            style={{
-              flex: 1,
-              marginLeft: 5,
-              marginRight: 10
-            }}
-          >
-            <Card>
-              <Card.Title title="ব্যবহার নির্দেশিকা" />
-              <Card.Cover source={QlifeImage} />
-              <Card.Actions>
-                <Button onPress={onGettingStarted}>অ্যাপ ব্যবহারের উপায়</Button>
-              </Card.Actions>
+              <Card.Title title="মানসিক স্বাস্থ্য যাচাই করুন" />
+              <Card.Cover source={ExamineImage} />
             </Card>
           </TouchableHighlight >
-
         </View>
-
 
         <View
           style={{
-            flex: 1,
+            flex: 2,
             flexDirection: 'row',
             justifyContent: 'space-evenly',
             marginTop: 12
@@ -209,23 +148,38 @@ export const HomeScreen = ({ navigation }: any) => {
               marginRight: 5
             }}>
             <Card>
-              <Card.Title title="মানসিক স্বাস্থ্য" />
-              {isProgesAvailable ? <CircularProgress
-                size={185}
-                defaultPos={currentAnswer}
-              >
-                <Text style={{ fontSize: 55 }}>
-                  {currentAnswer}%
-                  </Text>
-              </CircularProgress> : <Card.Cover source={MentalExcerciseImage} />}
-              <Card.Actions>
-
-                <Button onPress={handleExcercise}>অনুশীলনীগুলো দেখি </Button>
-              </Card.Actions>
+              <Card.Title title="মানসিক স্বাস্থ্যের গুণগত মান উন্নয়ন" />
+              <Card.Cover source={MentalExcerciseImage} />
 
             </Card>
           </TouchableHighlight>
 
+
+        </View>
+
+
+        <View
+          style={{
+            flex: 2,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginTop: 12
+          }}
+        >
+
+
+          <TouchableHighlight onPress={onGettingStarted} underlayColor="#ba262b"
+            style={{
+              flex: 1,
+              marginLeft: 5,
+              marginRight: 10
+            }}
+          >
+            <Card>
+              <Card.Title title="ব্যবহার নির্দেশিকা" />
+              <Card.Cover source={QlifeImage} />
+            </Card>
+          </TouchableHighlight >
 
           <TouchableHighlight onPress={onHelpCenterClick} underlayColor="#ba262b"
             style={{
@@ -235,14 +189,15 @@ export const HomeScreen = ({ navigation }: any) => {
             }}
           >
             <Card>
-              <Card.Title title="Help Center" />
+              <Card.Title title="হেল্প" />
               <Card.Cover source={HelpCenterImage} />
-              <Card.Actions>
-                <Button onPress={onHelpCenterClick}>মানসিক সাহায্য পেতে</Button>
-              </Card.Actions>
             </Card>
           </TouchableHighlight>
+
         </View>
+
+
+
       </ScrollView>
     </>
   );

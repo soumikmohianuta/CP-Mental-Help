@@ -56,7 +56,7 @@ export const SignInScreen = ({ navigation }: any) => {
       onLoginSuccess(data);
     } catch(e) {
       setLoading(false);
-      if(e.toString().includes("An account already exists with the same email address")){
+      if(e.toString().includes("An account already exists")){
         alert("এই ই-মেইল দিয়ে আপনার আরেকটি প্রোফাইল রয়েছে");
       }
       else{

@@ -58,11 +58,11 @@ export const MentalHealthExerciseScreen = ({ route, navigation }: any) => {
     <>
       <Appbar.Header>
         <Appbar.BackAction onPress={() => navigation.navigate(navigateTo)}  />
-        <Appbar.Content title="মানসিক স্বাস্থ্য উন্নয়নের অনুশীলনী" />
+        <Appbar.Content title="মানসিক স্বাস্থ্যের গুণগত মান উন্নয়ন" />
       </Appbar.Header>
       <ScrollView style={{ margin: 12, marginTop: 32 }}>
         <List.Accordion
-          title="রিসোর্স সমূহ"
+          title="অনুশীলন সমূহ"
           expanded={expanded}
           onPress={() => setExpanded(!expanded)}
           left={props => <List.Icon {...props} icon="folder" />}>

@@ -10,9 +10,15 @@ import { SCALE_NAME } from '../../utils/constants';
 export const PSSMeasureScreen = ({ navigation }: any) => {
   const { userName: userId } = useContext(UserContext);
   
-  const handleSubmit = (score: number) => {
-    setMentalHealthScore(userId, SCALE_NAME.PSS, score);
-    navigation.navigate('MentalHealthScoreView', { score, scale: SCALE_NAME.PSS });
+  const handleSubmit = async(score: number) => {
+
+    try{
+        await setMentalHealthScore(userId, SCALE_NAME.PSS, score);
+        navigation.navigate('MentalHealthScoreView', { score, scale: SCALE_NAME.PSS });
+      }
+      catch{
+        alert('সাবমিট করা যাচ্ছে না');
+      }
   }
 
   return (
