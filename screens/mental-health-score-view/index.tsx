@@ -19,12 +19,12 @@ export const MentalHealthScoreViewScreen = ({ route, navigation }: any) => {
   const scaleNameStem = SCALE_NAME_MAP_STEM.get(scale);
   const scaleLevel = getLevelByScore(scale, score);
 
-  const onStart = async () => {
+  const onStart = () => {
     navigation.navigate('MentalHealthExercise', { navigateTo: 'MentalHealthScoreView' });
   }
 
-  const onHelpRequire = async () => {
-    navigation.navigate('HelpCenter');
+  const onHelpRequire =  () => {
+    navigation.navigate('SevereHelpCenterScreen');
   }
 
 

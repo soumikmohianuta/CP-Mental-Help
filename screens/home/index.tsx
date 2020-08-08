@@ -21,13 +21,14 @@ import { ExcerciseStateScreen } from '../exercise-video/excercise-state';
 import { GetingStartedScreen } from '../getting-started';
 import { checkMentalExaminationExists } from '../../services/firebase';
 import {MentalRatingScoreViewScreen} from '../mental-health-rating/rating-score';
+import {SevereHelpCenterScreen} from '../mental-health-score-view/severe-help';
 
 const HelpCenterImage = require('./assets/help.png');
 const MentalStateImage = require('./assets/evaluate.jpeg');
 const MentalExcerciseImage = require('./assets/mentalexcercise.jpeg');
 const QlifeImage = require('../../Images/QLife.png');
-const ExamineImage = require('./assets/examine.png');
-
+//const ExamineImage = require('./assets/examine.png');
+const ExamineImage = require('./assets/examine2.jpg');
 const { Navigator, Screen } = createStackNavigator();
 
 export const HomePageStack = () => {
@@ -49,6 +50,7 @@ export const HomePageStack = () => {
         <Screen name="ExcerciseStateScreen" component={ExcerciseStateScreen} />
         <Screen name="GetingStartedScreen" component={GetingStartedScreen} />
         <Screen name="MentalRatingScoreViewScreen" component={MentalRatingScoreViewScreen} />
+        <Screen name="SevereHelpCenterScreen" component={SevereHelpCenterScreen} />
       </Navigator>
     </NavigationContainer>
   );

@@ -1,10 +1,10 @@
 import React from 'react';
 import { Appbar, Card, List } from 'react-native-paper';
-import { helplines } from './contents';
+import { helplines } from './content';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Linking, Platform } from 'react-native';
 
-export const HelpCenterDVScreen = ({ navigation }: any) => {
+export const SevereHelpCenterScreen = ({ navigation }: any) => {
   const dialCall = (number: string, commType: string) => {
     if (commType === 'whatsapp') {
       Linking.openURL(`whatsapp://send?text=Hello&phone=${number}`);
@@ -13,12 +13,11 @@ export const HelpCenterDVScreen = ({ navigation }: any) => {
     `tel:${number}` : `telprompt:${number}`;
     Linking.openURL(phoneNumber);
   };
-  var MentalProfileState = 3;
-  
+
   return (
     <>
       <Appbar.Header>
-        <Appbar.BackAction onPress={() => navigation.navigate("Profile",{MentalProfileState})}  />
+        <Appbar.BackAction onPress={() => navigation.navigate('Home')}  />
         <Appbar.Content title="হেল্প সেন্টার" />
       </Appbar.Header>
       <ScrollView>
