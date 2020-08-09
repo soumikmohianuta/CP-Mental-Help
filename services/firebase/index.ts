@@ -1,4 +1,5 @@
 import firebase from "firebase";
+import { Item } from "react-native-paper/lib/typescript/src/components/List/List";
 
 
 export const fetchPersonalData = async (userId: string) => {
@@ -17,25 +18,43 @@ export const fetchPersonalData = async (userId: string) => {
   );
 };
 
-export const getProfileState = async (userId: string) => {
-  var profileState = [false, false, false, false];
+export const setProfileState = async (userId: string, profileName:string, answers:any) => {
+  var curData = {}
+
+  for (var i = 0; i < answers.length; i++) {
+      var curName = answers[i].name;
+      var curVal = answers[i].answer; 
+      curData[curName]=curVal;
+
+    }
+
+    firebase
+      .database()
+      .ref(userId + "/mental_profile/"+profileName+"/")
+      .set(curData);
+
+}
+
+export const getMentalProfileState = async (userId: string) => {
+  var profileState = [{name:'corona_profile',state:false, order:0},{name:'psychotic_profile',state:false, order:1},{name:'suicide_profile',state:false, order:2},{name:'domestic_profile',state:false, order:3}]
   const snapshot = await firebase
     .database()
-    .ref(userId + "/MentalProfile")
+    .ref(userId + "/mental_profile/")
     .once("value");
   if (snapshot.val() !== null) {
-    if (snapshot.val().CoronaProfile) {
-      profileState[0] = true;
+    if (snapshot.val().corona_profile) {
+      profileState[0].state = true;
     }
-    if (snapshot.val().PsychoticProfile) {
-      profileState[1] = true;
+    if (snapshot.val().psychotic_profile) {
+      profileState[1].state = true;
     }
-    if (snapshot.val().SuicideIdeationProfile) {
-      profileState[2] = true;
+    if (snapshot.val().suicide_profile) {
+      profileState[2].state = true;
     }
-    if (snapshot.val().DomesticViolenceProfile) {
-      profileState[3] = true;
+    if (snapshot.val().domestic_profile) {
+      profileState[3].state = true;
     }
+
   }
 
   return profileState;

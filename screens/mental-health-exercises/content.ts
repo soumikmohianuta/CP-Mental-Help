@@ -133,19 +133,19 @@ export const MENTAL_HEALTH_JUDGE_SECTIONS = [
     name: 'মানসিক অবস্থা যাচাইকরণ',
     route: 'GHQMeasure',
     iconName:'cancel',
-    image: require('../mental-health-measure-list/assets/ghq.jpeg')
+    image: require('../scales/assets/ghq.jpeg')
   },
   {
     name: 'মানসিক চাপ নির্ণয়',
     route: 'PSSMeasure',
     iconName:'cancel',
-    image: require('../mental-health-measure-list/assets/pss.jpg')
+    image: require('../scales/assets/pss.jpg')
   },
   {
     name: 'দুশ্চিন্তা নির্ণয়',
     route: 'AnxietyScaleMeasure',
     iconName:'cancel',
-    image: require('../mental-health-measure-list/assets/anxiety.jpeg')
+    image: require('../scales/assets/anxiety.jpeg')
   },
 ];
 
