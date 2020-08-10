@@ -23,6 +23,7 @@ export const ExerciseVideoScreen = ({ route, navigation }: any) => {
       console.log(e.state)
       await markExcerciseAsDone(userId, content_id);
       // setCompleted(true);
+      setPlaying(false);
       navigation.navigate('ExcerciseStateScreen', {
         exercise: resources[order]
       })
@@ -68,7 +69,7 @@ export const ExerciseVideoScreen = ({ route, navigation }: any) => {
               />
           }
           <YoutubePlayer
-               ref={playerRef}
+              ref={playerRef}
               height={450}
               width={380}
               videoId={videoId}

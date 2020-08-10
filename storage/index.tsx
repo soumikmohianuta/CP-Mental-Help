@@ -28,7 +28,6 @@ export const saveItem = async (key:string, value:string) => {
       await AsyncStorage.removeItem(key);
     } catch (error) {
       // Error retrieving data
-      console.log(error.message);
     }
   }
 
@@ -48,6 +47,41 @@ export const saveItem = async (key:string, value:string) => {
   }
 
  
+  export const setRatingDate = async () => {
+    await saveItem('ratingLastDate',Date.now().toString());
+  };
+
+
+  const dateFormat = (date: any) => {
+    return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+  }
+
+  const dateFormat1 = (date: any) => {
+    return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()-1}`;
+  }
+
+  export const getMentalHealthRatingRequire = async () => {
+    try {
+      const value = await AsyncStorage.getItem('ratingLastDate');
+      console.log(value);
+      if (value != null){
+           const savedDate=  dateFormat(new Date(Number(value)));
+           const curdate = dateFormat(new Date(Date.now()));
+           if(savedDate== curdate){
+             return false;
+           }
+           else{
+             return true;
+           }
+      }
+      else{
+        return true;
+      }
+   } catch (error) {
+     // Error retrieving data
+      return true;
+   }
+  };
   
 
   export const setHomeProgressRequire = async (isRequired:boolean) => {

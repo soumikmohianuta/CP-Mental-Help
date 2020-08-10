@@ -1,6 +1,6 @@
 import firebase from "firebase";
 import { Item } from "react-native-paper/lib/typescript/src/components/List/List";
-
+import {getExerciseList} from '../../utils/exercise';
 
 export const fetchPersonalData = async (userId: string) => {
   const snapshot = await firebase
@@ -150,6 +150,11 @@ export const getMentalHealthExcercise = async (userId: string) => {
     .database()
     .ref(`${userId}/mental_health_excercises`)
     .once("value");
+    if(snapshot.val() == null){
+      var excerciseList = getExerciseList();
+      getMentalHealthScore(userId, excerciseList)
+      return excerciseList;
+    }
   return snapshot.val();
 };
 

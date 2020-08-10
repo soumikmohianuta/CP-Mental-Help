@@ -8,32 +8,42 @@ import { socreMessage } from './contents';
 import { SCALE_MAX_VALUE, getLevelByScore } from '../../utils/scale';
 import { isExcerciseTaken, getExerciseList, EXERCISE_STATUS } from '../../utils/exercise';
 import { UserContext } from '../../context';
-import { SCALE_NAME_MAP } from '../../utils/constants';
+import { resources } from '../mental-health-exercises/content';
 
 export const MentalRatingScoreViewScreen = ({ route, navigation }: any) => {
   const [excerciseStatus, setExcerciseStatus] = useState('');
-  const { score, scale } = route.params;
-
+  const { navigateTo, score, videoOrderId } = route.params;
+  const [navToVideo, setnavToVideo] = useState(true);
 
   const onStart = () => {
-
-    navigation.navigate('MentalHealthMeasureList');
+    if (videoOrderId < 0) {
+      navigation.navigate('MentalHealthMeasureList', { showrating: false});
+    }
+    else {
+      navigation.navigate('ExerciseVideo', {
+        exercise: resources[videoOrderId + 1]
+      })
+    }
   }
-
+  useEffect(() => {
+    if (videoOrderId > 0) {
+      setnavToVideo(false);
+    }
+  }, []);
 
   return (
     <>
       <Appbar.Header>
-        <Appbar.BackAction onPress={() => navigation.navigate('Home')}  />
+        <Appbar.BackAction onPress={() => navigation.navigate(navigateTo)} />
         <Appbar.Content title="মানসিক স্বাস্থ্য" />
       </Appbar.Header>
       <ScrollView style={{ margin: 12, marginTop: 32 }}>
-      <View style={{
-              flex: 1, 
-              alignItems: 'center',
-              justifyContent: 'center'
-                }}>
-        <Headline> মানসিক স্বাস্থ্য মূল্যায়ন</Headline> 
+        <View style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          <Headline> মানসিক স্বাস্থ্য মূল্যায়ন</Headline>
         </View>
 
         <ScoreCard
@@ -45,19 +55,22 @@ export const MentalRatingScoreViewScreen = ({ route, navigation }: any) => {
             {score}
           </Text>
         </ScoreCard>
+        {navToVideo &&
+          <>
+            <Card elevation={5} style={{ margin: 12, borderRadius: 5, marginTop: 10 }}>
 
-        <Card elevation={5} style={{ margin: 12, borderRadius: 5,marginTop: 10 }}>
-                  
-                  <Card.Content style={{ margin: 12, borderRadius: 5, alignItems: 'center', justifyContent: 'center'}}>
-      
-            <Paragraph  style={{textAlign: 'justify', fontSize: 20}}>{socreMessage}</Paragraph>
-      
-                  </Card.Content>
-                        
-          </Card>
-        <Button mode="contained" onPress={onStart}>পরিমাপ শুরু করুন</Button>
-          
-        
+              <Card.Content style={{ margin: 12, borderRadius: 5, alignItems: 'center', justifyContent: 'center' }}>
+
+                <Paragraph style={{ textAlign: 'justify', fontSize: 20 }}>{socreMessage}</Paragraph>
+
+              </Card.Content>
+
+            </Card>
+          </>
+        }
+        <Button mode="contained" onPress={onStart}>{navToVideo ? "পরিমাপ শুরু করুন" : "পরবর্তী ভিডিও"}</Button>
+
+
       </ScrollView>
     </>
   )

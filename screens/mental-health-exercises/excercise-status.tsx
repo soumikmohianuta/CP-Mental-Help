@@ -13,46 +13,15 @@ const { Navigator, Screen } = createStackNavigator();
 
 export const ExcerciseStatusScreen = ({navigation }: any) => {
   const [mentalStateTitle, SetmentalStateTitle] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [isExcersieOn, setIsExcersieOn] = useState(false);
   const {userName} = React.useContext(UserContext);
 
-  const setProfileState= (mentalExamState:any) =>{
-    if(mentalExamState.mentalstatemeasure){
-        SetmentalStateTitle(MENTAL_HEALTH_STATUS_TITLE.done.title);
-        if(mentalExamState.ghq || mentalExamState.pss  || mentalExamState.anxiety ){
-
-            navigation.navigate('MentalHealthExercise', { navigateTo: 'Home'});
-        }
-    }
-    else{
-        SetmentalStateTitle(MENTAL_HEALTH_STATUS_TITLE.notDone.title);
-    }
- 
-  }
   
-
-
-  useEffect(() => {
-    const getPersonalData = async () => {
-      try {
-        const mentalExamState = await checkMentalExaminationExists(userName);
-        // await setMentalInitialExcercise(userName, getExerciseList());
-        setProfileState(mentalExamState);
- 
-      } 
-      catch(e) {
-        alert('ব্যক্তিগত তথ্য দেখানো যাচ্ছে না');
-      } finally {
-        setLoading(false);
-      }
-    }
-    getPersonalData();
-  }, []);
 
   const onStart = async () => {
 
-    navigation.navigate('MentalHealthExercise', { navigateTo: 'Home'});
+    navigation.navigate('MentalHealthRating', { navigateTo: 'Home',videoOrderId:-1 });
   }
 
   if (loading) {

@@ -4,9 +4,10 @@ import { ScrollView, View, TouchableHighlight } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { UserContext } from '../../../context';
 import { exerciseStatusToContentMap, MENTAL_HEALTH_STATUS_TITLE, MENTAL_HEALTH_JUDGE_SECTIONS } from './content';
-import { setVideoRating, isRaingRequire } from   '../../../services/firebase';
+import { setVideoRating, isRaingRequire } from '../../../services/firebase';
 import { resources } from '../content';
 import { Rating } from 'react-native-ratings';
+import { getMentalHealthRatingRequire } from '../../../storage';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -23,6 +24,7 @@ export const ExcerciseStateScreen = ({ route, navigation }: any) => {
   const [rateVal, setRateVal] = useState(3);
   const [commentText, setCommentText] = useState("");
   const [ratingRequire, setRatingRequire] = useState(true);
+  const [mentalExamineRequire, SetMentalExamineRequire] = useState(false);
 
   const ratingDone = (rating: any) => {
     setRateVal(rating);
@@ -45,7 +47,10 @@ export const ExcerciseStateScreen = ({ route, navigation }: any) => {
 
         var isRatingRequired = await isRaingRequire(userName, content_id);
         setRatingRequire(isRatingRequired);
-
+        const mentalHealthNotDoneToday = await getMentalHealthRatingRequire();
+        if (mentalHealthNotDoneToday) {
+          SetMentalExamineRequire(true);
+        }
 
       } catch (e) {
         alert('ব্যক্তিগত তথ্য দেখানো যাচ্ছে না');
@@ -70,7 +75,7 @@ export const ExcerciseStateScreen = ({ route, navigation }: any) => {
 
   const onExamStart = async () => {
 
-    navigation.navigate('MentalHealthRating', { navigateTo: 'Home' });
+    navigation.navigate('MentalHealthRating', { navigateTo: 'MentalHealthExercise', videoOrderId: order });
   }
 
   if (loading) {
@@ -112,9 +117,16 @@ export const ExcerciseStateScreen = ({ route, navigation }: any) => {
             }}
           >
             <Card>
-              <Card.Title title="মানসিক স্বাস্থ্য যাচাই করুন" />
+              <Card.Title title="মানসিক স্বাস্থ্য পুনরায় মূল্যায়ন করুন" />
               <Card.Cover source={ExamineImage} />
+              {mentalExamineRequire &&
+                <>
+                  <Card.Content>
+                    <Paragraph style={{ color: "#ba262b" ,fontSize: 20, marginTop: 15, marginBottom:10}}>অনুগ্রহ করে আপনার মানসিক স্বাস্থ্য পুনরায় মূল্যায়ন করুন।</Paragraph>
+                  </Card.Content>
+                </>}
             </Card>
+
           </TouchableHighlight >
         </View>
 

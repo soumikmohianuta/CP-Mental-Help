@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { Appbar, List,ActivityIndicator } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
 import { resources as staticResources } from './content';
@@ -23,23 +24,43 @@ export const MentalHealthExerciseScreen = ({ route, navigation }: any) => {
   const { navigateTo } = route.params;
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchMentalHealthExercise = async () => {
-      try{
-      setLoading(true);
-      const list = await getMentalHealthExcercise(userId);
-      setResourceAndList(list);
-      setLoading(false);
+
+  useFocusEffect(
+    React.useCallback(() => {
+        const fetchMentalHealthExercise = async () => {
+          try{
+          setLoading(true);
+          const list = await getMentalHealthExcercise(userId);
+          setResourceAndList(list);
+          setLoading(false);
+     
+        }
+        catch{
+          setLoading(false);
+          alert("আপনার অগ্রগতি দেখানো যাচ্ছে না");
+        }
+      }
+      
+      fetchMentalHealthExercise();
+    }, [])
+  );
+  // useEffect(() => {
+  //   const fetchMentalHealthExercise = async () => {
+  //     try{
+  //     setLoading(true);
+  //     const list = await getMentalHealthExcercise(userId);
+  //     setResourceAndList(list);
+  //     setLoading(false);
  
-    }
-    catch{
-      setLoading(false);
-      alert("আপনার অগ্রগতি দেখানো যাচ্ছে না");
-    }
-  }
+  //   }
+  //   catch{
+  //     setLoading(false);
+  //     alert("আপনার অগ্রগতি দেখানো যাচ্ছে না");
+  //   }
+  // }
   
-    fetchMentalHealthExercise();
-  }, []);
+  //   fetchMentalHealthExercise();
+  // }, []);
 
   const onClick = async (item: any) => {
     navigation.navigate('ExerciseVideo', {

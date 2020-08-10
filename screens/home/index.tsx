@@ -20,6 +20,7 @@ import { GetingStartedScreen } from './getting-started';
 import { checkMentalExaminationExists } from '../../services/firebase';
 import {MentalRatingScoreViewScreen} from '../mental-health-rating/rating-score';
 import {SevereHelpCenterScreen} from '../scores/severe-help';
+import {getMentalHealthRatingRequire} from '../../storage';
 
 const HelpCenterImage = require('../../Images/help.png');
 const MentalStateImage = require('../../Images/evaluate.jpeg');
@@ -64,8 +65,14 @@ export const HomeScreen = ({ navigation }: any) => {
 
 
   const handleStart = async () => {
-
-      navigation.navigate('MentalHealthRating', { navigateTo: 'Home' });
+      const mentalHealthNotDoneToday = await getMentalHealthRatingRequire();
+      
+      if(mentalHealthNotDoneToday){
+          navigation.navigate('MentalHealthRating', { navigateTo: 'Home',videoOrderId:-1 });
+      }
+      else{
+        navigation.navigate('MentalHealthMeasureList', { showrating: true });
+      }
     
   }
   const handleExcercise = async () => {
@@ -189,7 +196,7 @@ export const HomeScreen = ({ navigation }: any) => {
             }}
           >
             <Card>
-              <Card.Title title="হেল্প" />
+              <Card.Title title="হেল্প সেন্টার" />
               <Card.Cover source={HelpCenterImage} />
             </Card>
           </TouchableHighlight>
