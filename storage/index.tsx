@@ -46,7 +46,11 @@ export const saveItem = async (key:string, value:string) => {
     return false;
   }
 
- 
+  export const deleteRatingDate = async () => {
+    await deleteItem('ratingLastDate');
+  };
+
+
   export const setRatingDate = async () => {
     await saveItem('ratingLastDate',Date.now().toString());
   };

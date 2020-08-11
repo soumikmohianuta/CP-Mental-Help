@@ -26,7 +26,7 @@ const HelpCenterImage = require('../../Images/help.png');
 const MentalStateImage = require('../../Images/evaluate.jpeg');
 const MentalExcerciseImage = require('../../Images/mentalexcercise.jpeg');
 const QlifeImage = require('../../Images/QLife.png');
-const ExamineImage = require('../../Images/examine.png');
+const ExamineImage = require('../../Images/examine2.jpg');
 //const ExamineImage2 = require('../../Images/examine.png');
 const { Navigator, Screen } = createStackNavigator();
 
@@ -83,6 +83,10 @@ export const HomeScreen = ({ navigation }: any) => {
         if (mentalExamState.ghq || mentalExamState.pss || mentalExamState.anxiety) {
 
           navigation.navigate('MentalHealthExercise', { navigateTo: 'Home' });
+        }
+        else {
+          navigation.navigate('ExcerciseStatus');
+  
         }
       }
       else {
@@ -144,7 +148,7 @@ export const HomeScreen = ({ navigation }: any) => {
             flex: 2,
             flexDirection: 'row',
             justifyContent: 'space-evenly',
-            marginTop: 12
+            marginTop: 20
           }}
         >
 
@@ -170,7 +174,8 @@ export const HomeScreen = ({ navigation }: any) => {
             flex: 2,
             flexDirection: 'row',
             justifyContent: 'space-between',
-            marginTop: 12
+            marginTop: 20,
+            marginBottom:10
           }}
         >
 

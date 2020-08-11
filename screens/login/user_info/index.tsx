@@ -26,6 +26,7 @@ import {
 import firebase from "firebase";
 import {storeUserInfo} from '../../../storage';
 import {AuthContext, UserContext} from '../../../context';
+import {deleteRatingDate} from '../../../storage';
 
 export const UserInfo = ({ route,navigation }: any) => {
   const NUMBER_OF_QUESTIONS = questions.length;
@@ -59,7 +60,7 @@ export const UserInfo = ({ route,navigation }: any) => {
         .set(userData);
         await storeUserInfo(userData);
         signIn(curUser);
-
+        await deleteRatingDate();
         setLoading(false);
       }
       catch{

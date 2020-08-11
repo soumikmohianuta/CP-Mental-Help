@@ -16,6 +16,7 @@ export const MentalRatingScoreViewScreen = ({ route, navigation }: any) => {
   const [navToVideo, setnavToVideo] = useState(true);
 
   const onStart = () => {
+
     if (videoOrderId < 0) {
       navigation.navigate('MentalHealthMeasureList', { showrating: false});
     }
@@ -26,7 +27,7 @@ export const MentalRatingScoreViewScreen = ({ route, navigation }: any) => {
     }
   }
   useEffect(() => {
-    if (videoOrderId > 0) {
+    if (videoOrderId >= 0) {
       setnavToVideo(false);
     }
   }, []);

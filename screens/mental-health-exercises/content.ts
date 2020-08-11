@@ -21,21 +21,21 @@ export const resources = [
     order: 2,
   },
     {
-    name: "করোনায় আক্রান্ত হলে পারিপার্শ্বিক অবস্থার সাথে খাপ খাওয়ানোয় উপায়",
+    name: "একজন করোনা বিজয়ীর ইন্টারভিউ ",
     type: "video",
     videoId: "2W6P5Sag63w",
     content_id: 'corona_surrounding',
     order: 3,
   },
       {
-    name: "প্রিয়জনের মৃত্যুর পর নিজেকে মানসিক ভাবে ঠিক রাখার উপায় ",
+    name: "প্রিয়জনের মৃত্যুর পর নিজেকে সামলানোর উপায় ",
     type: "video",
     videoId: "MreOgt1-Z5w",
     content_id: 'grief_and_loss',
     order: 4,
   },
         {
-    name: "দুর্যোগপূর্ণ অবস্থায় মানসিকভাবে  নিজেকে সামলানোর কৌশল",
+    name: "সংকটপূর্ণ সময়ে নিজেকে সামলানোর কৌশল",
     type: "video",
     videoId: "wXqFhYjoTkE",
     content_id: 'mental_coping',
@@ -56,7 +56,7 @@ export const resources = [
     order: 7,
   },
     {
-    name: "বাবা-মা যেভাবে বাচ্চাদের সাথে ভালো সম্পর্ক চর্চা করবে ",
+    name: "বাবা-মা ও সন্তানের সম্পর্ক উন্নয়ন ",
     type: "video",
     videoId: "9yDlLvrmCDw",
     content_id: 'parent_child_relation',
@@ -91,7 +91,7 @@ export const resources = [
     order: 12,
   },
       {
-    name: "ব্রিদিং এক্সারসাইজ ",
+    name: "ব্রিদিং এক্সারসাইজ",
     type: "video",
     videoId: "WzkFqUbpen0",
     content_id: 'breath_excercise',
@@ -104,7 +104,7 @@ export const resources = [
     content_id: 'pmr',
     order: 14,
   },
- 
+  
 ];
 
 export const exerciseStatusToContentMap = {

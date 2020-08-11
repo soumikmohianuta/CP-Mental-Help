@@ -39,7 +39,7 @@ export const ExcerciseStatusScreen = ({navigation }: any) => {
                   
                   <Card.Content style={{ margin: 12, borderRadius: 5, alignItems: 'center', justifyContent: 'center'}}>
       
-                      <Paragraph  style={{textAlign: 'justify', marginBottom: 10, fontSize: 20}}>মানসিক স্বাস্থ্যের গুণগত মান উন্নয়নের অনুশীলনগুলো পেতে হলে আপনাকে প্রথমে মানসিক স্বাস্থ্য যাচাই করে আসতে হবে ।</Paragraph>
+                      <Paragraph  style={{textAlign: 'justify', marginBottom: 10, fontSize: 15}}>মানসিক স্বাস্থ্যের গুণগত মান উন্নয়নের অনুশীলনগুলো পেতে হলে আপনাকে প্রথমে মানসিক স্বাস্থ্য যাচাই করে আসতে হবে ।</Paragraph>
       
                   </Card.Content>
                         
