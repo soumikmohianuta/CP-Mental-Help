@@ -3,9 +3,9 @@ import { Drawer, Appbar, Divider } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import {PrivacyScreen} from '../privacy';
-import { AboutScreen } from '../about';
-import {AuthContext} from '../../context';
+import { PrivacyScreen } from './privacy';
+import { AboutScreen } from './about';
+import { AuthContext } from '../../context';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -22,13 +22,13 @@ export const SettingsNavigation = () => {
 }
 
 export const SettingsScreen = ({ navigation }: any) => {
-  const {signOut} = React.useContext(AuthContext);
+  const { signOut } = React.useContext(AuthContext);
   return (
     <>
       <Appbar.Header>
-        <Appbar.Content title="Settings" />
+        <Appbar.Content title="সেটিংস" />
       </Appbar.Header>
-      <ScrollView style={{ marginTop: 12, marginBottom: 12}}>
+      <ScrollView style={{ marginTop: 12, marginBottom: 12 }}>
         <Drawer.Item
           icon="archive"
           label="About Us"
@@ -43,7 +43,7 @@ export const SettingsScreen = ({ navigation }: any) => {
         <Drawer.Item
           icon="logout"
           label="Log out"
-          onPress={() =>signOut()}
+          onPress={() => signOut()}
         />
       </ScrollView>
     </>

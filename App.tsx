@@ -19,9 +19,9 @@ import {getItem, storeUserContext, deleteItem, getContextFromStorage  } from './
 const HomeNavigation = () => {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: 'home', title: 'Home', icon: 'home' },
-    { key: 'profile', title: 'Profile', icon: 'album' },
-    { key: 'settings', title: 'Settings', icon: 'settings' },
+    { key: 'home', title: 'হোম', icon: 'home' },
+    { key: 'profile', title: 'প্রোফাইল', icon: 'album' },
+    { key: 'settings', title: 'সেটিংস', icon: 'settings' },
   ]);
 
   const renderScene = BottomNavigation.SceneMap({

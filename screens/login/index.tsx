@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { SafeAreaView, View } from "react-native";
 import { Button, Avatar,ActivityIndicator } from "react-native-paper";
 import { createStackNavigator } from "@react-navigation/stack";
-import { UserInfo } from "../UserInfo";
-import { ConsentScreen } from "../Consent";
+import { UserInfo } from "./user_info";
+import { ConsentScreen } from "./consent";
 import { signInFacebook, signUpFacebook } from "../../services/facebook";
 import { signInGoogle, signUpGoogle } from "../../services/google";
 import { NavigationContainer } from '@react-navigation/native';
@@ -56,10 +56,11 @@ export const SignInScreen = ({ navigation }: any) => {
       onLoginSuccess(data);
     } catch(e) {
       setLoading(false);
-      if(e.toString().includes("An account already exists with the same email address")){
+      if(e.toString().includes("An account already exists")){
         alert("এই ই-মেইল দিয়ে আপনার আরেকটি প্রোফাইল রয়েছে");
       }
       else{
+        console.log(e);
         alert("লগ-ইন সফল হয়নি");
       }
     }
