@@ -11,7 +11,7 @@ import { getMentalHealthRatingRequire } from '../../../storage';
 
 const { Navigator, Screen } = createStackNavigator();
 
-const ExamineImage = require('../../../Images/examine.png');
+const ExamineImage = require('../../../Images/examine2.jpg');
 export const ExcerciseStateScreen = ({ route, navigation }: any) => {
 
   const { exercise } = route.params;

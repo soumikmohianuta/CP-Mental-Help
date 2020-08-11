@@ -46,7 +46,7 @@ export const UserInfo = ({ route,navigation }: any) => {
   const handleSubmit = async() => {
     setLoading(true);
       const userData = {
-        Email: curUser.user.uid,
+        Email: curUser.user.email,
         Age: age,
         Sex: sex,
         maritalStatus: maritalStatus,
