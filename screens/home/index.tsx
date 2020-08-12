@@ -22,13 +22,10 @@ import {MentalRatingScoreViewScreen} from '../mental-health-rating/rating-score'
 import {SevereHelpCenterScreen} from '../scores/severe-help';
 import {getMentalHealthRatingRequire} from '../../storage';
 import { isNetworkAvailable } from '../../utils/network';
-import { red100, red200 } from 'react-native-paper/lib/typescript/src/styles/colors';
-const HelpCenterImage = require('../../Images/help.png');
-const MentalStateImage = require('../../Images/evaluate.jpeg');
-const MentalExcerciseImage = require('../../Images/mentalexcercise.jpeg');
-const QlifeImage = require('../../Images/QLife.png');
-const ExamineImage = require('../../Images/examine2.jpg');
-//const ExamineImage2 = require('../../Images/examine.png');
+const HelpCenterImage = require('../../Images/help.jpg');
+const MentalExcerciseImage = require('../../Images/mentalexcercise.jpg');
+const QlifeImage = require('../../Images/QLife.jpg');
+const ExamineImage = require('../../Images/examine.jpg');
 const { Navigator, Screen } = createStackNavigator();
 
 export const HomePageStack = () => {
@@ -105,10 +102,10 @@ export const HomeScreen = ({ navigation }: any) => {
     }
     catch (e){
       if(e.message =='Net'){
-        alert('নেট সংযোগ নেই');
+        alert('কোন ইন্টারনেট সংযোগ নেই, অনুশীলনি দেখানো যাচ্ছে না'); 
       }
       else{
-        alert('ব্যক্তিগত তথ্য দেখানো যাচ্ছে না');
+        alert('অনুশীলনি দেখানো যাচ্ছে না');
       }
       navigation.navigate('ExcerciseStatus', { navigateTo: 'Home' })
     }
@@ -137,7 +134,7 @@ export const HomeScreen = ({ navigation }: any) => {
       <ScrollView>
       <View
           style={{
-            flex: 2,
+            flex: 1,
             flexDirection: 'row',
             justifyContent: 'space-evenly',
             marginTop: 12
@@ -153,14 +150,18 @@ export const HomeScreen = ({ navigation }: any) => {
           >
             <Card>
               <Card.Title title="মানসিক স্বাস্থ্য যাচাই করুন" />
-              <Card.Cover source={ExamineImage} />
+              <Card.Cover style={{
+              flex: 1,
+              width:undefined,
+              resizeMode: 'contain'
+              }}source={ExamineImage} />
             </Card>
           </TouchableHighlight >
         </View>
 
         <View
           style={{
-            flex: 2,
+            flex: 1,
             flexDirection: 'row',
             justifyContent: 'space-evenly',
             marginTop: 20

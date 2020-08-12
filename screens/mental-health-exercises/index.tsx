@@ -43,8 +43,8 @@ export const MentalHealthExerciseScreen = ({ route, navigation }: any) => {
             }             
         }
         catch (error){
-          if(error=="Net"){
-            alert('নেট সংযোগ নেই');
+          if(error.message=="Net"){
+            alert('ইন্টারনেট সংযোগ নেই,অগ্রগতি দেখানো যাচ্ছে না');
           }
           else{
             alert("আপনার অগ্রগতি দেখানো যাচ্ছে না");

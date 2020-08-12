@@ -68,7 +68,7 @@ export const SignInScreen = ({ navigation }: any) => {
         alert("এই ই-মেইল দিয়ে আপনার আরেকটি প্রোফাইল রয়েছে");
       }
       else if (e.message == 'Net') {
-        alert('নেট সংযোগ নেই');
+        alert('কোন ইন্টারনেট সংযোগ নেই');
       }
       else {
         console.log(e);
@@ -94,7 +94,7 @@ export const SignInScreen = ({ navigation }: any) => {
         alert("এই ই-মেইল দিয়ে আপনার আরেকটি প্রোফাইল রয়েছে");
       }
       else if (e.message == 'Net') {
-        alert('নেট সংযোগ নেই');
+        alert('কোন ইন্টারনেট সংযোগ নেই');
       }
       else {
         alert("লগ-ইন সফল হয়নি");

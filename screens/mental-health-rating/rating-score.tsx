@@ -62,7 +62,7 @@ export const MentalRatingScoreViewScreen = ({ route, navigation }: any) => {
 
               <Card.Content style={{ margin: 12, borderRadius: 5, alignItems: 'center', justifyContent: 'center' }}>
 
-                <Paragraph style={{ textAlign: 'justify', fontSize: 20 }}>{socreMessage}</Paragraph>
+                <Paragraph style={{ textAlign: 'justify', fontSize: 15 }}>{socreMessage}</Paragraph>
 
               </Card.Content>
 

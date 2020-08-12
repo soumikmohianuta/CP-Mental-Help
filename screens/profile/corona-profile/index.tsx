@@ -42,9 +42,9 @@ export const CoronaProfile = ({ navigation }: any) => {
   const handleSubmit = async () => {
 
     setLoading(true);
-    var submitSuccess = await isNetworkAvailable();
+    var submitSuccess = true;
     try {
-      const isConnected = false;
+      const isConnected = await isNetworkAvailable();
       if (isConnected) {
         await setProfileState(userName, 'corona_profile', answers);   
       }
@@ -56,7 +56,7 @@ export const CoronaProfile = ({ navigation }: any) => {
 
     catch (e){
       if(e.message =='Net'){
-        alert('নেট সংযোগ নেই');
+        alert('ইন্টারনেট সংযোগ নেই,সাবমিট করা যাচ্ছে না');
       }
       else{
         alert('সাবমিট করা যাচ্ছে না');

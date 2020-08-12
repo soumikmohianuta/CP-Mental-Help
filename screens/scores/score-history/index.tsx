@@ -19,7 +19,7 @@ export const ScaleHistoryViewScreen = ({ route, navigation }: any) => {
   const { userName: userId } = useContext(UserContext);
   const [labelData, setLabelData] = useState([]);
   const [valueData, setValueData] = useState([]);
-
+  const [showMessage, setShowMessage] = useState(true);
 
   const dateFormat = (date: any) => {
     return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
@@ -73,10 +73,12 @@ export const ScaleHistoryViewScreen = ({ route, navigation }: any) => {
           }
         }
         else {
-          alert("নেট সংযোগ নেই");
+          alert("ইন্টারনেট সংযোগ নেই,ব্যক্তিগত তথ্য দেখানো যাচ্ছে না");
+          setShowMessage(false);
         }
       }
       catch{
+        setShowMessage(false);
         alert("ব্যক্তিগত তথ্য দেখানো যাচ্ছে না")
       }
 
@@ -139,14 +141,14 @@ export const ScaleHistoryViewScreen = ({ route, navigation }: any) => {
           }
         </ScrollView>
 
-      </> : <><View style={{
+      </> : <>{showMessage && <View style={{
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
       }}>
 
         <Headline> আপনি এখনো পরিমাপ করেননি </Headline>
-      </View>
+      </View>}
         </>}
     </>
   )

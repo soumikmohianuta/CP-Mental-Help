@@ -24,7 +24,7 @@ export const AnxietyScaleMeasureScreen = ({ navigation }: any) => {
     }
     catch (e){
       if(e.message =='Net'){
-        alert('নেট সংযোগ নেই');
+        alert('ইন্টারনেট সংযোগ নেই,সাবমিট করা যাচ্ছে না');
       }
       else{
         alert('সাবমিট করা যাচ্ছে না');

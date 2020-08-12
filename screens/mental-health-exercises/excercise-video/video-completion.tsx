@@ -11,7 +11,7 @@ import { getMentalHealthRatingRequire } from '../../../storage';
 import { isNetworkAvailable } from '../../../utils/network';
 const { Navigator, Screen } = createStackNavigator();
 
-const ExamineImage = require('../../../Images/examine2.jpg');
+const ExamineImage = require('../../../Images/examine.jpg');
 export const ExcerciseStateScreen = ({ route, navigation }: any) => {
 
   const { exercise } = route.params;
@@ -36,32 +36,42 @@ export const ExcerciseStateScreen = ({ route, navigation }: any) => {
       if (isConnected) {
         await setVideoRating(userName, content_id, rateVal, commentText);
       }
-      else{
-        throw new Error();
+      else {
+        throw new Error("Net");
       }
 
     }
-    catch{
-      alert("সাবমিট করা যাচ্ছে না");
+
+
+    catch (e) {
+      if (e.message == 'Net') {
+        alert('ইন্টারনেট সংযোগ নেই, সাবমিট করা যাচ্ছে না');
+      }
+      else {
+        alert("সাবমিট করা যাচ্ছে না");
+      }
     }
     SetRatingShow(false);
   }
 
   useEffect(() => {
-    const getPersonalData = async () => {
+    const getRatingContent = async () => {
       try {
         const isConnected = await isNetworkAvailable();
         if (isConnected) {
-        var isRatingRequired = await isRaingRequire(userName, content_id);
-        setRatingRequire(isRatingRequired);
+          var isRatingRequired = await isRaingRequire(userName, content_id);
+          setRatingRequire(isRatingRequired);
         }
-        else{
-          throw new Error();
-        }     
+        else {
+          throw new Error("Net");
+        }
 
-      } 
+      }
       catch (e) {
-        alert('ব্যক্তিগত তথ্য দেখানো যাচ্ছে না');
+        if (e.message == 'Net') {
+          alert('ইন্টারনেট সংযোগ নেই');
+        }
+
       } finally {
         const mentalHealthNotDoneToday = await getMentalHealthRatingRequire();
         if (mentalHealthNotDoneToday) {
@@ -70,7 +80,7 @@ export const ExcerciseStateScreen = ({ route, navigation }: any) => {
         setLoading(false);
       }
     }
-    getPersonalData();
+    getRatingContent();
   }, []);
 
   const renderError = (userComment: string) => {
@@ -106,7 +116,7 @@ export const ExcerciseStateScreen = ({ route, navigation }: any) => {
           <Card.Title title={ratingShow ? 'ভিডিওটি সম্পর্কে আপনার মতামত দিন' : 'আপনার মতামতের জন্য ধন্যবাদ'} />
           <Card.Content>
             {ratingShow ? <AirbnbRating showRating={false} onFinishRating={(rating: number) => ratingDone(rating)} /> : null}
-            {ratingShow ? <TextInput style={{ margin: 12, borderRadius: 5, marginTop: 10, marginBottom: 10 }}  onChangeText={text => renderError(text)} defaultValue="" placeholder="মতামত" /> : null}
+            {ratingShow ? <TextInput style={{ margin: 12, borderRadius: 5, marginTop: 10, marginBottom: 10 }} onChangeText={text => renderError(text)} defaultValue="" placeholder="মতামত" /> : null}
             {ratingShow ? <Button style={{ margin: 12, borderRadius: 5, marginTop: 15 }} mode="contained" onPress={ratingSubmit}>সাবমিট করুন</Button> : null}
           </Card.Content>
         </Card>
@@ -134,7 +144,7 @@ export const ExcerciseStateScreen = ({ route, navigation }: any) => {
               {mentalExamineRequire &&
                 <>
                   <Card.Content>
-                    <Paragraph style={{ color: "#ba262b" ,fontSize: 20, marginTop: 15, marginBottom:10}}>অনুগ্রহ করে আপনার মানসিক স্বাস্থ্য পুনরায় মূল্যায়ন করুন।</Paragraph>
+                    <Paragraph style={{ color: "#ba262b", fontSize: 20, marginTop: 15, marginBottom: 10 }}>অনুগ্রহ করে আপনার মানসিক স্বাস্থ্য পুনরায় মূল্যায়ন করুন।</Paragraph>
                   </Card.Content>
                 </>}
             </Card>

@@ -17,7 +17,7 @@ export const ExerciseVideoScreen = ({ route, navigation }: any) => {
   //const [completed, setCompleted] = useState(false);
   const [error, setError] = useState();
   const [playing, setPlaying] = useState(true);
-  
+  const [videoWidth, setVideoWidth] = useState(350);
   const onChangeState = async (e: any) => {
 
     if (e=='ended') {
@@ -41,13 +41,19 @@ export const ExerciseVideoScreen = ({ route, navigation }: any) => {
       }     
       catch (e){
         if(e.message =='Net'){
-          alert('নেট সংযোগ নেই');
+          alert('কোন ইন্টারনেট সংযোগ নেই');
         }
 
       } 
     }
     getPersonalData();
+    if(order==4){
+      setVideoWidth(330);
+    }
+
   }, []);
+
+  
   const setReadyMessage =() => {
     setReady(true);
     setError(undefined);
@@ -93,7 +99,7 @@ export const ExerciseVideoScreen = ({ route, navigation }: any) => {
           <YoutubePlayer
               ref={playerRef}
               height={450}
-              width={350}
+              width={videoWidth}
               videoId={videoId}
               play={playing}
               onChangeState={(e: any) => onChangeState(e)}

@@ -54,8 +54,8 @@ export const MentalHealthRatingScreen = ({ route, navigation }: any) => {
 
       }
       catch (error){
-        if(error=="Net"){
-          alert('নেট সংযোগ নেই');
+        if(error.message=="Net"){
+          alert('ইন্টারনেট সংযোগ নেই,সাবমিট করা যাচ্ছে না');
         }
         else{
           alert('সাবমিট করা যাচ্ছে না');
