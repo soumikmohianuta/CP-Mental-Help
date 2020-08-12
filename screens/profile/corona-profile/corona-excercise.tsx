@@ -1,4 +1,4 @@
-import React, { useState, useContext,useRef } from 'react';
+import React, { useState, useEffect,useRef } from 'react';
 import { View } from 'react-native';
 import { Appbar, Text, Button, ActivityIndicator } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -6,6 +6,8 @@ import YoutubePlayer from 'react-native-youtube-iframe';
 import {coronaVideoID} from '../../../utils/constants'
 import {MENTAL_PROFILE_MAPPER} from '../contents';
 import { BackHandler } from 'react-native';
+import { isNetworkAvailable } from '../../../utils/network';
+
 export const CoronaExerciseVideoScreen = ({ route, navigation }: any) => {
 
   const [ready, setReady] = useState(false);
@@ -18,7 +20,33 @@ export const CoronaExerciseVideoScreen = ({ route, navigation }: any) => {
     navigation.navigate("Profile",{profile:mentalProfile, submit:route.params.submit})
     return true;
    }
+   
    BackHandler.addEventListener('hardwareBackPress',()=>handleBackPress())
+
+   useEffect(() => {
+    const getPersonalData = async () => {
+      try {
+        const isConnected = await isNetworkAvailable();
+        if (!isConnected) {
+          throw new Error("Net") ;
+        }
+      }     
+      catch (e){
+        if(e.message =='Net'){
+          alert('নেট সংযোগ নেই');
+        }
+
+      } 
+    }
+    getPersonalData();
+  }, []);
+
+
+  const setReadyMessage =() => {
+        setReady(true);
+        setError(undefined);
+   }
+
   return (
     <>
       <Appbar.Header>
@@ -48,7 +76,7 @@ export const CoronaExerciseVideoScreen = ({ route, navigation }: any) => {
               width={350}
               videoId={coronaVideoID}
               play={playing}
-              onReady={() => setReady(true)}
+              onReady={() => setReadyMessage()}
               onError={(e: any) => setError(e)}
               onPlaybackQualityChange={() => {}}
               volume={50}

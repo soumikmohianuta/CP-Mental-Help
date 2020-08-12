@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, ScrollView, TouchableHighlight } from 'react-native';
+import { View, ScrollView, TouchableHighlight, ColorPropType } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { MentalHealthRatingScreen } from '../mental-health-rating';
 import { MentalHealthMeasureListScreen } from '../scales';
@@ -22,6 +22,7 @@ import {MentalRatingScoreViewScreen} from '../mental-health-rating/rating-score'
 import {SevereHelpCenterScreen} from '../scores/severe-help';
 import {getMentalHealthRatingRequire} from '../../storage';
 import { isNetworkAvailable } from '../../utils/network';
+import { red100, red200 } from 'react-native-paper/lib/typescript/src/styles/colors';
 const HelpCenterImage = require('../../Images/help.png');
 const MentalStateImage = require('../../Images/evaluate.jpeg');
 const MentalExcerciseImage = require('../../Images/mentalexcercise.jpeg');
@@ -91,18 +92,25 @@ export const HomeScreen = ({ navigation }: any) => {
   
         }
       }
-      else{
-        throw new Error();
-      }
-      }
+
       else {
         navigation.navigate('ExcerciseStatus');
 
       }
+      }
+      else{
+        throw new Error("Net") ;
+      }
+      
     }
-    catch{
-      alert("ব্যক্তিগত তথ্য দেখানো যাচ্ছে না")
-      navigation.navigate('MentalHealthExercise', { navigateTo: 'Home' })
+    catch (e){
+      if(e.message =='Net'){
+        alert('নেট সংযোগ নেই');
+      }
+      else{
+        alert('ব্যক্তিগত তথ্য দেখানো যাচ্ছে না');
+      }
+      navigation.navigate('ExcerciseStatus', { navigateTo: 'Home' })
     }
     
   }
@@ -165,9 +173,14 @@ export const HomeScreen = ({ navigation }: any) => {
               marginLeft: 10,
               marginRight: 5
             }}>
-            <Card>
-              <Card.Title title="মানসিক স্বাস্থ্যের গুণগত মান উন্নয়ন" />
-              <Card.Cover source={MentalExcerciseImage} />
+            <Card >
+              <Card.Title
+               title="মানসিক স্বাস্থ্যের গুণগত মান উন্নয়ন" />
+              <Card.Cover style={{
+              flex: 1,
+              width:undefined,
+              resizeMode: 'contain'
+              }}source={MentalExcerciseImage} />
 
             </Card>
           </TouchableHighlight>

@@ -1,17 +1,33 @@
-import React, { useState, useContext,useRef } from 'react';
+import React, { useState, useEffect,useRef } from 'react';
 import { View } from 'react-native';
 import { Appbar, Text, Button, ActivityIndicator } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import {coronaVideoID} from '../../../utils/constants';
-
+import { isNetworkAvailable } from '../../../utils/network';
 export const GetingStartedScreen = ({navigation }: any) => {
 
   const [ready, setReady] = useState(false);
   const [error, setError] = useState();
   const [playing, setPlaying] = useState(true);
   const playerRef = useRef(null);
- 
+  useEffect(() => {
+    const getPersonalData = async () => {
+      try {
+        const isConnected = await isNetworkAvailable();
+        if (!isConnected) {
+          throw new Error("Net") ;
+        }
+      }     
+      catch (e){
+        if(e.message =='Net'){
+          alert('নেট সংযোগ নেই');
+        }
+
+      } 
+    }
+    getPersonalData();
+  }, []);
 
 
   return (
@@ -39,8 +55,8 @@ export const GetingStartedScreen = ({navigation }: any) => {
           }
           <YoutubePlayer
                ref={playerRef}
-              height={350}
-              width={400}
+              height={450}
+              width={350}
               videoId={coronaVideoID}
               play={playing}
               onReady={() => setReady(true)}

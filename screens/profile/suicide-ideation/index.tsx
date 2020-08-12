@@ -50,14 +50,19 @@ export const SuicideIdeationProfile = ({ navigation }: any) => {
           await setProfileState(userName, 'suicide_profile', answers);
         }
         else{
-          throw new Error();
+          throw new Error("Net") ;
         }
       
       }
 
-        catch{
+      catch (e){
+        if(e.message =='Net'){
+          alert('নেট সংযোগ নেই');
+        }
+        else{
           alert('সাবমিট করা যাচ্ছে না');
-          submitSuccess = false;
+        }
+        submitSuccess = false;
       }
       finally{
         if( answers[0].answer == "Yes"){

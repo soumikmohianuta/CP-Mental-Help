@@ -57,14 +57,19 @@ export const DomesticViolenceProfile = ({ navigation }: any) => {
           .set(userData);
       }
       else {
-        throw new Error();
+        throw new Error("Net") ;
       }
 
 
     }
 
-    catch{
-      alert('সাবমিট করা যাচ্ছে না');
+    catch (e){
+      if(e.message =='Net'){
+        alert('নেট সংযোগ নেই');
+      }
+      else{
+        alert('সাবমিট করা যাচ্ছে না');
+      }
       submitSuccess = false;
     }
     finally {

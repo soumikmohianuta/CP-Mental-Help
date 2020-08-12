@@ -42,21 +42,26 @@ export const CoronaProfile = ({ navigation }: any) => {
   const handleSubmit = async () => {
 
     setLoading(true);
-    var submitSuccess = true;
+    var submitSuccess = await isNetworkAvailable();
     try {
-      const isConnected = await isNetworkAvailable();
+      const isConnected = false;
       if (isConnected) {
         await setProfileState(userName, 'corona_profile', answers);   
       }
       else{
-        throw new Error();
+        throw new Error("Net") ;
       }
        
     }
 
-    catch{
+    catch (e){
+      if(e.message =='Net'){
+        alert('নেট সংযোগ নেই');
+      }
+      else{
+        alert('সাবমিট করা যাচ্ছে না');
+      }
       submitSuccess = false;
-      alert('সাবমিট করা যাচ্ছে না');
     }
     finally{
         if (answers[0].answer == "Yes" || answers[1].answer == "Yes") {

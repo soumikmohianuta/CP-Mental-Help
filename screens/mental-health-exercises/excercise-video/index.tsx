@@ -1,4 +1,4 @@
-import React, { useState, useContext,useRef } from 'react';
+import React, { useState, useContext,useRef , useEffect} from 'react';
 import { View } from 'react-native';
 import { Appbar, Text, Button, ActivityIndicator } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -7,6 +7,7 @@ import { UserContext } from '../../../context';
 import { resources } from '../content';
 import {setHomeProgressRequire} from  '../../../storage';
 import YoutubePlayer from 'react-native-youtube-iframe';
+import { isNetworkAvailable } from '../../../utils/network';
 export const ExerciseVideoScreen = ({ route, navigation }: any) => {
   const { exercise } = route.params;
   const { videoId, name, content_id, order } = exercise;
@@ -29,6 +30,27 @@ export const ExerciseVideoScreen = ({ route, navigation }: any) => {
       })
      // setCompleted(false);
     }
+  }
+  useEffect(() => {
+    const getPersonalData = async () => {
+      try {
+        const isConnected = await isNetworkAvailable();
+        if (!isConnected) {
+          throw new Error("Net") ;
+        }
+      }     
+      catch (e){
+        if(e.message =='Net'){
+          alert('নেট সংযোগ নেই');
+        }
+
+      } 
+    }
+    getPersonalData();
+  }, []);
+  const setReadyMessage =() => {
+    setReady(true);
+    setError(undefined);
   }
 
   const handlePrevious = () => {
@@ -75,7 +97,7 @@ export const ExerciseVideoScreen = ({ route, navigation }: any) => {
               videoId={videoId}
               play={playing}
               onChangeState={(e: any) => onChangeState(e)}
-              onReady={() => setReady(true)}
+              onReady={() => setReadyMessage()}
               onError={(e: any) => setError(e)}
               onPlaybackQualityChange={() => {}}
               volume={50}

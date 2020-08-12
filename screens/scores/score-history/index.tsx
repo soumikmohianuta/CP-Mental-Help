@@ -73,7 +73,7 @@ export const ScaleHistoryViewScreen = ({ route, navigation }: any) => {
           }
         }
         else {
-          throw new Error();
+          alert("নেট সংযোগ নেই");
         }
       }
       catch{

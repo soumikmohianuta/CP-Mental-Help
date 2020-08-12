@@ -71,7 +71,6 @@ export const ProfileScreen = ({ route, navigation }: any) => {
     const getPersonalData = async () => {
       try {
         const isConnected = await isNetworkAvailable();
-        console.log(isConnected);
         if (isConnected) {
           const data = await fetchPersonalData(userName);
           await setmentalHealthProfile();
@@ -83,10 +82,16 @@ export const ProfileScreen = ({ route, navigation }: any) => {
           setBasicInformation(data);
         }
         else{
-          throw new Error();
+          throw new Error("Net") ;
         }
-      } catch (e) {
-        alert('ব্যক্তিগত তথ্য দেখানো যাচ্ছে না');
+      }     
+      catch (e){
+        if(e.message =='Net'){
+          alert('নেট সংযোগ নেই');
+        }
+        else{
+          alert('সাবমিট করা যাচ্ছে না');
+        }
       } finally {
         setLoading(false);
       }

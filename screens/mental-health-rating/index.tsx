@@ -49,12 +49,17 @@ export const MentalHealthRatingScreen = ({ route, navigation }: any) => {
 
         }
         else{
-          throw new Error();
+          throw new Error("Net") ;
         }
 
       }
-      catch{
-        alert('সাবমিট করা যাচ্ছে না');
+      catch (error){
+        if(error=="Net"){
+          alert('নেট সংযোগ নেই');
+        }
+        else{
+          alert('সাবমিট করা যাচ্ছে না');
+        }
     }
     finally{
       var score = findScore(answers);

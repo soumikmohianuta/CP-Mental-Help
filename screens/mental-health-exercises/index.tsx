@@ -39,11 +39,17 @@ export const MentalHealthExerciseScreen = ({ route, navigation }: any) => {
                setLoading(false);
             }
             else{
-              throw new Error();
+              throw new Error("Net") ;
             }             
         }
-        catch{
-          alert("আপনার অগ্রগতি দেখানো যাচ্ছে না");
+        catch (error){
+          if(error=="Net"){
+            alert('নেট সংযোগ নেই');
+          }
+          else{
+            alert("আপনার অগ্রগতি দেখানো যাচ্ছে না");
+          }
+
           const list = getExerciseList();
           setResourceAndList(list);
           setLoading(false);

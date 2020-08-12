@@ -19,11 +19,16 @@ export const AnxietyScaleMeasureScreen = ({ navigation }: any) => {
       }
     
       else{
-      throw new Error();
+        throw new Error("Net") ;
       }
     }
-    catch{
-      alert('সাবমিট করা যাচ্ছে না');
+    catch (e){
+      if(e.message =='Net'){
+        alert('নেট সংযোগ নেই');
+      }
+      else{
+        alert('সাবমিট করা যাচ্ছে না');
+      }
     }
     finally{
       navigation.navigate('MentalHealthScoreView', { score, scale: SCALE_NAME.ANXIETY });
