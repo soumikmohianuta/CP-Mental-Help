@@ -4,7 +4,7 @@ import {
   View,
   ScrollView,
   Image,
-  SafeAreaView,
+  SafeAreaView 
 } from "react-native";
 import {
   Text,
@@ -19,49 +19,64 @@ import {
 } from "react-native-paper";
 import { RadioButtonGroup } from '../../../components/radio-button-group';;
 import {
-  question,YesNoResponse
+  question, YesNoResponse
 } from "./contents";
 import firebase from "firebase";
-import {storeUserInfo} from '../../../storage';
-import {AuthContext, UserContext} from '../../../context';
-import {MENTAL_PROFILE_MAPPER} from '../contents';
+import { storeUserInfo } from '../../../storage';
+import { AuthContext, UserContext } from '../../../context';
+import { MENTAL_PROFILE_MAPPER } from '../contents';
+import { isNetworkAvailable } from '../../../utils/network';
 
 export const DomesticViolenceProfile = ({ navigation }: any) => {
 
   const [violence, SetViolence] = useState("");
 
 
-  const {userName} = React.useContext(UserContext);
+  const { userName } = React.useContext(UserContext);
 
   const [showSubmit, setShowSubmit] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async() => {
+
+
+  const handleSubmit = async () => {
 
     setLoading(true);
     const userData = {
       dmv: violence
     };
-    try{
-      firebase
-        .database()
-        .ref(userName+"/mental_profile/domestic_profile")
-        .set(userData);
-      
-        if( violence == "Yes"){
-          navigation.navigate("HelpCenterProfile",{profile:MENTAL_PROFILE_MAPPER.DomesticViolenceProfile});
+    var submitSuccess = true;
+    try {
+      const isConnected = await isNetworkAvailable();
 
-        }
-        else{
-          var MentalProfileState = 3;
-          navigation.navigate("Profile",{MentalProfileState});
-        }
+
+      if (isConnected) {
+        firebase
+          .database()
+          .ref(userName + "/mental_profile/domestic_profile")
+          .set(userData);
+      }
+      else {
+        throw new Error();
       }
 
-      catch{
-        alert('সাবমিট করা যাচ্ছে না');
-    } 
+
+    }
+
+    catch{
+      alert('সাবমিট করা যাচ্ছে না');
+      submitSuccess = false;
+    }
+    finally {
+      if (violence == "Yes") {
+        navigation.navigate("HelpCenterProfile", { profile: MENTAL_PROFILE_MAPPER.DomesticViolenceProfile, submit: submitSuccess });
+      }
+      else {
+        navigation.navigate("Profile", { profile: MENTAL_PROFILE_MAPPER.DomesticViolenceProfile, submit: submitSuccess });
+      }
       setLoading(false);
+    }
+
   };
 
 
@@ -74,57 +89,57 @@ export const DomesticViolenceProfile = ({ navigation }: any) => {
 
   const onAnswerSelect = (value: string) => {
     SetViolence(value);
-        setShowSubmit(true);
+    setShowSubmit(true);
 
-    }
-  
+  }
+
 
   return (
-    <> 
-    <Appbar.Header>
-      <Appbar.BackAction onPress={() => navigation.navigate('Profile')}  />
-      <Appbar.Content title="ঘরোয়া সহিংসতা সম্পর্কীয়" />
-    </Appbar.Header>
-    <ScrollView style={{ margin: 12 }}>
+    <>
+      <Appbar.Header>
+        <Appbar.BackAction onPress={() => navigation.navigate('Profile')} />
+        <Appbar.Content title="ঘরোয়া সহিংসতা সম্পর্কীয়" />
+      </Appbar.Header>
+      <ScrollView style={{ margin: 12 }}>
 
-            <>
-              <Headline
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: 120,
-                }}
-              >
-                  {question}
-              </Headline>
-              <RadioButtonGroup
-                options={YesNoResponse}
-                onSelect={onAnswerSelect}
-              />   
-            
-            </>
+        <>
+          <Headline
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: 120,
+            }}
+          >
+            {question}
+          </Headline>
+          <RadioButtonGroup
+            options={YesNoResponse}
+            onSelect={onAnswerSelect}
+          />
 
-      
-      
-      <View
-        style={{
-          flex: 1,
-          flexDirection: 'row',
-          justifyContent: 'center',
-          marginTop: 12
-        }}
-      >
+        </>
+
+
+
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            marginTop: 12
+          }}
+        >
 
           {
             showSubmit ?
-            <Button onPress={handleSubmit} mode="contained"> Submit </Button>
-            : null
+              <Button onPress={handleSubmit} mode="contained"> Submit </Button>
+              : null
           }
-        </View> 
+        </View>
 
       </ScrollView>
 
- 
-      </>
+
+    </>
   );
 };

@@ -6,17 +6,27 @@ import { QuestionForm } from '../../../components/question-form';
 import { setMentalHealthScore } from '../../../services/firebase';
 import { UserContext } from '../../../context';
 import { SCALE_NAME } from '../../../utils/constants';
+import { isNetworkAvailable } from '../../../utils/network';
 
 export const AnxietyScaleMeasureScreen = ({ navigation }: any) => {
   const { userName: userId } = useContext(UserContext);
   
   const handleSubmit = async(score: number) => {
     try{
-    await setMentalHealthScore(userId, SCALE_NAME.ANXIETY, score);
-    navigation.navigate('MentalHealthScoreView', { score, scale: SCALE_NAME.ANXIETY });
+      const isConnected = await isNetworkAvailable();
+      if (isConnected) {
+        await setMentalHealthScore(userId, SCALE_NAME.ANXIETY, score);
+      }
+    
+      else{
+      throw new Error();
+      }
     }
     catch{
       alert('সাবমিট করা যাচ্ছে না');
+    }
+    finally{
+      navigation.navigate('MentalHealthScoreView', { score, scale: SCALE_NAME.ANXIETY });
     }
   }
 

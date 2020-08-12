@@ -122,7 +122,7 @@ export const UserInfo = ({ route,navigation }: any) => {
       <Appbar.BackAction onPress={() => navigation.navigate('SignIn')}  />
       <Appbar.Content title="ব্যক্তিগত তথ্যাবলী" />
     </Appbar.Header>
-    <ScrollView style={{ margin: 12 }}>
+    <ScrollView style={{ margin: 12 }} keyboardShouldPersistTaps={'handled'}>
     <Subheading style={{  marginTop: 12, marginBottom: 12 }}> QUESTIONS {count + 1} of {NUMBER_OF_QUESTIONS}</Subheading>
       <ProgressBar
         progress={(count + 1) / NUMBER_OF_QUESTIONS}

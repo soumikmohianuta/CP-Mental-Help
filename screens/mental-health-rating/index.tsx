@@ -17,7 +17,7 @@ import { setMentalState } from "../../services/firebase";
 import CircularPicker from "../../components/circle-picker";
 import {UserContext} from '../../context';
 import {setRatingDate} from '../../storage';
-
+import { isNetworkAvailable } from '../../utils/network';
 const NUMBER_OF_QUESTIONS = 5;
 
 export const MentalHealthRatingScreen = ({ route, navigation }: any) => {
@@ -40,20 +40,30 @@ export const MentalHealthRatingScreen = ({ route, navigation }: any) => {
 
   const handleNext = async () => {
     if (count === NUMBER_OF_QUESTIONS - 1) {
+      
       try{
-        await setMentalState(userName,answers);
-        await setRatingDate();
-        var score = findScore(answers);
-        if(videoOrderId<0){
-          navigation.navigate('MentalRatingScoreViewScreen', { navigateTo:navigateTo,score:score, videoOrderId:videoOrderId});    
-          }
-          else{
-            navigation.navigate('MentalRatingScoreViewScreen', { navigateTo:navigateTo,score:score, videoOrderId:videoOrderId});    
-          }
+        const isConnected = await isNetworkAvailable();
+        if (isConnected) {
+          await setMentalState(userName,answers);
+          await setRatingDate();
+
+        }
+        else{
+          throw new Error();
+        }
 
       }
       catch{
         alert('সাবমিট করা যাচ্ছে না');
+    }
+    finally{
+      var score = findScore(answers);
+      if(videoOrderId<0){
+        navigation.navigate('MentalRatingScoreViewScreen', { navigateTo:navigateTo,score:score, videoOrderId:videoOrderId});    
+        }
+        else{
+          navigation.navigate('MentalRatingScoreViewScreen', { navigateTo:navigateTo,score:score, videoOrderId:videoOrderId});    
+        }
     }
 
 

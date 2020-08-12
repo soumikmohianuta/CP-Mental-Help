@@ -16,7 +16,7 @@ export const resources = [
   {
     name: "মানুষ যে কারনে তার পছন্দের আচরণ করে",
     type: "video",
-    videoId: "GP1qKfY5cU4",
+    videoId: "FkEuVP3wNLo",
     content_id: 'health_belief_model',
     order: 2,
   },

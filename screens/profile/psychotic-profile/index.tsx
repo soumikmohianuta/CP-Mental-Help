@@ -27,6 +27,7 @@ import {AuthContext, UserContext} from '../../../context';
 import {MENTAL_PROFILE_MAPPER} from '../contents';
 import {psychotic_answers} from './contents';
 import {setProfileState} from '../../../services/firebase'
+import { isNetworkAvailable } from '../../../utils/network';
 
 export const PsychoticProfile = ({ navigation }: any) => {
   const NUMBER_OF_QUESTIONS = questions.length;
@@ -43,27 +44,31 @@ export const PsychoticProfile = ({ navigation }: any) => {
   const handleSubmit = async() => {
 
     setLoading(true);
-
+    var submitSuccess = true;
       try{
-        await setProfileState(userName, 'psychotic_profile', answers);
-      
-        if( answers[0].answer == "Yes" ||
-        answers[0].answer == "Yes" ||
-        answers[0].answer == "Yes" ||
-        answers[0].answer== "Yes"){
-
-          navigation.navigate("HelpCenterProfile",{profile:MENTAL_PROFILE_MAPPER.PsychoticProfile});
+        const isConnected = await isNetworkAvailable();
+        if (isConnected) {
+          await setProfileState(userName, 'psychotic_profile', answers);
         }
         else{
-          var MentalProfileState = 1;
-          navigation.navigate("Profile",{MentalProfileState});
+          throw new Error();
         }
+
       }
       catch{
         alert('সাবমিট করা যাচ্ছে না');
-    } 
+        submitSuccess = false;
+      }
+      finally{
+        if( answers[0].answer == "Yes" ||answers[1].answer == "Yes" ||answers[2].answer == "Yes" ||answers[3].answer== "Yes"){
 
-      setLoading(false);
+          navigation.navigate("HelpCenterProfile",{profile:MENTAL_PROFILE_MAPPER.PsychoticProfile, submit:submitSuccess});
+        }
+        else{
+          navigation.navigate("Profile",{profile:MENTAL_PROFILE_MAPPER.PsychoticProfile, submit:submitSuccess});
+        }
+      } 
+
   };
 
 

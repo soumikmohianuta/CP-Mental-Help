@@ -49,4 +49,6 @@ target 'cpmentalhelp' do
   # react-native-cli autolinking
   use_native_modules!
 
+  pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
+
 end

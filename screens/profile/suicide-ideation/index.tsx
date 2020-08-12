@@ -26,7 +26,7 @@ import {UserContext} from '../../../context';
 import {MENTAL_PROFILE_MAPPER} from '../contents';
 import {suicide_answers} from './contents';
 import {setProfileState} from '../../../services/firebase'
-
+import { isNetworkAvailable } from '../../../utils/network';
 export const SuicideIdeationProfile = ({ navigation }: any) => {
   const NUMBER_OF_QUESTIONS = questions.length;
   const [count, setCount] = useState<number>(0);
@@ -42,24 +42,32 @@ export const SuicideIdeationProfile = ({ navigation }: any) => {
   const handleSubmit = async() => {
 
     setLoading(true);
-
+    var submitSuccess = true;
 
     try{
-      await setProfileState(userName, 'suicide_profile', answers);
-      
-        if( answers[0].answer == "Yes"){
-          navigation.navigate("HelpCenterProfile",{profile:MENTAL_PROFILE_MAPPER.SuicidalIdeationProfile});
+      const isConnected = await isNetworkAvailable();
+        if (isConnected) {
+          await setProfileState(userName, 'suicide_profile', answers);
         }
         else{
-          var MentalProfileState = 2;
-          navigation.navigate("Profile",{MentalProfileState});
+          throw new Error();
         }
+      
       }
 
         catch{
           alert('সাবমিট করা যাচ্ছে না');
+          submitSuccess = false;
+      }
+      finally{
+        if( answers[0].answer == "Yes"){
+          navigation.navigate("HelpCenterProfile",{profile:MENTAL_PROFILE_MAPPER.SuicidalIdeationProfile, submit:submitSuccess });
+        }
+        else{
+          navigation.navigate("Profile",{profile:MENTAL_PROFILE_MAPPER.SuicidalIdeationProfile, submit:submitSuccess});
+        }
+        
       } 
-      setLoading(false);
   };
 
 

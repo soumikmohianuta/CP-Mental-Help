@@ -71,7 +71,7 @@ export const ExerciseVideoScreen = ({ route, navigation }: any) => {
           <YoutubePlayer
               ref={playerRef}
               height={450}
-              width={380}
+              width={350}
               videoId={videoId}
               play={playing}
               onChangeState={(e: any) => onChangeState(e)}

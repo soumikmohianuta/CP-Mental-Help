@@ -21,7 +21,7 @@ import { checkMentalExaminationExists } from '../../services/firebase';
 import {MentalRatingScoreViewScreen} from '../mental-health-rating/rating-score';
 import {SevereHelpCenterScreen} from '../scores/severe-help';
 import {getMentalHealthRatingRequire} from '../../storage';
-
+import { isNetworkAvailable } from '../../utils/network';
 const HelpCenterImage = require('../../Images/help.png');
 const MentalStateImage = require('../../Images/evaluate.jpeg');
 const MentalExcerciseImage = require('../../Images/mentalexcercise.jpeg');
@@ -77,6 +77,8 @@ export const HomeScreen = ({ navigation }: any) => {
   }
   const handleExcercise = async () => {
     try {
+      const isConnected = await isNetworkAvailable();
+      if (isConnected) {
       const mentalExamState = await checkMentalExaminationExists(userName);
       console.log(mentalExamState);
       if (mentalExamState.mentalstatemeasure) {
@@ -89,6 +91,10 @@ export const HomeScreen = ({ navigation }: any) => {
   
         }
       }
+      else{
+        throw new Error();
+      }
+      }
       else {
         navigation.navigate('ExcerciseStatus');
 
@@ -96,6 +102,7 @@ export const HomeScreen = ({ navigation }: any) => {
     }
     catch{
       alert("ব্যক্তিগত তথ্য দেখানো যাচ্ছে না")
+      navigation.navigate('MentalHealthExercise', { navigateTo: 'Home' })
     }
     
   }
@@ -189,7 +196,11 @@ export const HomeScreen = ({ navigation }: any) => {
           >
             <Card>
               <Card.Title title="ব্যবহার নির্দেশিকা" />
-              <Card.Cover source={QlifeImage} />
+              <Card.Cover  style={{
+              flex: 1,
+              width:undefined,
+              resizeMode: 'contain'
+              }} source={QlifeImage} />
             </Card>
           </TouchableHighlight >
 
@@ -202,7 +213,11 @@ export const HomeScreen = ({ navigation }: any) => {
           >
             <Card>
               <Card.Title title="হেল্প সেন্টার" />
-              <Card.Cover source={HelpCenterImage} />
+              <Card.Cover style={{
+              flex: 1,
+              resizeMode: 'contain'
+              }} 
+            source={HelpCenterImage} />
             </Card>
           </TouchableHighlight>
 

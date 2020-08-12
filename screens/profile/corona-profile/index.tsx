@@ -27,6 +27,7 @@ import { AuthContext, UserContext } from '../../../context';
 import { MENTAL_PROFILE_MAPPER } from '../contents';
 import {corona_answers} from './contents';
 import {setProfileState} from '../../../services/firebase'
+import { isNetworkAvailable } from '../../../utils/network';
 
 export const CoronaProfile = ({ navigation }: any) => {
   const NUMBER_OF_QUESTIONS = questions.length;
@@ -41,26 +42,32 @@ export const CoronaProfile = ({ navigation }: any) => {
   const handleSubmit = async () => {
 
     setLoading(true);
-    const userData = {
-    };
-
+    var submitSuccess = true;
     try {
-      await setProfileState(userName, 'corona_profile', answers);
-      
-      if (answers[0].answer == "Yes" || answers[1].answer == "Yes") {
-        navigation.navigate("CoronaExcercise");
+      const isConnected = await isNetworkAvailable();
+      if (isConnected) {
+        await setProfileState(userName, 'corona_profile', answers);   
       }
-      else {
-        const mentalProfile = MENTAL_PROFILE_MAPPER.CoronaProfile;
-        navigation.navigate("Profile", { MentalProfileState: mentalProfile });
+      else{
+        throw new Error();
       }
-
+       
     }
 
     catch{
+      submitSuccess = false;
       alert('সাবমিট করা যাচ্ছে না');
     }
-    setLoading(false);
+    finally{
+        if (answers[0].answer == "Yes" || answers[1].answer == "Yes") {
+            navigation.navigate("CoronaExcercise", {submit:submitSuccess });
+        }
+        else {
+          const mentalProfile = MENTAL_PROFILE_MAPPER.CoronaProfile;
+          navigation.navigate("Profile", { profile: mentalProfile, submit:submitSuccess });
+        }
+    }
+
   };
 
 

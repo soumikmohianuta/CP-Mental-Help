@@ -27,8 +27,7 @@ export const setProfileState = async (userId: string, profileName:string, answer
       curData[curName]=curVal;
 
     }
-
-    firebase
+   await firebase
       .database()
       .ref(userId + "/mental_profile/"+profileName+"/")
       .set(curData);

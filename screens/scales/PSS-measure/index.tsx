@@ -6,18 +6,26 @@ import { QuestionForm } from  '../../../components/question-form';
 import { setMentalHealthScore } from '../../../services/firebase';
 import { UserContext } from '../../../context';
 import { SCALE_NAME } from '../../../utils/constants';
-
+import { isNetworkAvailable } from '../../../utils/network';
 export const PSSMeasureScreen = ({ navigation }: any) => {
   const { userName: userId } = useContext(UserContext);
   
   const handleSubmit = async(score: number) => {
 
     try{
-        await setMentalHealthScore(userId, SCALE_NAME.PSS, score);
-        navigation.navigate('MentalHealthScoreView', { score, scale: SCALE_NAME.PSS });
+        const isConnected = await isNetworkAvailable();
+        if (isConnected) {
+          await setMentalHealthScore(userId, SCALE_NAME.PSS, score);
+        }
+        else{
+          throw new Error();
+        }
       }
       catch{
         alert('সাবমিট করা যাচ্ছে না');
+      }
+      finally{
+        navigation.navigate('MentalHealthScoreView', { score, scale: SCALE_NAME.PSS });
       }
   }
 

@@ -136,7 +136,7 @@ export const questions = [
     answers: getAnswers([0, 1, 2, 3, 4]),
   },
   {
-    question: 'আমি বিচলিত ও স্নত্রস্তবোধ করি',
+    question: 'আমি বিচলিত ও সন্ত্রস্তবোধ করি',
     answers: getAnswers([0, 1, 2, 3, 4]),
   },
   {

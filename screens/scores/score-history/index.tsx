@@ -12,7 +12,7 @@ import {
   LineChart
 } from 'react-native-chart-kit';
 import { database } from 'firebase';
-
+import { isNetworkAvailable } from '../../../utils/network';
 export const ScaleHistoryViewScreen = ({ route, navigation }: any) => {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -54,22 +54,27 @@ export const ScaleHistoryViewScreen = ({ route, navigation }: any) => {
   useEffect(() => {
     const getHistory = async () => {
       try {
-        const historyData = await getMentalHealthScore(userId, scale);
-        console.log(historyData);
-        if (historyData != null) {
-          if (Object.keys(historyData).length > 5) {
-            const historylatest = getLatestFive(historyData);
-            getLatestFive(historylatest);
-            setHistory(historylatest);
-            setLineData(historylatest);
-          }
-          else {
-            getLatestFive(historyData);
-            setHistory(historyData);
-            setLineData(historyData);
+        const isConnected = await isNetworkAvailable();
+        if (isConnected) {
+          const historyData = await getMentalHealthScore(userId, scale);
+          console.log(historyData);
+          if (historyData != null) {
+            if (Object.keys(historyData).length > 5) {
+              const historylatest = getLatestFive(historyData);
+              getLatestFive(historylatest);
+              setHistory(historylatest);
+              setLineData(historylatest);
+            }
+            else {
+              getLatestFive(historyData);
+              setHistory(historyData);
+              setLineData(historyData);
+            }
           }
         }
-
+        else {
+          throw new Error();
+        }
       }
       catch{
         alert("ব্যক্তিগত তথ্য দেখানো যাচ্ছে না")
@@ -126,7 +131,7 @@ export const ScaleHistoryViewScreen = ({ route, navigation }: any) => {
 
           />
           }
-          
+
           {labelData.length > 0 && <HistoryTable
             history={history}
             scale={scale}

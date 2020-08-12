@@ -3,6 +3,7 @@ import { Appbar, Card, List } from 'react-native-paper';
 import { helplines,MENTAL_HEALTH_PROFILE_SECTIONS } from './contents';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Linking, Platform } from 'react-native';
+import { BackHandler } from 'react-native';
 
 export const HelpCenterProfile = ({route, navigation }: any) => {
   const dialCall = (number: string, commType: string) => {
@@ -16,15 +17,21 @@ export const HelpCenterProfile = ({route, navigation }: any) => {
 
   
    const mentalProfile=route.params.profile;
+
   
    const helpLinesToShow = MENTAL_HEALTH_PROFILE_SECTIONS[mentalProfile].helpSections;
+   
+   const handleBackPress =() => {
+    navigation.navigate("Profile",{profile:mentalProfile, submit:route.params.submit})
+    return true;
+   }
+   BackHandler.addEventListener('hardwareBackPress',()=>handleBackPress())
+ 
 
-
-  var MentalProfileState = 2;
   return (
     <>
       <Appbar.Header>
-        <Appbar.BackAction onPress={() => navigation.navigate("Profile",{MentalProfileState:mentalProfile})}  />
+        <Appbar.BackAction onPress={() => navigation.navigate("Profile",{profile:mentalProfile, submit:route.params.submit})}  />
         <Appbar.Content title="হেল্প সেন্টার" />
       </Appbar.Header>
       <ScrollView>

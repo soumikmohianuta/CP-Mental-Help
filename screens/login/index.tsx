@@ -40,11 +40,13 @@ export const SignInScreen = ({ navigation }: any) => {
       var userInfoExists = await checkUserInfoExists(curUser.user.uid);
       if(userInfoExists){
           signIn(curUser);
+          setLoading(false);
       }
       else{
           navigation.navigate("Consent", {curUser});
+          setLoading(false);
       }
-      setLoading(false);
+
     };
     checkUser();
   };

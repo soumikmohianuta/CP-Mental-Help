@@ -5,21 +5,24 @@ import { ScrollView } from 'react-native-gesture-handler';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import {coronaVideoID} from '../../../utils/constants'
 import {MENTAL_PROFILE_MAPPER} from '../contents';
-
+import { BackHandler } from 'react-native';
 export const CoronaExerciseVideoScreen = ({ route, navigation }: any) => {
 
   const [ready, setReady] = useState(false);
   const [error, setError] = useState();
   const [playing, setPlaying] = useState(true);
   const playerRef = useRef(null);
-  var MentalProfileState = 0;
  
   const mentalProfile=MENTAL_PROFILE_MAPPER.CoronaProfile;
-
+  const handleBackPress =() => {
+    navigation.navigate("Profile",{profile:mentalProfile, submit:route.params.submit})
+    return true;
+   }
+   BackHandler.addEventListener('hardwareBackPress',()=>handleBackPress())
   return (
     <>
       <Appbar.Header>
-        <Appbar.BackAction onPress={() =>  navigation.navigate("Profile",{MentalProfileState:mentalProfile})}  />
+        <Appbar.BackAction onPress={() =>  navigation.navigate("Profile",{profile:mentalProfile,submit:route.params.submit})}  />
         <Appbar.Content title="করোনাজয়ীর ইন্টারভিউ" />
       </Appbar.Header>
       <ScrollView style={{ margin: 12, marginTop: 32 }}>
@@ -41,8 +44,8 @@ export const CoronaExerciseVideoScreen = ({ route, navigation }: any) => {
           }
           <YoutubePlayer
                ref={playerRef}
-              height={350}
-              width={400}
+              height={450}
+              width={350}
               videoId={coronaVideoID}
               play={playing}
               onReady={() => setReady(true)}

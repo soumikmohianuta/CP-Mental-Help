@@ -5,7 +5,8 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { resources as staticResources } from './content';
 import { getMentalHealthExcercise, setMentalHealthExcercise, markExcerciseAsDone } from '../../services/firebase';
 import { UserContext } from '../../context';
-
+import {getExerciseList} from '../../utils/exercise';
+import { isNetworkAvailable } from '../../utils/network';
 const mapResources = (list: any) => {
   return staticResources.reduce((acc, item) => {
     acc.push({
@@ -29,38 +30,31 @@ export const MentalHealthExerciseScreen = ({ route, navigation }: any) => {
     React.useCallback(() => {
         const fetchMentalHealthExercise = async () => {
           try{
-          setLoading(true);
-          const list = await getMentalHealthExcercise(userId);
-          setResourceAndList(list);
-          setLoading(false);
-     
+            setLoading(true);
+            const isConnected = await isNetworkAvailable();
+            if (isConnected) {
+          
+                const list = await getMentalHealthExcercise(userId);
+                setResourceAndList(list);
+               setLoading(false);
+            }
+            else{
+              throw new Error();
+            }             
         }
         catch{
-          setLoading(false);
           alert("আপনার অগ্রগতি দেখানো যাচ্ছে না");
+          const list = getExerciseList();
+          setResourceAndList(list);
+          setLoading(false);
+   
         }
       }
       
       fetchMentalHealthExercise();
     }, [])
   );
-  // useEffect(() => {
-  //   const fetchMentalHealthExercise = async () => {
-  //     try{
-  //     setLoading(true);
-  //     const list = await getMentalHealthExcercise(userId);
-  //     setResourceAndList(list);
-  //     setLoading(false);
- 
-  //   }
-  //   catch{
-  //     setLoading(false);
-  //     alert("আপনার অগ্রগতি দেখানো যাচ্ছে না");
-  //   }
-  // }
-  
-  //   fetchMentalHealthExercise();
-  // }, []);
+
 
   const onClick = async (item: any) => {
     navigation.navigate('ExerciseVideo', {

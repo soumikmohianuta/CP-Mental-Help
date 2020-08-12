@@ -6,9 +6,9 @@ import { UserContext } from '../../../context';
 import { exerciseStatusToContentMap, MENTAL_HEALTH_STATUS_TITLE, MENTAL_HEALTH_JUDGE_SECTIONS } from './content';
 import { setVideoRating, isRaingRequire } from '../../../services/firebase';
 import { resources } from '../content';
-import { Rating } from 'react-native-ratings';
+import { AirbnbRating } from 'react-native-ratings';
 import { getMentalHealthRatingRequire } from '../../../storage';
-
+import { isNetworkAvailable } from '../../../utils/network';
 const { Navigator, Screen } = createStackNavigator();
 
 const ExamineImage = require('../../../Images/examine2.jpg');
@@ -32,7 +32,13 @@ export const ExcerciseStateScreen = ({ route, navigation }: any) => {
 
   const ratingSubmit = async () => {
     try {
-      await setVideoRating(userName, content_id, rateVal, commentText);
+      const isConnected = await isNetworkAvailable();
+      if (isConnected) {
+        await setVideoRating(userName, content_id, rateVal, commentText);
+      }
+      else{
+        throw new Error();
+      }
 
     }
     catch{
@@ -44,17 +50,23 @@ export const ExcerciseStateScreen = ({ route, navigation }: any) => {
   useEffect(() => {
     const getPersonalData = async () => {
       try {
-
+        const isConnected = await isNetworkAvailable();
+        if (isConnected) {
         var isRatingRequired = await isRaingRequire(userName, content_id);
         setRatingRequire(isRatingRequired);
+        }
+        else{
+          throw new Error();
+        }     
+
+      } 
+      catch (e) {
+        alert('ব্যক্তিগত তথ্য দেখানো যাচ্ছে না');
+      } finally {
         const mentalHealthNotDoneToday = await getMentalHealthRatingRequire();
         if (mentalHealthNotDoneToday) {
           SetMentalExamineRequire(true);
         }
-
-      } catch (e) {
-        alert('ব্যক্তিগত তথ্য দেখানো যাচ্ছে না');
-      } finally {
         setLoading(false);
       }
     }
@@ -88,13 +100,13 @@ export const ExcerciseStateScreen = ({ route, navigation }: any) => {
         <Appbar.BackAction onPress={() => navigation.navigate('MentalHealthExercise')} />
         <Appbar.Content title="মানসিক স্বাস্থ্য পরিমাপের অবস্থা" />
       </Appbar.Header>
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps={'handled'}>
 
         {ratingRequire && <Card elevation={5} style={{ margin: 12, borderRadius: 5 }}>
           <Card.Title title={ratingShow ? 'ভিডিওটি সম্পর্কে আপনার মতামত দিন' : 'আপনার মতামতের জন্য ধন্যবাদ'} />
           <Card.Content>
-            {ratingShow ? <Rating onFinishRating={(rating: number) => ratingDone(rating)} /> : null}
-            {ratingShow ? <TextInput style={{ margin: 12, borderRadius: 5, marginTop: 10, marginBottom: 10 }} onChangeText={text => renderError(text)} defaultValue="" placeholder="মতামত" /> : null}
+            {ratingShow ? <AirbnbRating showRating={false} onFinishRating={(rating: number) => ratingDone(rating)} /> : null}
+            {ratingShow ? <TextInput style={{ margin: 12, borderRadius: 5, marginTop: 10, marginBottom: 10 }}  onChangeText={text => renderError(text)} defaultValue="" placeholder="মতামত" /> : null}
             {ratingShow ? <Button style={{ margin: 12, borderRadius: 5, marginTop: 15 }} mode="contained" onPress={ratingSubmit}>সাবমিট করুন</Button> : null}
           </Card.Content>
         </Card>
