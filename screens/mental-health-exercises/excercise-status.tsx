@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { List, Card, ActivityIndicator, Appbar, Button, Headline, Paragraph,Text } from 'react-native-paper';
+import { List, Card, Appbar, Button, Headline, Paragraph,Text } from 'react-native-paper';
 import { ScrollView, View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
@@ -13,20 +13,17 @@ const { Navigator, Screen } = createStackNavigator();
 
 export const ExcerciseStatusScreen = ({navigation }: any) => {
   const [mentalStateTitle, SetmentalStateTitle] = useState("");
-  const [loading, setLoading] = useState(false);
   const [isExcersieOn, setIsExcersieOn] = useState(false);
   const {userName} = React.useContext(UserContext);
 
   
 
-  const onStart = async () => {
+  const onStart = () => {
 
     navigation.navigate('MentalHealthRating', { navigateTo: 'Home',videoOrderId:-1 });
   }
 
-  if (loading) {
-    return <ActivityIndicator />;
-  }
+
 
   return (
     <>

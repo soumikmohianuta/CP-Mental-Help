@@ -53,6 +53,7 @@ export const ScaleHistoryViewScreen = ({ route, navigation }: any) => {
   const scaleName = SCALE_NAME_MAP.get(scale);
   useEffect(() => {
     const getHistory = async () => {
+      setLoading(true);
       try {
         const isConnected = await isNetworkAvailable();
         if (isConnected) {
@@ -80,8 +81,9 @@ export const ScaleHistoryViewScreen = ({ route, navigation }: any) => {
         setShowMessage(false);
         alert("ব্যক্তিগত তথ্য দেখানো যাচ্ছে না")
       }
-
-      setLoading(false);
+      finally{
+        setLoading(false);
+      }
     };
     getHistory();
   }, []);
