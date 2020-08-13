@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { List, Card, ActivityIndicator, Appbar } from 'react-native-paper';
 import { ScrollView } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -14,7 +15,7 @@ import { CoronaExerciseVideoScreen } from './corona-profile/corona-excercise';
 import { MENTAL_HEALTH_PROFILE_SECTIONS as staticResources } from './contents';
 import { HelpCenterProfile } from './help-center';
 import { isNetworkAvailable } from '../../utils/network';
-
+import NetInfo from "@react-native-community/netinfo";
 const { Navigator, Screen } = createStackNavigator();
 
 const setProfileState = (list: any) => {
@@ -22,6 +23,16 @@ const setProfileState = (list: any) => {
     acc.push({
       ...item,
       iconName: list[item.order].state ? 'check' : 'cancel'
+    })
+    return acc;
+  }, []);
+}
+
+const setDefaultProfileState = () => {
+  return staticResources.reduce((acc, item) => {
+    acc.push({
+      ...item,
+      iconName: 'cancel'
     })
     return acc;
   }, []);
@@ -48,6 +59,7 @@ export const ProfileScreen = ({ route, navigation }: any) => {
   const [sexInfo, setSexInfo] = useState("");
   const [addressinfo, setAddressinfo] = useState("");
   const [maritalInfo, setMaritalInfo] = useState("");
+  const [emailInfo, setEmailInfo] = useState("");
   const [loading, setLoading] = useState(true);
   const [mentalProfileList, setMentalProfileList] = useState([]);
   const { userName, email } = React.useContext(UserContext);
@@ -56,48 +68,87 @@ export const ProfileScreen = ({ route, navigation }: any) => {
 
   if (route.params != null) {
     if (route.params.submit) {
-      console.log(route.params.submit);
       mentalProfileList[route.params.profile].iconName = 'check';
     }
   }
 
   const setmentalHealthProfile = async () => {
     const profileState = await getMentalProfileState(userName);
-    console.log(profileState[0]);
     setMentalProfileList(setProfileState(profileState));
   }
 
-  useEffect(() => {
-    const getPersonalData = async () => {
-      try {
-        const isConnected = await isNetworkAvailable();
-        if (isConnected) {
-          const data = await fetchPersonalData(userName);
-          await setmentalHealthProfile();
+  useFocusEffect(
+    React.useCallback(() => {
+      const getPersonalData = async () => {
+        try {
+          const isConnected = await isNetworkAvailable();
+  
+          if (isConnected) {
+            const data = await fetchPersonalData(userName);
+            await setmentalHealthProfile();
+  
+            setSexInfo(SexMapper.get(data.userSex) || '');
+            setMaritalInfo(MaritalStatusMapper.get(data.userMaritalStatus) || '');
+            setAddressinfo(CurrentLocationMapper.get(data.userAddress) || '');
+            setEmailInfo(email);
+            setBasicInformation(data);
+          }
+          else {
+            throw new Error("Net");
+          }
+        }
+        catch (e) {
+          if (e.message == 'Net') {
+            alert('নেট সংযোগ নেই,ব্যক্তিগত তথ্য দেখানো যাচ্ছে না');
+          }
+          else {
+            alert('ব্যক্তিগত তথ্য দেখানো যাচ্ছে না');
+          }
+          setMentalProfileList(setDefaultProfileState());
+        } finally {
 
-          setSexInfo(SexMapper.get(data.userSex) || '');
-          setMaritalInfo(MaritalStatusMapper.get(data.userMaritalStatus) || '');
-          setAddressinfo(CurrentLocationMapper.get(data.userAddress) || '');
-
-          setBasicInformation(data);
+          setLoading(false);
         }
-        else{
-          throw new Error("Net") ;
-        }
-      }     
-      catch (e){
-        if(e.message =='Net'){
-          alert('নেট সংযোগ নেই');
-        }
-        else{
-          alert('সাবমিট করা যাচ্ছে না');
-        }
-      } finally {
-        setLoading(false);
       }
-    }
-    getPersonalData();
-  }, []);
+
+      getPersonalData();
+    }, [])
+  );
+
+
+  // useEffect(() => {
+  //   const getPersonalData = async () => {
+  //     try {
+  //       const isConnected = await isNetworkAvailable();
+
+  //       if (isConnected) {
+  //         const data = await fetchPersonalData(userName);
+  //         await setmentalHealthProfile();
+
+  //         setSexInfo(SexMapper.get(data.userSex) || '');
+  //         setMaritalInfo(MaritalStatusMapper.get(data.userMaritalStatus) || '');
+  //         setAddressinfo(CurrentLocationMapper.get(data.userAddress) || '');
+
+  //         setBasicInformation(data);
+  //       }
+  //       else {
+  //         throw new Error("Net");
+  //       }
+  //     }
+  //     catch (e) {
+  //       if (e.message == 'Net') {
+  //         alert('নেট সংযোগ নেই,ব্যক্তিগত তথ্য দেখানো যাচ্ছে না');
+  //       }
+  //       else {
+  //         alert('ব্যক্তিগত তথ্য দেখানো যাচ্ছে না');
+  //       }
+  //     } finally {
+  //       setMentalProfileList(setDefaultProfileState());
+  //       setLoading(false);
+  //     }
+  //   }
+  //   getPersonalData();
+  // }, []);
 
   if (loading) {
     return <ActivityIndicator />;
@@ -130,7 +181,7 @@ export const ProfileScreen = ({ route, navigation }: any) => {
             />
             <List.Item
               title="ই-মেইল"
-              description={email}
+              description={emailInfo}
             />
           </Card.Content>
         </Card>

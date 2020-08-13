@@ -78,7 +78,6 @@ export const HomeScreen = ({ navigation }: any) => {
       const isConnected = await isNetworkAvailable();
       if (isConnected) {
       const mentalExamState = await checkMentalExaminationExists(userName);
-      console.log(mentalExamState);
       if (mentalExamState.mentalstatemeasure) {
         if (mentalExamState.ghq || mentalExamState.pss || mentalExamState.anxiety) {
 
@@ -102,7 +101,7 @@ export const HomeScreen = ({ navigation }: any) => {
     }
     catch (e){
       if(e.message =='Net'){
-        alert('কোন ইন্টারনেট সংযোগ নেই, অনুশীলনি দেখানো যাচ্ছে না'); 
+        alert('ইন্টারনেট সংযোগ নেই, অনুশীলনি দেখানো যাচ্ছে না'); 
       }
       else{
         alert('অনুশীলনি দেখানো যাচ্ছে না');
