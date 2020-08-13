@@ -76,7 +76,6 @@ export const UserInfo = ({ route, navigation }: any) => {
         alert('কোন ইন্টারনেট সংযোগ নেই');
       }
       else {
-        console.log(e);
         alert("সাবমিট করা যাচ্ছে না");
       }
     }

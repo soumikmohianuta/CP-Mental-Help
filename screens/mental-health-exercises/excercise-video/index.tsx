@@ -21,7 +21,6 @@ export const ExerciseVideoScreen = ({ route, navigation }: any) => {
   const onChangeState = async (e: any) => {
 
     if (e=='ended') {
-      console.log(e.state)
       await markExcerciseAsDone(userId, content_id);
       // setCompleted(true);
       setPlaying(false);

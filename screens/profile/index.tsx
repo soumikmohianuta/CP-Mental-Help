@@ -81,6 +81,7 @@ export const ProfileScreen = ({ route, navigation }: any) => {
     React.useCallback(() => {
       const getPersonalData = async () => {
         try {
+          setLoading(true);
           const isConnected = await isNetworkAvailable();
   
           if (isConnected) {

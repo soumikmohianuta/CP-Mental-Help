@@ -71,7 +71,6 @@ export const SignInScreen = ({ navigation }: any) => {
         alert('কোন ইন্টারনেট সংযোগ নেই');
       }
       else {
-        console.log(e);
         alert("লগ-ইন সফল হয়নি");
       }
     }

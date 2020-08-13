@@ -8,7 +8,6 @@ export const saveItem = async (key:string, value:string) => {
       await AsyncStorage.setItem(key, value);
     } catch (error) {
       // Error retrieving data
-      console.log(error.message);
     }
   };
 
@@ -18,7 +17,6 @@ export const saveItem = async (key:string, value:string) => {
       userId = await AsyncStorage.getItem(key) || 'none';
     } catch (error) {
       // Error retrieving data
-      console.log(error.message);
     }
     return userId;
   }
@@ -41,7 +39,6 @@ export const saveItem = async (key:string, value:string) => {
        }
     } catch (error) {
       // Error retrieving data
-      console.log(error.message);
     }
     return false;
   }
@@ -67,7 +64,6 @@ export const saveItem = async (key:string, value:string) => {
   export const getMentalHealthRatingRequire = async () => {
     try {
       const value = await AsyncStorage.getItem('ratingLastDate');
-      console.log(value);
       if (value != null){
            const savedDate=  dateFormat(new Date(Number(value)));
            const curdate = dateFormat(new Date(Date.now()));

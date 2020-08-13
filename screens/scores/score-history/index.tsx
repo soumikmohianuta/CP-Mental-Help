@@ -57,7 +57,6 @@ export const ScaleHistoryViewScreen = ({ route, navigation }: any) => {
         const isConnected = await isNetworkAvailable();
         if (isConnected) {
           const historyData = await getMentalHealthScore(userId, scale);
-          console.log(historyData);
           if (historyData != null) {
             if (Object.keys(historyData).length > 5) {
               const historylatest = getLatestFive(historyData);
