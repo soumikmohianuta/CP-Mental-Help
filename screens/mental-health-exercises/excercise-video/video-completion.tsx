@@ -32,6 +32,7 @@ export const ExcerciseStateScreen = ({ route, navigation }: any) => {
 
   const ratingSubmit = async () => {
     try {
+      setLoading(true);
       const isConnected = await isNetworkAvailable();
       if (isConnected) {
         await setVideoRating(userName, content_id, rateVal, commentText);
@@ -50,12 +51,17 @@ export const ExcerciseStateScreen = ({ route, navigation }: any) => {
       else {
         alert("সাবমিট করা যাচ্ছে না");
       }
+      
     }
-    SetRatingShow(false);
+    finally{
+      setLoading(false);
+      SetRatingShow(false);
+    }
   }
 
   useEffect(() => {
     const getRatingContent = async () => {
+      setLoading(true);
       try {
         const isConnected = await isNetworkAvailable();
         if (isConnected) {

@@ -16,12 +16,7 @@ export const CoronaExerciseVideoScreen = ({ route, navigation }: any) => {
   const playerRef = useRef(null);
  
   const mentalProfile=MENTAL_PROFILE_MAPPER.CoronaProfile;
-  const handleBackPress =() => {
-    navigation.navigate("Profile",{profile:mentalProfile, submit:route.params.submit})
-    return true;
-   }
-   
-   BackHandler.addEventListener('hardwareBackPress',()=>handleBackPress())
+
 
    useEffect(() => {
     const getPersonalData = async () => {

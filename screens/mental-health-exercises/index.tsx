@@ -29,14 +29,14 @@ export const MentalHealthExerciseScreen = ({ route, navigation }: any) => {
   useFocusEffect(
     React.useCallback(() => {
         const fetchMentalHealthExercise = async () => {
+          setLoading(true);
           try{
-            setLoading(true);
+
             const isConnected = await isNetworkAvailable();
             if (isConnected) {
           
                 const list = await getMentalHealthExcercise(userId);
                 setResourceAndList(list);
-               setLoading(false);
             }
             else{
               throw new Error("Net") ;
@@ -52,8 +52,11 @@ export const MentalHealthExerciseScreen = ({ route, navigation }: any) => {
 
           const list = getExerciseList();
           setResourceAndList(list);
-          setLoading(false);
+      
    
+        }
+        finally{
+          setLoading(false);
         }
       }
       

@@ -74,6 +74,9 @@ export const SignInScreen = ({ navigation }: any) => {
         alert("লগ-ইন সফল হয়নি");
       }
     }
+    finally{
+      setLoading(false);
+    }
   }
 
   const handleGoogleAuth = async () => {
@@ -98,6 +101,9 @@ export const SignInScreen = ({ navigation }: any) => {
       else {
         alert("লগ-ইন সফল হয়নি");
       }
+    }
+    finally{
+      setLoading(false);
     }
   }
   const switchToAuth = () => {

@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { Appbar } from 'react-native-paper';
+import React, { useState,useContext } from 'react';
+import { Appbar,ActivityIndicator } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
 import { questions } from './content';
 import { QuestionForm } from  '../../../components/question-form';
@@ -9,9 +9,9 @@ import { SCALE_NAME } from '../../../utils/constants';
 import { isNetworkAvailable } from '../../../utils/network';
 export const PSSMeasureScreen = ({ navigation }: any) => {
   const { userName: userId } = useContext(UserContext);
-  
+  const [loading, setLoading] = useState(true);
   const handleSubmit = async(score: number) => {
-
+    setLoading(true);
     try{
         const isConnected = await isNetworkAvailable();
         if (isConnected) {
@@ -31,7 +31,11 @@ export const PSSMeasureScreen = ({ navigation }: any) => {
       }
       finally{
         navigation.navigate('MentalHealthScoreView', { score, scale: SCALE_NAME.PSS });
+        setLoading(false);
       }
+  }
+  if (loading) {
+    return <ActivityIndicator />;
   }
 
   return (

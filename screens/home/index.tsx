@@ -63,6 +63,8 @@ export const HomeScreen = ({ navigation }: any) => {
 
 
   const handleStart = async () => {
+    setLoading(true);
+    try{
       const mentalHealthNotDoneToday = await getMentalHealthRatingRequire();
       
       if(mentalHealthNotDoneToday){
@@ -71,9 +73,17 @@ export const HomeScreen = ({ navigation }: any) => {
       else{
         navigation.navigate('MentalHealthMeasureList', { showrating: true });
       }
+    }
+    catch{
+      alert('স্কেল দেখানো যাচ্ছে না');
+    }
+    finally{
+      setLoading(false);
+    }
     
   }
   const handleExcercise = async () => {
+    setLoading(true);
     try {
       const isConnected = await isNetworkAvailable();
       if (isConnected) {
@@ -107,6 +117,9 @@ export const HomeScreen = ({ navigation }: any) => {
         alert('অনুশীলনি দেখানো যাচ্ছে না');
       }
       navigation.navigate('ExcerciseStatus', { navigateTo: 'Home' })
+    }
+    finally{
+      setLoading(false);
     }
     
   }

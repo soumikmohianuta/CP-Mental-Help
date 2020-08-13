@@ -71,7 +71,7 @@ export const SuicideIdeationProfile = ({ navigation }: any) => {
         else{
           navigation.navigate("Profile",{profile:MENTAL_PROFILE_MAPPER.SuicidalIdeationProfile, submit:submitSuccess});
         }
-        
+        setLoading(false);
       } 
   };
 

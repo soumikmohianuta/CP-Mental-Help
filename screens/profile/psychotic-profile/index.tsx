@@ -72,6 +72,7 @@ export const PsychoticProfile = ({ navigation }: any) => {
         else{
           navigation.navigate("Profile",{profile:MENTAL_PROFILE_MAPPER.PsychoticProfile, submit:submitSuccess});
         }
+        setLoading(false);
       } 
 
   };

@@ -64,13 +64,16 @@ export const CoronaProfile = ({ navigation }: any) => {
       submitSuccess = false;
     }
     finally{
+
         if (answers[0].answer == "Yes" || answers[1].answer == "Yes") {
             navigation.navigate("CoronaExcercise", {submit:submitSuccess });
+            
         }
         else {
           const mentalProfile = MENTAL_PROFILE_MAPPER.CoronaProfile;
           navigation.navigate("Profile", { profile: mentalProfile, submit:submitSuccess });
         }
+        setLoading(false);
     }
 
   };

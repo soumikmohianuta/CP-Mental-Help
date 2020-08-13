@@ -21,11 +21,6 @@ export const HelpCenterProfile = ({route, navigation }: any) => {
   
    const helpLinesToShow = MENTAL_HEALTH_PROFILE_SECTIONS[mentalProfile].helpSections;
    
-   const handleBackPress =() => {
-    navigation.navigate("Profile",{profile:mentalProfile, submit:route.params.submit})
-    return true;
-   }
-   BackHandler.addEventListener('hardwareBackPress',()=>handleBackPress())
  
 
   return (

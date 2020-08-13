@@ -65,7 +65,6 @@ export const UserInfo = ({ route, navigation }: any) => {
         await storeUserInfo(userData);
         signIn(curUser);
         await deleteRatingDate();
-        setLoading(false);
       }
       else {
         throw new Error("Net");
@@ -78,6 +77,9 @@ export const UserInfo = ({ route, navigation }: any) => {
       else {
         alert("সাবমিট করা যাচ্ছে না");
       }
+    }
+    finally{
+      setLoading(false);
     }
 
   };
