@@ -53,7 +53,7 @@ export const GHQMeasureScreen = ({ navigation }: any) => {
   return (
     <>
       <Appbar.Header>
-        <Appbar.BackAction onPress={() => navigation.navigate('MentalHealthMeasureList')}  />
+        <Appbar.BackAction onPress={() => navigation.navigate('MentalHealthMeasureList',{showRating:true})}  />
         <Appbar.Content title="মানসিক অবস্থা যাচাইকরণ" />
       </Appbar.Header>
       <ScrollView style={{ margin: 12 }}>

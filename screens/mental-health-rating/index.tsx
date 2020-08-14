@@ -42,7 +42,7 @@ export const MentalHealthRatingScreen = ({ route, navigation }: any) => {
     React.useCallback(() => {
       setLoading(false);
       setCurrentAnswer(0);
-      setAnswers([0,0,0,0]);
+      setAnswers([0,0,0,0,0]);
       setCount(0);
     }, [])
   );

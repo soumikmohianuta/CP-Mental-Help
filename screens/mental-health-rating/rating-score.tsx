@@ -3,22 +3,17 @@ import { Appbar, Text, Headline, Button, Paragraph, Card } from 'react-native-pa
 import { ScrollView } from 'react-native-gesture-handler';
 import ScoreCard from '../../components/scorecard';
 import { View } from 'react-native';
-import { setMentalHealthExcercise, getMentalHealthExcercise } from '../../services/firebase';
 import { socreMessage } from './contents';
-import { SCALE_MAX_VALUE, getLevelByScore } from '../../utils/scale';
-import { isExcerciseTaken, getExerciseList, EXERCISE_STATUS } from '../../utils/exercise';
-import { UserContext } from '../../context';
 import { resources } from '../mental-health-exercises/content';
 
 export const MentalRatingScoreViewScreen = ({ route, navigation }: any) => {
-  const [excerciseStatus, setExcerciseStatus] = useState('');
   const { navigateTo, score, videoOrderId } = route.params;
   const [navToVideo, setnavToVideo] = useState(true);
 
   const onStart = () => {
 
     if (videoOrderId < 0) {
-      navigation.navigate('MentalHealthMeasureList', { showrating: false});
+      navigation.navigate('MentalHealthMeasureList', { showRating: false});
     }
     else {
       navigation.navigate('ExerciseVideo', {

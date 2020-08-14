@@ -95,7 +95,7 @@ export const ScaleHistoryViewScreen = ({ route, navigation }: any) => {
   return (
     <>
       <Appbar.Header>
-        <Appbar.BackAction onPress={() => navigation.navigate('MentalHealthMeasureList')} />
+        <Appbar.BackAction onPress={() => navigation.navigate('MentalHealthMeasureList',{showRating:true})} />
         <Appbar.Content title={`${scaleName} পূর্ণ ইতিহাস`} />
       </Appbar.Header>
       {labelData.length > 0 ? <>

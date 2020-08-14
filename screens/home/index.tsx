@@ -78,7 +78,7 @@ export const HomeScreen = ({ navigation }: any) => {
           //setLoading(false);
       }
       else{
-        navigation.navigate('MentalHealthMeasureList');
+        navigation.navigate('MentalHealthMeasureList',{showRating:true});
        // setLoading(false);
       }
     }
@@ -119,7 +119,7 @@ export const HomeScreen = ({ navigation }: any) => {
       
     }
     catch (e){
-      console.log(e);
+      //console.log(e);
       if(e.message =='Net'){
         alert('ইন্টারনেট সংযোগ নেই, অনুশীলনি দেখানো যাচ্ছে না'); 
       }
