@@ -3,7 +3,7 @@ import { Card, Button, Paragraph, Appbar } from 'react-native-paper';
 import { measureList } from './contents';
 import { ScrollView } from 'react-native-gesture-handler';
 import { isRaingRequire } from '../../services/firebase';
-const ExamineImage = require('../../Images/examine.jpg');
+const ExamineImage = require('./assets/mentalexcercise.jpeg');
 export const MentalHealthMeasureListScreen = ({route,navigation}: any) => {
   const { showrating } = route.params;
 

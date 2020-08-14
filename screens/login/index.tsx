@@ -11,6 +11,7 @@ import { getItem } from '../../storage';
 import { AuthContext, UserContext } from '../../context';
 import { checkUserInfoExists } from '../../services/firebase';
 import { isNetworkAvailable } from '../../utils/network';
+import { useFocusEffect } from '@react-navigation/native';
 const { Navigator, Screen } = createStackNavigator();
 
 
@@ -35,15 +36,31 @@ export const SignInScreen = ({ navigation }: any) => {
   const [loading, setLoading] = useState(false);
   const [isSignIn, setIsSignIn] = useState(true);
   const { signIn } = React.useContext(AuthContext);
+
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setLoading(false);
+    }, [])
+  );
+
+
   const onLoginSuccess = (curUser: any) => {
+
     const checkUser = async () => {
-      var userInfoExists = await checkUserInfoExists(curUser.user.uid);
-      if (userInfoExists) {
-        signIn(curUser);
-        setLoading(false);
+      try {
+        var userInfoExists = await checkUserInfoExists(curUser.user.uid);
+        if (userInfoExists) {
+          signIn(curUser);
+
+        }
+        else {
+          navigation.navigate("Consent", { curUser });
+
+        }
       }
-      else {
-        navigation.navigate("Consent", { curUser });
+      catch{
+        alert("লগ-ইন সফল হয়নি");
         setLoading(false);
       }
 
@@ -73,8 +90,6 @@ export const SignInScreen = ({ navigation }: any) => {
       else {
         alert("লগ-ইন সফল হয়নি");
       }
-    }
-    finally{
       setLoading(false);
     }
   }
@@ -101,8 +116,6 @@ export const SignInScreen = ({ navigation }: any) => {
       else {
         alert("লগ-ইন সফল হয়নি");
       }
-    }
-    finally{
       setLoading(false);
     }
   }

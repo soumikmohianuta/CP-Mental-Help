@@ -18,24 +18,20 @@ import { isNetworkAvailable } from '../../utils/network';
 import NetInfo from "@react-native-community/netinfo";
 const { Navigator, Screen } = createStackNavigator();
 
+
+
 const setProfileState = (list: any) => {
-  return staticResources.reduce((acc, item) => {
-    acc.push({
-      ...item,
-      iconName: list[item.order].state ? 'check' : 'cancel'
-    })
-    return acc;
-  }, []);
+  const acc = [...staticResources];
+  acc.forEach(function(part, index) {
+    acc[index].iconName =  list[index].state ? 'check' : 'cancel';
+  });
+
+  return acc;
 }
 
 const setDefaultProfileState = () => {
-  return staticResources.reduce((acc, item) => {
-    acc.push({
-      ...item,
-      iconName: 'cancel'
-    })
-    return acc;
-  }, []);
+  const acc = [...staticResources];
+  return acc;
 }
 
 export const ProfileScreenStack = () => {
@@ -61,7 +57,7 @@ export const ProfileScreen = ({ route, navigation }: any) => {
   const [maritalInfo, setMaritalInfo] = useState("");
   const [emailInfo, setEmailInfo] = useState("");
   const [loading, setLoading] = useState(true);
-  const [mentalProfileList, setMentalProfileList] = useState([]);
+  const [mentalProfileList, setMentalProfileList] = useState<typeof staticResources>([]);
   const { userName, email } = React.useContext(UserContext);
 
 
@@ -117,39 +113,6 @@ export const ProfileScreen = ({ route, navigation }: any) => {
   );
 
 
-  // useEffect(() => {
-  //   const getPersonalData = async () => {
-  //     try {
-  //       const isConnected = await isNetworkAvailable();
-
-  //       if (isConnected) {
-  //         const data = await fetchPersonalData(userName);
-  //         await setmentalHealthProfile();
-
-  //         setSexInfo(SexMapper.get(data.userSex) || '');
-  //         setMaritalInfo(MaritalStatusMapper.get(data.userMaritalStatus) || '');
-  //         setAddressinfo(CurrentLocationMapper.get(data.userAddress) || '');
-
-  //         setBasicInformation(data);
-  //       }
-  //       else {
-  //         throw new Error("Net");
-  //       }
-  //     }
-  //     catch (e) {
-  //       if (e.message == 'Net') {
-  //         alert('নেট সংযোগ নেই,ব্যক্তিগত তথ্য দেখানো যাচ্ছে না');
-  //       }
-  //       else {
-  //         alert('ব্যক্তিগত তথ্য দেখানো যাচ্ছে না');
-  //       }
-  //     } finally {
-  //       setMentalProfileList(setDefaultProfileState());
-  //       setLoading(false);
-  //     }
-  //   }
-  //   getPersonalData();
-  // }, []);
 
   if (loading) {
     return <ActivityIndicator />;

@@ -26,6 +26,7 @@ import { storeUserInfo } from '../../../storage';
 import { AuthContext, UserContext } from '../../../context';
 import { MENTAL_PROFILE_MAPPER } from '../contents';
 import { isNetworkAvailable } from '../../../utils/network';
+import { useFocusEffect } from '@react-navigation/native';
 
 export const DomesticViolenceProfile = ({ navigation }: any) => {
 
@@ -37,7 +38,11 @@ export const DomesticViolenceProfile = ({ navigation }: any) => {
   const [showSubmit, setShowSubmit] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
 
-
+  useFocusEffect(
+    React.useCallback(() => {
+      setLoading(false);
+    }, [])
+  );
 
   const handleSubmit = async () => {
 
@@ -71,6 +76,7 @@ export const DomesticViolenceProfile = ({ navigation }: any) => {
         alert('সাবমিট করা যাচ্ছে না');
       }
       submitSuccess = false;
+      setLoading(false);
     }
     finally {
       if (violence == "Yes") {
@@ -79,7 +85,7 @@ export const DomesticViolenceProfile = ({ navigation }: any) => {
       else {
         navigation.navigate("Profile", { profile: MENTAL_PROFILE_MAPPER.DomesticViolenceProfile, submit: submitSuccess });
       }
-      setLoading(false);
+     
     }
 
   };

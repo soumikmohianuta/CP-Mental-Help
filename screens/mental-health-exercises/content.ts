@@ -4,6 +4,7 @@ export const resources = [
     type: "video",
     videoId: "eUc5pD9C2r0",
     content_id: 'thought_behave',
+    iconName: 'cancel',
     order: 0,
   },
     {
@@ -11,6 +12,7 @@ export const resources = [
     type: "video",
     videoId: "GP1qKfY5cU4",
     content_id: 'communication_skills',
+    iconName: 'cancel',
     order: 1,
   },
   {
@@ -18,6 +20,7 @@ export const resources = [
     type: "video",
     videoId: "FkEuVP3wNLo",
     content_id: 'health_belief_model',
+    iconName: 'cancel',
     order: 2,
   },
     {
@@ -25,6 +28,7 @@ export const resources = [
     type: "video",
     videoId: "2W6P5Sag63w",
     content_id: 'corona_surrounding',
+    iconName: 'cancel',
     order: 3,
   },
       {
@@ -32,6 +36,7 @@ export const resources = [
     type: "video",
     videoId: "MreOgt1-Z5w",
     content_id: 'grief_and_loss',
+    iconName: 'cancel',
     order: 4,
   },
         {
@@ -39,6 +44,7 @@ export const resources = [
     type: "video",
     videoId: "wXqFhYjoTkE",
     content_id: 'mental_coping',
+    iconName: 'cancel',
     order: 5,
   },
           {
@@ -46,6 +52,7 @@ export const resources = [
     type: "video",
     videoId: "LT1VpMtPHNo",
     content_id: 'couple_relation',
+    iconName: 'cancel',
     order: 6,
   },
   {
@@ -53,6 +60,7 @@ export const resources = [
     type: "video",
     videoId: "qbCIdHYakcg",
     content_id: 'anger_management',
+    iconName: 'cancel',
     order: 7,
   },
     {
@@ -60,6 +68,7 @@ export const resources = [
     type: "video",
     videoId: "9yDlLvrmCDw",
     content_id: 'parent_child_relation',
+    iconName: 'cancel',
     order: 8,
   },
     {
@@ -67,6 +76,7 @@ export const resources = [
     type: "video",
     videoId: "xFhKAs7BMLU",
     content_id: 'manage_up_downs',
+    iconName: 'cancel',
     order: 9,
   },
       {
@@ -74,6 +84,7 @@ export const resources = [
     type: "video",
     videoId: "Ch7deOySu94",
     content_id: 'mindfulness_1',
+    iconName: 'cancel',
     order: 10,
   },
       {
@@ -81,6 +92,7 @@ export const resources = [
     type: "video",
     videoId: "n0ylBFc3tMc",
     content_id: 'mindfulness_2',
+    iconName: 'cancel',
     order: 11,
   },
       {
@@ -88,6 +100,7 @@ export const resources = [
     type: "video",
     videoId: "6auC-zErUpU",
     content_id: 'maximize_sleep',
+    iconName: 'cancel',
     order: 12,
   },
       {
@@ -95,6 +108,7 @@ export const resources = [
     type: "video",
     videoId: "WzkFqUbpen0",
     content_id: 'breath_excercise',
+    iconName: 'cancel',
     order: 13,
   },
       {
@@ -102,6 +116,7 @@ export const resources = [
     type: "video",
     videoId: "oRya-GgT2vU",
     content_id: 'pmr',
+    iconName: 'cancel',
     order: 14,
   },
   

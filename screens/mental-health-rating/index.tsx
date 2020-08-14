@@ -10,7 +10,7 @@ import {
   Subheading,
   Text,
 } from "react-native-paper";
-
+import { useFocusEffect } from '@react-navigation/native';
 import { questionnaires } from "./contents";
 import { View, Dimensions } from "react-native";
 import { setMentalState } from "../../services/firebase";
@@ -26,7 +26,7 @@ export const MentalHealthRatingScreen = ({ route, navigation }: any) => {
   const [count, setCount] = useState(0);
   const { navigateTo, videoOrderId } = route.params;
   const {userName} = React.useContext(UserContext);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const handleSlideComplete = (ans: any) => {
     setCurrentAnswer(parseInt(ans, 10) + 1);
@@ -39,6 +39,12 @@ export const MentalHealthRatingScreen = ({ route, navigation }: any) => {
    var avg = total / dataArr.length;
    return Math.round( avg );
   }
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setLoading(false);
+    }, [])
+  );
 
   const handleNext = async () => {
     if (count === NUMBER_OF_QUESTIONS - 1) {
@@ -62,6 +68,7 @@ export const MentalHealthRatingScreen = ({ route, navigation }: any) => {
         else{
           alert('সাবমিট করা যাচ্ছে না');
         }
+        setLoading(false);
     }
     finally{
       var score = findScore(answers);
@@ -71,7 +78,7 @@ export const MentalHealthRatingScreen = ({ route, navigation }: any) => {
         else{
           navigation.navigate('MentalRatingScoreViewScreen', { navigateTo:navigateTo,score:score, videoOrderId:videoOrderId});    
         }
-        setLoading(false);
+        
     }
 
 

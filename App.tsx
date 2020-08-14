@@ -5,7 +5,7 @@ import { BottomNavigation } from 'react-native-paper';
 import { HomePageStack } from './screens/home';
 import { SignInScreen } from './screens/login';
 import  firebase from 'firebase';
-import { firebaseConfig } from './config';
+import { firebaseConfig } from  './services/firebase/config';
 import { ProfileScreenStack } from './screens/profile';;
 import { ThemeProvider } from './components/theme';
 import { ActivityIndicator } from 'react-native-paper';

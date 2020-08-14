@@ -22,10 +22,12 @@ import {MentalRatingScoreViewScreen} from '../mental-health-rating/rating-score'
 import {SevereHelpCenterScreen} from '../scores/severe-help';
 import {getMentalHealthRatingRequire} from '../../storage';
 import { isNetworkAvailable } from '../../utils/network';
+import { useFocusEffect } from '@react-navigation/native';
 const HelpCenterImage = require('../../Images/help.jpg');
 const MentalExcerciseImage = require('../../Images/mentalexcercise.jpg');
 const QlifeImage = require('../../Images/QLife.jpg');
 const ExamineImage = require('../../Images/examine.jpg');
+
 const { Navigator, Screen } = createStackNavigator();
 
 export const HomePageStack = () => {
@@ -60,7 +62,11 @@ export const HomeScreen = ({ navigation }: any) => {
   const { userName } = React.useContext(UserContext);
 
 
-
+  useFocusEffect(
+    React.useCallback(() => {
+      setLoading(false);
+    }, [])
+  );
 
   const handleStart = async () => {
     setLoading(true);
@@ -69,25 +75,27 @@ export const HomeScreen = ({ navigation }: any) => {
       
       if(mentalHealthNotDoneToday){
           navigation.navigate('MentalHealthRating', { navigateTo: 'Home',videoOrderId:-1 });
+          //setLoading(false);
       }
       else{
         navigation.navigate('MentalHealthMeasureList', { showrating: true });
+       // setLoading(false);
       }
     }
     catch{
-      alert('স্কেল দেখানো যাচ্ছে না');
-    }
-    finally{
       setLoading(false);
+      alert('স্কেল দেখানো যাচ্ছে না');
     }
     
   }
   const handleExcercise = async () => {
-    setLoading(true);
+
     try {
+      setLoading(true);
       const isConnected = await isNetworkAvailable();
       if (isConnected) {
       const mentalExamState = await checkMentalExaminationExists(userName);
+
       if (mentalExamState.mentalstatemeasure) {
         if (mentalExamState.ghq || mentalExamState.pss || mentalExamState.anxiety) {
 
@@ -101,6 +109,7 @@ export const HomeScreen = ({ navigation }: any) => {
 
       else {
         navigation.navigate('ExcerciseStatus');
+        setLoading(false);
 
       }
       }
@@ -110,6 +119,7 @@ export const HomeScreen = ({ navigation }: any) => {
       
     }
     catch (e){
+      console.log(e);
       if(e.message =='Net'){
         alert('ইন্টারনেট সংযোগ নেই, অনুশীলনি দেখানো যাচ্ছে না'); 
       }
@@ -117,8 +127,6 @@ export const HomeScreen = ({ navigation }: any) => {
         alert('অনুশীলনি দেখানো যাচ্ছে না');
       }
       navigation.navigate('ExcerciseStatus', { navigateTo: 'Home' })
-    }
-    finally{
       setLoading(false);
     }
     

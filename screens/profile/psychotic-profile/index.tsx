@@ -28,6 +28,7 @@ import {MENTAL_PROFILE_MAPPER} from '../contents';
 import {psychotic_answers} from './contents';
 import {setProfileState} from '../../../services/firebase'
 import { isNetworkAvailable } from '../../../utils/network';
+import { useFocusEffect } from '@react-navigation/native';
 
 export const PsychoticProfile = ({ navigation }: any) => {
   const NUMBER_OF_QUESTIONS = questions.length;
@@ -40,6 +41,12 @@ export const PsychoticProfile = ({ navigation }: any) => {
   const [showSubmit, setShowSubmit] = useState<boolean>(false);
   const [currentAnswers, setCurrentAnswers] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setLoading(false);
+    }, [])
+  );
 
   const handleSubmit = async() => {
 
@@ -63,6 +70,7 @@ export const PsychoticProfile = ({ navigation }: any) => {
           alert('সাবমিট করা যাচ্ছে না');
         }
         submitSuccess = false;
+        setLoading(false);
       }
       finally{
         if( answers[0].answer == "Yes" ||answers[1].answer == "Yes" ||answers[2].answer == "Yes" ||answers[3].answer== "Yes"){
@@ -72,7 +80,7 @@ export const PsychoticProfile = ({ navigation }: any) => {
         else{
           navigation.navigate("Profile",{profile:MENTAL_PROFILE_MAPPER.PsychoticProfile, submit:submitSuccess});
         }
-        setLoading(false);
+        
       } 
 
   };

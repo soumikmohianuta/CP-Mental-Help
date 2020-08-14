@@ -27,6 +27,7 @@ import {MENTAL_PROFILE_MAPPER} from '../contents';
 import {suicide_answers} from './contents';
 import {setProfileState} from '../../../services/firebase'
 import { isNetworkAvailable } from '../../../utils/network';
+import { useFocusEffect } from '@react-navigation/native';
 export const SuicideIdeationProfile = ({ navigation }: any) => {
   const NUMBER_OF_QUESTIONS = questions.length;
   const [count, setCount] = useState<number>(0);
@@ -38,6 +39,13 @@ export const SuicideIdeationProfile = ({ navigation }: any) => {
   const [showSubmit, setShowSubmit] = useState<boolean>(false);
   const [currentAnswers, setCurrentAnswers] = useState("");
   const [loading, setLoading] = useState(false);
+
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setLoading(false);
+    }, [])
+  );
 
   const handleSubmit = async() => {
 
@@ -63,6 +71,7 @@ export const SuicideIdeationProfile = ({ navigation }: any) => {
           alert('সাবমিট করা যাচ্ছে না');
         }
         submitSuccess = false;
+        setLoading(false);
       }
       finally{
         if( answers[0].answer == "Yes"){
@@ -71,7 +80,7 @@ export const SuicideIdeationProfile = ({ navigation }: any) => {
         else{
           navigation.navigate("Profile",{profile:MENTAL_PROFILE_MAPPER.SuicidalIdeationProfile, submit:submitSuccess});
         }
-        setLoading(false);
+        
       } 
   };
 

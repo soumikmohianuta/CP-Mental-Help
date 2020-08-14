@@ -3,24 +3,26 @@ import { useFocusEffect } from '@react-navigation/native';
 import { Appbar, List,ActivityIndicator } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
 import { resources as staticResources } from './content';
-import { getMentalHealthExcercise, setMentalHealthExcercise, markExcerciseAsDone } from '../../services/firebase';
+import { getMentalHealthExcercise } from '../../services/firebase';
 import { UserContext } from '../../context';
 import {getExerciseList} from '../../utils/exercise';
 import { isNetworkAvailable } from '../../utils/network';
+
 const mapResources = (list: any) => {
-  return staticResources.reduce((acc, item) => {
-    acc.push({
-      ...item,
-      iconName: list[item.content_id] == 1 ? 'check' : 'cancel' 
-    })
-    return acc;
-  }, []);
+  const acc = [...staticResources];
+  acc.forEach(function(part, index) {
+    acc[index].iconName =  list[acc[index].content_id] ==1? 'check' : 'cancel';
+
+  });
+  return acc;
+  console.log(acc);
 }
+
 
 export const MentalHealthExerciseScreen = ({ route, navigation }: any) => {
   const [expanded, setExpanded] = useState(true);
-  const [exerciseList, setExerciseList] = useState([]);
-  const [resources, setResources] = useState([]);
+ // const [exerciseList, setExerciseList] = useState([]);
+  const [resources, setResources] =  useState<typeof staticResources>([]);
   const { userName: userId } = useContext(UserContext);
   const { navigateTo } = route.params;
   const [loading, setLoading] = useState(true);
@@ -36,6 +38,7 @@ export const MentalHealthExerciseScreen = ({ route, navigation }: any) => {
             if (isConnected) {
           
                 const list = await getMentalHealthExcercise(userId);
+  
                 setResourceAndList(list);
             }
             else{
@@ -72,7 +75,7 @@ export const MentalHealthExerciseScreen = ({ route, navigation }: any) => {
   }
 
   const setResourceAndList = (list: any) => {
-    setExerciseList(list);
+    //setExerciseList(list);
     setResources(mapResources(list));
   }
   if (loading) {

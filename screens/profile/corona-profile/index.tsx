@@ -28,7 +28,7 @@ import { MENTAL_PROFILE_MAPPER } from '../contents';
 import {corona_answers} from './contents';
 import {setProfileState} from '../../../services/firebase'
 import { isNetworkAvailable } from '../../../utils/network';
-
+import { useFocusEffect } from '@react-navigation/native';
 export const CoronaProfile = ({ navigation }: any) => {
   const NUMBER_OF_QUESTIONS = questions.length;
   const [count, setCount] = useState<number>(0);
@@ -38,6 +38,12 @@ export const CoronaProfile = ({ navigation }: any) => {
   const [showSubmit, setShowSubmit] = useState<boolean>(false);
   const [currentAnswers, setCurrentAnswers] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setLoading(false);
+    }, [])
+  );
 
   const handleSubmit = async () => {
 
@@ -62,6 +68,7 @@ export const CoronaProfile = ({ navigation }: any) => {
         alert('সাবমিট করা যাচ্ছে না');
       }
       submitSuccess = false;
+      setLoading(false);
     }
     finally{
 
@@ -73,7 +80,7 @@ export const CoronaProfile = ({ navigation }: any) => {
           const mentalProfile = MENTAL_PROFILE_MAPPER.CoronaProfile;
           navigation.navigate("Profile", { profile: mentalProfile, submit:submitSuccess });
         }
-        setLoading(false);
+      
     }
 
   };

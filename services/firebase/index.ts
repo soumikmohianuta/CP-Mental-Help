@@ -151,7 +151,7 @@ export const getMentalHealthExcercise = async (userId: string) => {
     .once("value");
     if(snapshot.val() == null){
       var excerciseList = getExerciseList();
-      getMentalHealthScore(userId, excerciseList)
+      setMentalInitialExcercise(userId, excerciseList)
       return excerciseList;
     }
   return snapshot.val();
@@ -179,6 +179,7 @@ export const checkMentalExaminationExists = async (userId: string) => {
     .database()
     .ref(userId)
     .once("value");
+    
   if (snapshot.val() !== null) {
     if (snapshot.val().ghq) {
       profileState.ghq = true;

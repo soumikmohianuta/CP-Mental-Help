@@ -7,9 +7,19 @@ import { setMentalHealthScore } from '../../../services/firebase';
 import { UserContext } from '../../../context';
 import { SCALE_NAME } from '../../../utils/constants';
 import { isNetworkAvailable } from '../../../utils/network';
+import { useFocusEffect } from '@react-navigation/native';
+
 export const PSSMeasureScreen = ({ navigation }: any) => {
   const { userName: userId } = useContext(UserContext);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setLoading(false);
+    }, [])
+  );
+  
+
   const handleSubmit = async(score: number) => {
     setLoading(true);
     try{
@@ -28,10 +38,11 @@ export const PSSMeasureScreen = ({ navigation }: any) => {
         else{
           alert('সাবমিট করা যাচ্ছে না');
         }
+        setLoading(false);
       }
       finally{
         navigation.navigate('MentalHealthScoreView', { score, scale: SCALE_NAME.PSS });
-        setLoading(false);
+        
       }
   }
   if (loading) {
