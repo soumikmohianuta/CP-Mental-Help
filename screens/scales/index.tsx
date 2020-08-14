@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useState ,useEffect} from "react";
 import { Card, Button, Paragraph, Appbar } from 'react-native-paper';
 import { measureList } from './contents';
 import { ScrollView } from 'react-native-gesture-handler';
 import { isRaingRequire } from '../../services/firebase';
 const ExamineImage = require('./assets/mentalexcercise.jpeg');
 export const MentalHealthMeasureListScreen = ({route,navigation}: any) => {
-  const { showrating } = route.params;
+
+  const [showhealthRating, setShowHealthRating] = useState(true);
+
+  useEffect(() => {
+    if (route.params != undefined){
+      setShowHealthRating(false);
+    }
+  }, []);
+
+
 
   const onNextScreen = (scale: string) => {
     navigation.navigate('ScaleHistoryView', { scale });
@@ -21,7 +30,7 @@ export const MentalHealthMeasureListScreen = ({route,navigation}: any) => {
       </Appbar.Header>
       <ScrollView>
 
-        {showrating &&
+        {showhealthRating &&
           <>
             <Card elevation={5} style={{ margin: 12, borderRadius: 5 }}>
               <Card.Title title="মানসিক স্বাস্থ্য মূল্যায়ন" />

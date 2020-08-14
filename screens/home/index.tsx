@@ -78,7 +78,7 @@ export const HomeScreen = ({ navigation }: any) => {
           //setLoading(false);
       }
       else{
-        navigation.navigate('MentalHealthMeasureList', { showrating: true });
+        navigation.navigate('MentalHealthMeasureList');
        // setLoading(false);
       }
     }
@@ -99,7 +99,7 @@ export const HomeScreen = ({ navigation }: any) => {
       if (mentalExamState.mentalstatemeasure) {
         if (mentalExamState.ghq || mentalExamState.pss || mentalExamState.anxiety) {
 
-          navigation.navigate('MentalHealthExercise', { navigateTo: 'Home' });
+          navigation.navigate('MentalHealthExercise');
         }
         else {
           navigation.navigate('ExcerciseStatus');

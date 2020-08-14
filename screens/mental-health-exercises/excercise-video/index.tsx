@@ -8,6 +8,7 @@ import { resources } from '../content';
 import {setHomeProgressRequire} from  '../../../storage';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import { isNetworkAvailable } from '../../../utils/network';
+
 export const ExerciseVideoScreen = ({ route, navigation }: any) => {
   const { exercise } = route.params;
   const { videoId, name, content_id, order } = exercise;

@@ -101,7 +101,7 @@ export const ExcerciseStateScreen = ({ route, navigation }: any) => {
     })
   }
 
-  const onExamStart = async () => {
+  const onExamStart =  () => {
 
     navigation.navigate('MentalHealthRating', { navigateTo: 'MentalHealthExercise', videoOrderId: order });
   }
@@ -150,7 +150,7 @@ export const ExcerciseStateScreen = ({ route, navigation }: any) => {
               {mentalExamineRequire &&
                 <>
                   <Card.Content>
-                    <Paragraph style={{ color: "#ba262b", fontSize: 20, marginTop: 15, marginBottom: 10 }}>অনুগ্রহ করে আপনার মানসিক স্বাস্থ্য পুনরায় মূল্যায়ন করুন।</Paragraph>
+                    <Paragraph style={{ color: "#ba262b", fontSize: 15, marginTop: 15, marginBottom: 10 }}>অনুগ্রহ করে আপনার মানসিক স্বাস্থ্য পুনরায় মূল্যায়ন করুন।</Paragraph>
                   </Card.Content>
                 </>}
             </Card>

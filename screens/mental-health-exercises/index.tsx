@@ -15,7 +15,6 @@ const mapResources = (list: any) => {
 
   });
   return acc;
-  console.log(acc);
 }
 
 
@@ -24,7 +23,6 @@ export const MentalHealthExerciseScreen = ({ route, navigation }: any) => {
  // const [exerciseList, setExerciseList] = useState([]);
   const [resources, setResources] =  useState<typeof staticResources>([]);
   const { userName: userId } = useContext(UserContext);
-  const { navigateTo } = route.params;
   const [loading, setLoading] = useState(true);
 
 
@@ -84,7 +82,7 @@ export const MentalHealthExerciseScreen = ({ route, navigation }: any) => {
   return (
     <>
       <Appbar.Header>
-        <Appbar.BackAction onPress={() => navigation.navigate(navigateTo)}  />
+        <Appbar.BackAction onPress={() => navigation.navigate("Home")}  />
         <Appbar.Content title="মানসিক স্বাস্থ্যের গুণগত মান উন্নয়ন" />
       </Appbar.Header>
       <ScrollView style={{ margin: 12, marginTop: 32 }}>
