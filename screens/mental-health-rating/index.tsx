@@ -29,10 +29,6 @@ export const MentalHealthRatingScreen = ({ route, navigation }: any) => {
   const [currentAnswer, setCurrentAnswer] = useState(0);
   const [count, setCount] = useState(0);
 
-  console.log(navigateTo);
-  console.log(videoOrderId);
-  console.log(answers);
-
   const findScore=(dataArr:any)=>{ 
     var total = 0;
     for(var i = 0; i < dataArr.length; i++) {
