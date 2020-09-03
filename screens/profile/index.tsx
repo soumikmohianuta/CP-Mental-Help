@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React, { useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { List, Card, ActivityIndicator, Appbar } from 'react-native-paper';
@@ -9,6 +10,7 @@ import { CoronaProfile } from './corona-profile';
 import { PsychoticProfile } from './psychotic-profile';
 import { SuicideIdeationProfile } from './suicide-ideation';
 import { DomesticViolenceProfile } from './domestic_violence';
+import { ChildCareProfile } from './child-care';
 import { UserContext } from '../../context';
 import { SexMapper, MaritalStatusMapper, CurrentLocationMapper } from './contents';
 import { CoronaExerciseVideoScreen } from './corona-profile/corona-excercise';
@@ -45,6 +47,7 @@ export const ProfileScreenStack = () => {
         <Screen name="DomesticViolenceProfile" component={DomesticViolenceProfile} />
         <Screen name="CoronaExcercise" component={CoronaExerciseVideoScreen} />
         <Screen name="HelpCenterProfile" component={HelpCenterProfile} />
+        <Screen name="ChildCareProfile" component={ChildCareProfile} />
       </Navigator>
     </NavigationContainer>
   );

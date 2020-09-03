@@ -3,13 +3,13 @@ import { Appbar, Text, Headline, Button, Paragraph, Card } from 'react-native-pa
 import { ScrollView } from 'react-native-gesture-handler';
 import ScoreCard from '../../components/scorecard';
 import { View } from 'react-native';
-import { socreMessage } from './contents';
+import { severityText } from './contents';
 import { resources } from '../mental-health-exercises/content';
 
 export const MentalRatingScoreViewScreen = ({ route, navigation }: any) => {
   const { navigateTo, score, videoOrderId } = route.params;
   const [navToVideo, setnavToVideo] = useState(true);
-
+  const [scoreText, setScoreText] = useState("");
   const onStart = () => {
 
     if (videoOrderId < 0) {
@@ -24,6 +24,15 @@ export const MentalRatingScoreViewScreen = ({ route, navigation }: any) => {
   useEffect(() => {
     if (videoOrderId >= 0) {
       setnavToVideo(false);
+    }
+    else{
+      if(score<50){
+        setScoreText(severityText[0]);
+      }
+      else{
+        setScoreText(severityText[1]);
+      }
+
     }
   }, []);
 
@@ -43,28 +52,29 @@ export const MentalRatingScoreViewScreen = ({ route, navigation }: any) => {
         </View>
 
         <ScoreCard
-          size={256}
+          size={150}
           defaultPos={score}
           max={100}
         >
-          <Text style={{ fontSize: 76 }}>
+          <Text style={{ fontSize: 30 }}>
             {score}
           </Text>
         </ScoreCard>
         {navToVideo &&
           <>
+
             <Card elevation={5} style={{ margin: 12, borderRadius: 5, marginTop: 10 }}>
 
               <Card.Content style={{ margin: 12, borderRadius: 5, alignItems: 'center', justifyContent: 'center' }}>
 
-                <Paragraph style={{ textAlign: 'justify', fontSize: 15 }}>{socreMessage}</Paragraph>
+                <Paragraph style={{ textAlign: 'justify', fontSize: 15 }}>{scoreText}</Paragraph>
 
               </Card.Content>
 
             </Card>
           </>
         }
-        <Button mode="contained" onPress={onStart}>{navToVideo ? "পরিমাপ শুরু করুন" : "পরবর্তী ভিডিও"}</Button>
+        <Button mode="contained" onPress={onStart}>{navToVideo ? "পরবর্তী ধাপ" : "পরবর্তী ভিডিও"}</Button>
 
 
       </ScrollView>

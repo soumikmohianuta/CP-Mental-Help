@@ -105,8 +105,11 @@ export const CoronaProfile = ({ navigation }: any) => {
     if (count == questions.length - 1){
       setShowSubmit(true);
     }
+    else if (count == 1 && answers[0].answer =='No' && answers[1].answer =='No' ){
+        setShowSubmit(true);
+    }
 
-  if (count < questions.length-1) {
+    else {
     setTimeout(() => {
       setCount(count + 1);
     }, 250);
@@ -168,7 +171,7 @@ return (
           Previous
           </Button>
         {
-          showSubmit && count === NUMBER_OF_QUESTIONS - 1 ?
+          showSubmit  ?
             <Button onPress={handleSubmit} mode="contained"> Submit </Button>
             : null
         }

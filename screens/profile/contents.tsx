@@ -52,38 +52,46 @@ export const YesNoResponse = [
       CoronaProfile:0,
       PsychoticProfile:1,
       SuicidalIdeationProfile:2,
-      DomesticViolenceProfile:3
+      DomesticViolenceProfile:3,
+      ChildCareProfile:4
 
     }  
 
     export const MENTAL_HEALTH_PROFILE_SECTIONS = [
         {
-          name: 'করোনা সম্পর্কীয়',
+          name: 'করোনা সম্পর্কিত তথ্য',
           route: 'CoronaProfile',
           iconName:'cancel',
           helpSections:[],
           order:0
         },
         {
-          name: 'গুরুতর সমস্যা সম্পর্কীয়',
+          name: 'গুরুতর সমস্যা সম্পর্কিত তথ্য',
           route: 'PsychoticProfile',
           iconName:'cancel',
           helpSections:[0,3],
           order:1
         },
         {
-          name: 'আত্মহত্যা পরিকল্পনা সম্পর্কীয়',
+          name: 'আত্মহত্যা পরিকল্পনা সম্পর্কিত তথ্য',
           route: 'SuicidalIdeationProfile',
           iconName:'cancel',
           helpSections:[0,3],
           order:2
         },
         {
-          name: 'ঘরোয়া সহিংসতা সম্পর্কীয়',
+          name: 'পারিবারিক সহিংসতা সম্পর্কিত তথ্য',
           route: 'DomesticViolenceProfile',
           iconName:'cancel',
           helpSections:[1,2],
           order:3
+        },
+        {
+          name: 'সন্তান পালন সম্পর্কিত তথ্য',
+          route: 'ChildCareProfile',
+          iconName:'cancel',
+          helpSections:[1,2],
+          order:4
         },
       ];
 
@@ -112,6 +120,12 @@ export const YesNoResponse = [
           route: 'DomesticViolenceProfile',
           iconName:'cancel',
           order:3
+        },
+        {
+          name: 'সন্তান পালন সম্পর্কিত তথ্য',
+          route: 'ChildCareProfile',
+          iconName:'cancel',
+          order:4
         },
       ];
 

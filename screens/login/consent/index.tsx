@@ -39,7 +39,7 @@ export const ConsentScreen = ({ route,navigation }: any) => {
           </Card.Content>
         </Card>
           <Headline style={{ margin: 12, borderRadius: 5 }}>
-              আপনি কি উপরের উদ্দীপকের সাথে একমত?
+            আপনি কি উপরের তথ্যের সাথে একমত?   
           </Headline>
           <RadioButtonGroup
             options={YesNoLabels}

@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React, { useState } from "react";
 import { SafeAreaView, View } from "react-native";
 import { Button, Avatar, ActivityIndicator } from "react-native-paper";

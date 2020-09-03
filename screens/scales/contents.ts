@@ -19,7 +19,7 @@ export const measureList = [{
 }, {
   title: 'দুশ্চিন্তা নির্ণয়',
   scale: SCALE_NAME.ANXIETY,
-  description: 'এখানে ১০টি প্রশ্নবিশিষ্ট একটি স্কেল রয়েছে যার মাধ্যমে খুব সহজেই আপনি আপনার দুশ্চিন্তা পরিমাপ করতে পারেন।',
+  description: 'এখানে ৩৬ টি প্রশ্নবিশিষ্ট একটি স্কেল রয়েছে যার মাধ্যমে খুব সহজেই আপনি আপনার দুশ্চিন্তা পরিমাপ করতে পারেন।',
   image: AnxietyImage,
   testRoute: 'AnxietyScaleMeasure',
 }];

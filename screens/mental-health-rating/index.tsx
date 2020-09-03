@@ -18,31 +18,22 @@ import CircularPicker from "../../components/circle-picker";
 import {UserContext} from '../../context';
 import {setRatingDate} from '../../storage';
 import { isNetworkAvailable } from '../../utils/network';
-const NUMBER_OF_QUESTIONS = 5;
+const NUMBER_OF_QUESTIONS = 6;
 
 export const MentalHealthRatingScreen = ({ route, navigation }: any) => {
 
   const { navigateTo, videoOrderId } = route.params;
   const {userName} = React.useContext(UserContext);
   const [loading, setLoading] = useState(false);
-  const [answers, setAnswers] = useState([0, 0, 0, 0, 0]);
+  const [answers, setAnswers] = useState([0, 0, 0, 0, 0,0]);
   const [currentAnswer, setCurrentAnswer] = useState(0);
   const [count, setCount] = useState(0);
-
-  const findScore=(dataArr:any)=>{ 
-    var total = 0;
-    for(var i = 0; i < dataArr.length; i++) {
-      total += dataArr[i];
-    }
-   var avg = total / dataArr.length;
-   return Math.round( avg );
-  }
 
   useFocusEffect(
     React.useCallback(() => {
       setLoading(false);
       setCurrentAnswer(0);
-      setAnswers([0,0,0,0,0]);
+      setAnswers([0,0,0,0,0,0]);
       setCount(0);
     }, [])
   );
@@ -54,6 +45,8 @@ export const MentalHealthRatingScreen = ({ route, navigation }: any) => {
   const handleNext = async () => {
     if (count === NUMBER_OF_QUESTIONS - 1) {
       setLoading(true);
+
+
       try{
         const isConnected = await isNetworkAvailable();
         if (isConnected) {
@@ -76,7 +69,9 @@ export const MentalHealthRatingScreen = ({ route, navigation }: any) => {
         setLoading(false);
     }
     finally{
-      var score = findScore(answers);
+      const newAnswers = [...answers];
+      newAnswers[count] = currentAnswer;
+      var score =   Math.round(newAnswers.reduce((p,c,_,a) => p + c/a.length,0));
       navigation.navigate('MentalRatingScoreViewScreen', { navigateTo:navigateTo,score:score, videoOrderId:videoOrderId});    
 
     }
@@ -132,7 +127,7 @@ export const MentalHealthRatingScreen = ({ route, navigation }: any) => {
           })
         }
         <HelperText style={{ marginBottom: 24 }}>
-          যেখানে ০ মানে হল একেবারেই না আর ১০০ মানে হল সর্ব পরিমাণে
+          যেখানে ০ মানে হল একেবারেই না আর ১০০ মানে হল সর্বোচ্চ পরিমাণে
         </HelperText>
         <View
           style={{

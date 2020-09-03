@@ -35,7 +35,7 @@ export const setProfileState = async (userId: string, profileName:string, answer
 }
 
 export const getMentalProfileState = async (userId: string) => {
-  var profileState = [{name:'corona_profile',state:false, order:0},{name:'psychotic_profile',state:false, order:1},{name:'suicide_profile',state:false, order:2},{name:'domestic_profile',state:false, order:3}]
+  var profileState = [{name:'corona_profile',state:false, order:0},{name:'psychotic_profile',state:false, order:1},{name:'suicide_profile',state:false, order:2},{name:'domestic_profile',state:false, order:3},{name:'childcare_profile',state:false, order:4}]
   const snapshot = await firebase
     .database()
     .ref(userId + "/mental_profile/")
@@ -52,6 +52,9 @@ export const getMentalProfileState = async (userId: string) => {
     }
     if (snapshot.val().domestic_profile) {
       profileState[3].state = true;
+    }
+    if (snapshot.val().childcare_profile) {
+      profileState[4].state = true;
     }
 
   }
